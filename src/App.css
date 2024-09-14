@@ -1,0 +1,327 @@
+#root {
+  margin: 0 auto;
+  min-height: inherit;
+  /* padding: 2rem; */
+  text-align: center;
+
+  /* vars */
+}
+
+@keyframes fadeIn { from { opacity: 50%; }}
+@keyframes fadeOut { to { opacity: 50%; }}
+@keyframes fadeOutFull { to { opacity: 0%; }}
+
+@keyframes slideUp { from {
+  translate: 0px 25px;
+  transform: scale(90%);
+}}
+@keyframes slideDown { to {
+  translate: 0px 25px;
+  transform: scale(90%);
+}}
+
+@keyframes swipeRight { to {
+  translate: 45vw 25px;
+  rotate: 10deg;
+  transform: scale(90%);
+}}
+@keyframes swipeLeft { to {
+  translate: -45vw 25px;
+  rotate: -10deg;
+  transform: scale(90%);
+}}
+
+@keyframes unfold { from { transform: scaleY( 40% ); }}
+@keyframes fold { to { transform: scaleY( 25% ); }}
+
+main {
+  max-width: 1280px;
+  min-height: inherit;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+nav {
+  display: inherit;
+  /* position: sticky; */
+  align-items: center;
+  justify-content: space-evenly;
+  margin-bottom: 0;
+  background: black;
+  height: max(10vh, 90px);
+  width: 100%;
+  border-radius: 10px 10px 0 0;
+
+  transition: all 0.6s;
+
+  /* TODO: fix this animation */
+  /* I *think* this would involve a stacking grid */
+  /* &.open{
+    height: 100vh;
+    transform: translateY(calc(-100vh + (max(10vh, 90px))));
+    flex-direction: column;
+  } */
+}
+
+section {
+  max-width: inherit;
+  width: max(90vw, 600px);
+  height: max(85vh, 600px);
+
+  &.cards {
+    overflow: hidden;
+    display: grid;
+    place-items: center;
+  }
+
+  &.matches {
+    margin-top: 2.5vh;
+    overflow-y: scroll;
+  }
+
+  &.upload {
+    display: flex;
+    /* flex-direction: column; */
+    place-items: center;
+  }
+}
+
+.upload form  {
+  display: inherit;
+  flex-direction: column;
+  margin: 0 auto;
+  padding: 10%;
+  font-size: 1rem;
+  /* TODO: change this background */
+  /* background:linear-gradient(75deg, rgba(75, 0, 150, 0.35), rgba(75, 0, 150, 0.7)),
+  black; */
+  background: linear-gradient(75deg, rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0.7)),
+  rgb(75, 0, 150);
+  border-radius: 10px;
+  box-shadow: 2px 3px 7px black;
+  width: clamp (300px, 50%, 600px);
+  gap: 10vh;
+  align-content: space-between;
+  align-items: center;
+
+  & div {
+    display: inherit;
+    flex-direction: inherit;
+    gap: 3.5vh;
+    align-items: center;
+  }
+
+  & input {
+    font-size: inherit;
+    /* TODO: style buttons */
+    
+    &[type="file"]{
+      text-wrap: pretty;
+      
+      &::file-selector-button {
+        width: 100%;
+        padding: 5px 0;
+        margin-bottom: 1vh;
+      }
+    }
+
+    &[type="submit"] {
+      padding: 5px 0;
+      width: 50%;
+    }
+  }
+}
+
+/* TODO: update this */
+.matches details {
+  padding: 2vh 0;
+  margin-bottom: 1vh;
+  background: linear-gradient(45deg, rgba(60,0,205,0.45), rgba(60,0,205,0.75)), black;
+  border-bottom: 2px solid black;
+  border-radius: 10px;
+  margin-right: 5px;
+
+  /* 
+  TODO: style these menus
+  & > summary {
+    list-style: none;
+  }
+  */
+
+  & fieldset {
+    width: clamp(250px, 80%, 600px);
+    margin: 2vh auto;
+    padding: 2vh 1.5vw;
+    border-radius: 5px;
+    border: 2px solid rgb(80,0,225);
+     /* linear-gradient(60deg, rgba(60,0,205,0.75), rgba(60,0,205,0.45)); */
+    box-shadow: 1px 2px 5px black, -2px -3px 10px rgba(0, 0, 0, 0.3);
+    
+    display: flex;
+    /* flex-direction: column; */
+    justify-content: space-evenly;
+    /* gap: 2vw; */
+    &:first-of-type {
+      flex-direction: column;
+      gap: 1vh;
+      & > label {
+        margin: 0 auto;
+        &:has(input[type="number"]){
+          margin: 1vh 25%;
+          justify-content: space-between;
+        }
+      }
+    }
+    & label {
+      margin: 0;
+      display: flex;
+      gap: 1vw;
+    }
+    & input {
+      margin: 0;
+      place-self: center;
+    }
+    & p {
+      margin: 2px auto;
+    }
+    & > div {
+      display: flex;
+      gap: 2vw;
+      justify-content: space-evenly;
+    }
+  }
+
+  /* TODO: remove when switching back to the form */
+  & div:not(fieldset > *) {
+    padding-top: 2vh;
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto;
+    gap: 2vh;
+    max-width: 600px;
+  }
+  /* TODO: fix this transition?
+  &[open] {
+    min-height: 200px;
+    transition: height 0.6s linear;
+  }
+  */
+}
+
+
+/* FIX:
+  for some reason I can't get this to nest
+  more than 2 layers deep?
+*/
+.swiping {
+  &.right { animation: swipeRight 0.6s, fadeOutFull 0.5s }
+  &.left { animation: swipeLeft 0.6s, fadeOutFull 0.5s }
+}
+
+.card {
+  /*
+  &:nth-of-type(2){
+    transform: translateY(25px);
+  }
+
+  grid-area: 1/1;
+  */
+
+  &.vanish{
+    /* opacity: 0; */
+    animation: fadeOutFull 0.6s, slideDown 0.6s;
+  }
+
+  transition: all 0.6s;
+  animation: slideUp 0.6s, fadeIn;
+
+  padding: 2em;
+  /* TODO: transitions here */
+  border-radius: 5%;
+  background: rgba(0, 0, 0, 0.9);
+  box-shadow: 2px 4px 10px black;
+
+  width: min(90%, 550px);
+  height: min(90%, 550px);
+  /* width: 90%;
+  height: 90%; */
+
+  display: flex;
+  flex-direction: column;
+  place-content: space-between;
+}
+
+div.buttons {
+  display: inherit;
+  justify-content: space-evenly;
+  margin-bottom: 5%;
+}
+
+dialog {
+  text-shadow: none;
+
+  &[open] {
+    animation: unfold 0.3s;
+    
+    &::backdrop{
+      background-color: rgba(0, 0, 0, 0.6);
+      animation: fadeIn 0.3s;
+    }
+  }
+
+  transition: all 0.3s ease-out allow-discrete;
+  animation: fold 0.3s;
+
+  & form {
+    display: flex;
+    flex-direction: row-reverse;
+  }
+  & > div {
+  max-width: min(1000px, 95vw);
+  margin: 0 5%;
+
+    & ul {
+      text-align: left;
+    }
+  }
+}
+
+.matches ul {
+  display: flex;
+  flex-direction: column;
+  gap: 2vh;
+  margin-block-start: 0;
+  padding-inline-start: 0;
+  /* TODO: not on mobile devices */
+  padding-right: 5px;
+
+  & li {
+    list-style: none;
+    min-height: 10vh;
+    text-align: left;
+    padding: 3%;
+    background: linear-gradient(45deg,
+      rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.3));
+    border-radius: 10px;
+    border: 2px solid black; 
+    
+    &:hover{
+      /* linear-gradient(45deg, black, rgba(0, 0, 0, 0.6)); */
+      background: linear-gradient(45deg,
+        rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.4));
+    }
+
+    &.vanish{
+      opacity: 0;
+      transition: all 0.6s;
+    }
+  }
+  & p {
+    margin: 3px 0;
+    max-width: 80%;
+  }
+}
+/* menu... bottom nav? */
+
+/* jobs... list, like DM chats */
