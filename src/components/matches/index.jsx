@@ -152,14 +152,38 @@ const Matches = () => {
   const handleClick = (job) => (e) => setDetail(job)
   // const handleClick = (index) => (e) => removeJob(index)
 
-  const entries = jobs.map(({ value, value: { title, company }, id }, index) => {
+  const entries = jobs.map(({
+    value,
+    value:
+    {
+      title,
+      company,
+      pay,
+      sources,
+      hiringManager
+    },
+    id
+  }, index) => {
     const animationClass = exiting == index ? 'vanish' : ''
+
+    const applyLink = sources.find(s => s.redirectLink)?.redirectLink
+
+    const searchSites = [...new Set(sources.map(s => s.name))].join(', ')
 
     return (
     // TODO: maybe this transform should be happening at a context level?
     <li key={id} onClick={ handleClick({ ...value, id })} className={animationClass}>
-      <p><strong>{title}</strong></p>
-      <p><em>{company}</em></p>
+      <div>
+        <p><strong>{title}</strong></p>
+        <p><em>{company}</em></p>
+        {pay && <p><em>{pay}</em></p>}
+      </div>
+      <div>
+        <p><strong>Found on: {searchSites}</strong></p>
+        {applyLink && <p>Has Apply Link</p>}
+        {applyLink?.includes('workday') && <p>USES WORKDAY</p>}
+        {hiringManager && <p>Has Hiring Manager</p>}
+      </div>
     </li>
   )})
   

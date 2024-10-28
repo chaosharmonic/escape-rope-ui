@@ -31,6 +31,12 @@
   transform: scale(90%);
 }}
 
+@keyframes unfoldDetails { from {
+  opacity: 0;
+}}
+/*
+*/
+
 @keyframes unfold { from { transform: scaleY( 40% ); }}
 @keyframes fold { to { transform: scaleY( 25% ); }}
 
@@ -135,19 +141,19 @@ section {
 
 /* TODO: update this */
 .matches details {
-  padding: 2vh 0;
   margin-bottom: 1vh;
   background: linear-gradient(45deg, rgba(60,0,205,0.45), rgba(60,0,205,0.75)), black;
   border-bottom: 2px solid black;
   border-radius: 10px;
   margin-right: 5px;
 
-  /* 
-  TODO: style these menus
-  & > summary {
-    list-style: none;
+  &[open] {
+    padding-bottom: 2vh;
   }
-  */
+
+  & > summary {
+    padding: 2vh 0;
+  }
 
   & fieldset {
     width: clamp(250px, 80%, 600px);
@@ -305,6 +311,22 @@ dialog {
       rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.3));
     border-radius: 10px;
     border: 2px solid black; 
+
+    display: flex;
+    justify-content: space-between;
+    
+    & div {
+      width: 50%;
+      &:last-of-type {
+        display: inherit;
+        align-items: flex-end;
+        text-align: right;
+        flex-direction: column;
+      }
+      & p {
+        width: 100%;
+      }
+    }
     
     &:hover{
       /* linear-gradient(45deg, black, rgba(0, 0, 0, 0.6)); */
