@@ -46,7 +46,8 @@ const JobDetail = ({
     pay,
     description,
     lifecycle,
-    sources
+    sources,
+    hiringManager
   } = detail
 
   // TODO: handle retrieval source for forum posts
@@ -185,6 +186,26 @@ const JobDetail = ({
     }
   }
 
+  const HiringContact = () => {
+    if (!hiringManager) return null
+    
+    const { name, title, email, linkedIn, notes } = hiringManager
+
+    const displayName = linkedIn ? (<a href={linkedIn}>{name}</a>) : name
+
+    // TODO: so far, only getting this via LinkedIn, and will only have
+    //  one entry. This will change.
+    const [tagline] = notes
+
+    return (
+      <>
+        <h4>Hiring Manager: {displayName}</h4>  
+        {tagline && <p>{tagline}</p>}
+        {title && <p>{title}</p>}
+        {title && <p>{email}</p>}
+      </>
+    )}
+
   
   // TODO: include 'more' option to further advance lifecycle stages
   // display conditionally
@@ -260,6 +281,7 @@ const JobDetail = ({
         <StatusMenu />
         { applyLink && <h4><a href={applyLink}>Apply</a></h4> }
         { retrievalSources }
+        <HiringContact />
         {/* TODO: collapsible sections */}
         {/* <detail open> */}
           {/* <summary>Description</summary> */}
