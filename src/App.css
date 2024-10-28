@@ -256,6 +256,12 @@ section {
   display: flex;
   flex-direction: column;
   place-content: space-between;
+
+  &.empty {
+    display: grid;
+    place-content: center;
+    animation: none;
+  }
 }
 
 div.buttons {

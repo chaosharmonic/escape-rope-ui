@@ -18,9 +18,9 @@ const Swiper = ({ secondLook = false }) => {
   const route = secondLook ? 'second_look' : 'batch'
 
   useEffect(() => {
-      async function getData(){
-      if (jobs.length) return
-
+    async function getData(){
+      setLoading(true)
+      // if (jobs.length) return
 
       // TODO: 
       // also cover second look entries
@@ -33,14 +33,23 @@ const Swiper = ({ secondLook = false }) => {
       //     'Content-Type': 'application/json'
       //   }
       // }
-      const data = await fetch(target).then(r => r.json()) || []
-
-      setJobs(data)
-      if (data.length) setJobsIndex(0)
-      // TODO: catch block
+      try {
+        const data = await fetch(target).then(r => r.json()) || []
+  
+        setJobs(secondLook ? data.reverse() : data)
+        if (data.length) setJobsIndex(0)
+      } catch ({message}) {
+        console.error(message)
+      } finally {
+        setLoading(false)
+      }
     }
     getData()
-  }, [])
+  }, [secondLook])
+  // TODO: rename this prop
+  //  enable swiping at multiple stages
+  //  swiped-right: unmatched, shortlist
+  //  shortlist: unmatched, applied
 
   // TODO: figure out stacking effect
   //  (there was an article somewhere about stacking elements w CSS Grid...)
@@ -57,16 +66,17 @@ const Swiper = ({ secondLook = false }) => {
 
   if (!jobs.length) return (
     <section className='cards'>
-      batch is empty
+      <div className='card empty'>
+          {loading ? <progress /> : <h4>batch is empty</h4>}
+      </div>
     </section>
   )
   
-  console.log(jobs)
-
   const targetJob = jobs[jobsIndex]
   const nextJob = jobs[jobsIndex + 1]
 
   const { value, id } = targetJob
+
 
   const openDetails = () => setDetail({...value, id})
 
