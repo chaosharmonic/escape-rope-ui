@@ -62,9 +62,19 @@ const Swiper = ({ secondLook = false }) => {
   // useEffect(() => {
     
   // }, [swipeDirection])
+  
+  useEffect(() => {
+    if (!jobs.length) return
+    const current = jobs.at(0).value
+    
+    console.log({
+      current,
+      sources: current.sources.length,
+      remaining: jobs.length, 
+    })
+  }, [jobs.length])
 
-
-  if (!jobs.length) return (
+  if (!jobs.length || loading) return (
     <section className='cards'>
       <div className='card empty'>
           {loading ? <progress /> : <h4>batch is empty</h4>}
@@ -203,6 +213,7 @@ const Swiper = ({ secondLook = false }) => {
       <Detail
         job={{...value, id}}
         detail={detail}
+        swiping
         setDetail={setDetail}
         updateOuterElement={animate}
       />

@@ -14,6 +14,7 @@ const JobDetail = ({
   detail,
   setDetail,
   editing = false,
+  swiping = false,
   displayStates = ['queued'],
   updateOuterElement
 }) => {
@@ -130,26 +131,96 @@ const JobDetail = ({
   }
 
   const StatusMenu = () => {
+    const skip = () => handleClosure('vanish')
+    
+    const stash = () => setStatus('stashed')
+    const shortlist = () => setStatus('shortlisted')
+    const getRejected = () => setStatus('rejected')
+    const getGhosted = () => setStatus('ghosted')
+
     if (lifecycle == 'queued' || lifecycle == 'ignored') {
       const swipeLeft = () => setStatus('ignore', 'swiping left')
       const swipeRight = () => setStatus('like', 'swiping right')
-      const stash = () => {} // setStatus('stash')
-      const shortlist = () => {} // setStatus('shortlist')
-      const skip = () => handleClosure('vanish')
 
-      // TODO: style these sections
       return (
         <>
-          <div>
+          <div className='buttons'>
             <button onClick={swipeLeft}>Nah!</button>
-            <button onClick={skip}>Skip</button>
+            {swiping && <button onClick={skip}>Skip</button>}
             <button onClick={swipeRight}>Yeah!</button>
           </div>
           <details>
             <summary>More...</summary>
-            <button onClick={stash}>Save for later</button>
-            <button onClick={shortlist}>Shortlist</button>
+            <div className='buttons'>
+              {/* <button onClick={expired}>Expired</button> */}
+              <button onClick={stash}>Save for later</button>
+              <button onClick={shortlist}>Shortlist</button>
+            </div>
           </details>
+        </>
+      )
+    }
+
+    if (lifecycle == 'offer') {
+      const decline = () => setStatus('declined')
+      const accept = () => setStatus('hire')
+      const getRescinded = () => setStatus('rescinded')
+      
+      return (
+        <>
+          <div className='buttons'>
+            {/* TODO: handle loading/disable buttons */}
+            <button onClick={decline}>...Nevermind.</button>
+            <button onClick={accept}>Accepted!</button>
+          </div>
+          <details>
+            <summary>More...</summary>
+            <button onClick={getRescinded}>Rescinded...</button>
+          </details>
+        </>
+      )
+    }
+
+    if (lifecycle == 'interview') {
+      const withdraw = () => setStatus('withdrawn')
+      const getOffer = () => setStatus('offer')
+      
+      return (
+        <>
+        <div className='buttons'>
+          {/* TODO: handle loading/disable buttons */}
+          <button onClick={getRejected}>Rejected</button>
+          <button onClick={getOffer}>Offer!</button>
+        </div>
+        <details>
+          <summary>More...</summary>
+          <div className='buttons'>
+            <button onClick={withdraw}>...Nevermind.</button>
+            <button onClick={getGhosted}>Ghosted...</button>
+          </div>
+        </details>
+        </>
+      )
+    }
+
+    if (lifecycle == 'applied') {
+      const withdraw = () => setStatus('withdrawn')
+      const getInterview = () => setStatus('interview')
+      
+      return (
+        <>
+        <div className='buttons'>
+          {/* TODO: handle loading/disable buttons */}
+          <button onClick={getRejected}>Rejected</button>
+          <button onClick={getInterview}>Interview!</button>
+        </div>
+        <details>
+          <summary>More...</summary>
+          <div className='buttons'>
+            <button onClick={withdraw}>...Nevermind.</button>
+            <button onClick={getGhosted}>Ghosted...</button>
+          </div>
+        </details>
         </>
       )
     }
@@ -157,32 +228,27 @@ const JobDetail = ({
     if (isMatch) {
       const unmatch = () => setStatus('unmatched')
       const apply = () => setStatus('applied')
-      const stash = () => {} // setStatus('stash')
-      const shortlist = () => {} // setStatus('shortlist')
 
       // TODO: confirm prompt for this, optionally with reason
 
       return (
-        <div>
-          {/* should this all be disabled if loading? */}
-          <button onClick={unmatch}>...Nevermind.</button>
-          <button onClick={apply}>Applied!</button>
+        <>
+          <div className='buttons'>
+            {/* TODO: handle loading/disable buttons */}
+            <button onClick={unmatch}>...Nevermind.</button>
+            {swiping && <button onClick={skip}>Skip</button>}
+            <button onClick={apply}>Applied!</button>
+          </div>
           <details>
             <summary>More...</summary>
-            <button onClick={stash}>Stash for later</button>
-            <button onClick={shortlist}>Shortlist</button>
+            {/* <button onClick={expired}>Expired</button> */}
+            <div className='buttons'>
+              <button onClick={stash}>Stash for later</button>
+              <button onClick={shortlist}>Shortlist</button>
+            </div>
           </details>
-        </div>
+        </>
       )
-    }
-
-    if (hasApplied) {
-      // render drop down for status
-        //  drop-down for other lifecycle statuses
-      //  'rejected' // passed over? knockout?
-      //  'interview'
-      //  'offer'
-      //  'hire'
     }
   }
 
@@ -282,7 +348,10 @@ const JobDetail = ({
         { applyLink && <h4><a href={applyLink}>Apply</a></h4> }
         { retrievalSources }
         <HiringContact />
-        {/* TODO: collapsible sections */}
+        {/* TODO: collapsible sections...
+            - generated cover letter
+            - notes on interviews
+        */}
         {/* <detail open> */}
           {/* <summary>Description</summary> */}
         {/* TODO: make the headers more consistent */}
