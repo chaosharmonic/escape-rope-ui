@@ -1,9 +1,12 @@
+import { useState } from 'react'
 import { baseURL } from "../../helpers/config"
 
 const Upload = () => {
-    
+    const [loading, setLoading] = useState(false)
+
     const handleSubmit = async (e) => {
         e.preventDefault()
+        setLoading(true)
 
         try {
             // TODO: this should also cover companies
@@ -30,6 +33,9 @@ const Upload = () => {
         catch ({message: m}) {
             console.error(m)
         }
+        finally {
+            setLoading(false)
+        }
     }
 
     // TODO: any kind of styling or other structure
@@ -44,7 +50,10 @@ const Upload = () => {
                             <input name="file" type="file" accept="application/json" />
                         </div>
                     </label>
-                    <input type="submit" value="Upload" />
+                    <div>
+                        <input type="submit" value="Upload" disabled={loading} />
+                        {loading && <progress />}
+                    </div>
                     {/* TODO: submission status */}
                 {/* </div> */}
             </form>

@@ -114,8 +114,13 @@ section {
   & div {
     display: inherit;
     flex-direction: inherit;
+    width: 100%;
     gap: 3.5vh;
     align-items: center;
+    &:last-of-type {
+      height: 10vh;
+      flex-direction: column-reverse;
+    }
   }
 
   & input {
@@ -146,7 +151,6 @@ section {
   border-bottom: 2px solid black;
   border-radius: 10px;
   margin-right: 5px;
-
   &[open] {
     padding-bottom: 2vh;
   }
@@ -265,13 +269,25 @@ section {
 }
 
 div.buttons {
-  display: inherit;
+  display: flex;
   justify-content: space-evenly;
   margin-bottom: 5%;
+
+  &:is(dialog *) {
+    max-width: 75%;
+    margin: 1vh auto;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+
+    & button {
+      min-width: 150px;
+    }
+  }
 }
 
 dialog {
   text-shadow: none;
+  border: 3px solid rgb(100, 108, 255);
 
   &[open] {
     animation: unfold 0.3s;
@@ -316,7 +332,7 @@ dialog {
     background: linear-gradient(45deg,
       rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.3));
     border-radius: 10px;
-    border: 2px solid black; 
+    border: 2px solid black;
 
     display: flex;
     justify-content: space-between;
