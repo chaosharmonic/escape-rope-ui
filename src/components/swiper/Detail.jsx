@@ -40,6 +40,10 @@ const JobDetail = ({
 
   if (!detail) return null
 
+  console.log({ detail })
+
+  // return <Markdown>HEY!</Markdown>
+
   const {
     id,
     title,
@@ -69,7 +73,7 @@ const JobDetail = ({
   
   // TODO: rename this... checkStatus?
   // l is 'lifecycle' but can be *a* lifecycle
-  const checkMatch = (l) => ['queued', 'ignored', 'unmatched']
+  const checkMatch = (l) => ['queued', 'ignored', 'unmatched', 'expired']
     .every(status => l != status)
   
   const isMatch = checkMatch(lifecycle)
@@ -82,6 +86,8 @@ const JobDetail = ({
     'applied',
     'rejected',
     'ghosted',
+    'rescinded',
+    'withdrawn',
     'interview',
     'offer',
     'hire'
@@ -139,6 +145,11 @@ const JobDetail = ({
     const shortlist = () => swiping
       ? setStatus('shortlisted', 'swiping right')
       : setStatus('shortlisted')
+
+    const markExpired = () => swiping
+      ? setStatus('expired', 'swiping left')
+      : setStatus('expired')
+    
     
     const getRejected = () => setStatus('rejected')
     const getGhosted = () => setStatus('ghosted')
@@ -161,7 +172,7 @@ const JobDetail = ({
           <details>
             <summary>More...</summary>
             <div className='buttons'>
-              {/* <button onClick={expired}>Expired</button> */}
+              <button onClick={markExpired}>Expired</button>
               <button onClick={stash}>Save for later</button>
               <button onClick={shortlist}>Shortlist</button>
             </div>
@@ -250,8 +261,8 @@ const JobDetail = ({
           </div>
           <details>
             <summary>More...</summary>
-            {/* <button onClick={expired}>Expired</button> */}
             <div className='buttons'>
+              <button onClick={markExpired}>Expired</button>
               <button onClick={stash}>Stash for later</button>
               <button onClick={shortlist}>Shortlist</button>
             </div>
@@ -259,6 +270,9 @@ const JobDetail = ({
         </>
       )
     }
+
+    return null
+    // TODO: add "reset status"
   }
 
   const HiringContact = () => {
@@ -288,14 +302,18 @@ const JobDetail = ({
   //  if left-swiped, this could be "unmatched"
   //  if applied or later, this should just be a dropdown  
 
-  const retrievalLinks = retrievalSources.length && (
-    <>
-      <h4>Retrieved from:</h4>
-      <div className='sources'>
-        {retrievalSources}
-      </div>
-    </>
-  )
+  const RetrievalLinks = () => {
+    if (!retrievalSources.length) return null
+
+    return (
+      <>
+        <h4>Retrieved from:</h4>
+        <div className='sources'>
+          {retrievalSources}
+        </div>
+      </>
+    )
+  }
     
   // TODO: this needs a confirm prompt if editing
   const handleClose = (e) => {
@@ -342,6 +360,12 @@ const JobDetail = ({
     )
   }
 
+  const Description = () => (
+    <Markdown>
+      {description}
+    </Markdown>
+  )
+
   return (
     <dialog
       ref={dialogRef}
@@ -355,19 +379,17 @@ const JobDetail = ({
         <DetailHeader />
         <StatusMenu />
         { applyLink && <h4><a href={applyLink}>Apply</a></h4> }
-        { retrievalSources }
+        <RetrievalLinks />
         <HiringContact />
         {/* TODO: collapsible sections...
             - generated cover letter
             - notes on interviews
         */}
-        {/* <detail open> */}
-          {/* <summary>Description</summary> */}
         {/* TODO: make the headers more consistent */}
-        <Markdown>
-          {description}
-        </Markdown>
-        {/* </detail> */}
+        {/* <details open> */}
+          {/* <summary>Description</summary> */}
+        <Description />
+        {/* </details> */}
       </div>
     </dialog>
   )
