@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react"
-import Markdown from 'https://esm.sh/react-markdown@9'
+import Markdown from 'https://esm.sh/react-markdown@8'
 // import { X } from 'npm:react-feather'
 import { baseURL } from "../../helpers/config"
 
@@ -360,6 +360,8 @@ const JobDetail = ({
     )
   }
 
+  // FIXME: this breaks if using the current version of
+  //  `react-markdown`
   const Description = () => (
     <Markdown>
       {description}
