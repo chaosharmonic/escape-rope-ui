@@ -133,14 +133,23 @@ const JobDetail = ({
   const StatusMenu = () => {
     const skip = () => handleClosure('vanish')
     
-    const stash = () => setStatus('stashed')
-    const shortlist = () => setStatus('shortlisted')
+    const stash = () => swiping
+      ? setStatus('stashed', 'swiping right')
+      : setStatus('stashed')
+    const shortlist = () => swiping
+      ? setStatus('shortlisted', 'swiping right')
+      : setStatus('shortlisted')
+    
     const getRejected = () => setStatus('rejected')
     const getGhosted = () => setStatus('ghosted')
 
     if (lifecycle == 'queued' || lifecycle == 'ignored') {
-      const swipeLeft = () => setStatus('ignore', 'swiping left')
-      const swipeRight = () => setStatus('like', 'swiping right')
+      const swipeLeft = () => swiping
+        ? setStatus('ignore', 'swiping left')
+        : setStatus('ignore')
+      const swipeRight = () => swiping
+        ? setStatus('like', 'swiping right')
+        : setStatus('like')
 
       return (
         <>
