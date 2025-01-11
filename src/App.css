@@ -8,6 +8,10 @@
 }
 
 @keyframes fadeIn { from { opacity: 50%; }}
+@keyframes fadeInStagger {
+  from { opacity: 0%; }
+  50% { opacity: 25%; }
+}
 @keyframes fadeOut { to { opacity: 50%; }}
 @keyframes fadeOutFull { to { opacity: 0%; }}
 
@@ -104,9 +108,9 @@ section {
   black; */
   background: linear-gradient(75deg, rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0.7)),
   rgb(75, 0, 150);
-  border-radius: 10px;
+  border-radius: 5%;
   box-shadow: 2px 3px 7px black;
-  width: clamp (300px, 50%, 600px);
+  /* width: clamp(300px, 50%, 600px); */
   gap: 10vh;
   align-content: space-between;
   align-items: center;
@@ -129,7 +133,6 @@ section {
     
     &[type="file"]{
       text-wrap: pretty;
-      
       &::file-selector-button {
         width: 100%;
         padding: 5px 0;
@@ -249,7 +252,9 @@ section {
   padding: 2em;
   /* TODO: transitions here */
   border-radius: 5%;
-  background: rgba(0, 0, 0, 0.9);
+  /* background: rgba(0, 0, 0, 0.9); */
+  background: linear-gradient(75deg, rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.7)),
+  rgb(75, 0, 150);
   box-shadow: 2px 4px 10px black;
 
   width: min(90%, 550px);
@@ -261,7 +266,7 @@ section {
   flex-direction: column;
   place-content: space-between;
 
-  &.empty {
+  &.empty { 
     display: grid;
     place-content: center;
     animation: none;
@@ -289,8 +294,15 @@ dialog {
   text-shadow: none;
   border: 3px solid rgb(100, 108, 255);
 
+  height: 95svh;
+  width: 95vw;
+  /* margin: 0 auto; */
+
   &[open] {
     animation: unfold 0.3s;
+    & > * {
+      animation: fadeInStagger ease-in 0.4s;
+    }
     
     &::backdrop{
       background-color: rgba(0, 0, 0, 0.6);
@@ -306,8 +318,8 @@ dialog {
     flex-direction: row-reverse;
   }
   & > div {
-  max-width: min(1000px, 95vw);
-  margin: 0 5%;
+  max-width: 80%;
+  margin: 0 auto;
 
     & ul {
       text-align: left;
@@ -329,8 +341,12 @@ dialog {
     min-height: 10vh;
     text-align: left;
     padding: 3%;
+    background: linear-gradient(75deg, rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0.7)),
+    rgb(75, 0, 150);
+    /*
     background: linear-gradient(45deg,
       rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.3));
+    */
     border-radius: 10px;
     border: 2px solid black;
 
@@ -353,7 +369,9 @@ dialog {
     &:hover{
       /* linear-gradient(45deg, black, rgba(0, 0, 0, 0.6)); */
       background: linear-gradient(45deg,
-        rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.4));
+        rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.8));
+
+      transition: background 0.2s;
     }
 
     &.vanish{
