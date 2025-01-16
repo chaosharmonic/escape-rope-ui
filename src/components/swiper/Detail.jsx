@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react"
-import Markdown from 'https://esm.sh/react-markdown@8'
+import Markdown from 'react-markdown'
 // import { X } from 'npm:react-feather'
 import { baseURL } from "../../helpers/config"
 
@@ -13,7 +13,6 @@ import { baseURL } from "../../helpers/config"
 const JobDetail = ({
   detail,
   setDetail,
-  editing = false,
   swiping = false,
   displayStates = ['queued'],
   updateOuterElement
@@ -22,7 +21,10 @@ const JobDetail = ({
   const [closing, setClosing] = useState(false)
   
   // TODO: this should be an array
-  // const [ editing, setEditing ] = useState(false)
+  // const [ editing, setEditing ] = useState([])
+  // title
+  // description
+  // 
   
   useEffect(() => {
     if (detail && !dialogRef?.current?.open) {
@@ -42,8 +44,6 @@ const JobDetail = ({
 
   console.log({ detail })
 
-  // return <Markdown>HEY!</Markdown>
-
   const {
     id,
     title,
@@ -59,8 +59,9 @@ const JobDetail = ({
   // link different data types?
   // just 
 
-  const applyLink = sources.find(({ redirectLink: link }) => link)
-    ?.redirectLink
+  const applyLink = detail.applyLink
+  || sources.find(({ redirectLink: link }) => link)
+      ?.redirectLink
   const retrievalSources = [...new Set(sources.map(s => s.retrievalLink || null ))]
     .filter(e => Boolean(e))
     .map((href, index) => {
@@ -117,7 +118,9 @@ const JobDetail = ({
     // second look: anything
     // matches: pass in existing filters
 
-    const shouldKeepDisplaying = displayStates.some(status => nextStatus == status)
+    // TODO: this needs a success/failure indicator
+    const shouldKeepDisplaying = displayStates
+      .some(status => nextStatus == status)
 
     const nextJob = { ...detail, lifecycle: nextStatus }
     
@@ -169,8 +172,8 @@ const JobDetail = ({
             {swiping && <button onClick={skip}>Skip</button>}
             <button onClick={swipeRight}>Yeah!</button>
           </div>
-          <details>
-            <summary>More...</summary>
+          <details className='moreButtons'>
+            <summary>More options</summary>
             <div className='buttons'>
               <button onClick={markExpired}>Expired</button>
               <button onClick={stash}>Save for later</button>
@@ -193,7 +196,7 @@ const JobDetail = ({
             <button onClick={decline}>...Nevermind.</button>
             <button onClick={accept}>Accepted!</button>
           </div>
-          <details>
+          <details className='moreButtons'>
             <summary>More...</summary>
             <button onClick={getRescinded}>Rescinded...</button>
           </details>
@@ -207,18 +210,18 @@ const JobDetail = ({
       
       return (
         <>
-        <div className='buttons'>
-          {/* TODO: handle loading/disable buttons */}
-          <button onClick={getRejected}>Rejected</button>
-          <button onClick={getOffer}>Offer!</button>
-        </div>
-        <details>
-          <summary>More...</summary>
           <div className='buttons'>
-            <button onClick={withdraw}>...Nevermind.</button>
-            <button onClick={getGhosted}>Ghosted...</button>
+            {/* TODO: handle loading/disable buttons */}
+            <button onClick={getRejected}>Rejected</button>
+            <button onClick={getOffer}>Offer!</button>
           </div>
-        </details>
+          <details className='moreButtons'>
+            <summary>More...</summary>
+            <div className='buttons'>
+              <button onClick={withdraw}>...Nevermind.</button>
+              <button onClick={getGhosted}>Ghosted...</button>
+            </div>
+          </details>
         </>
       )
     }
@@ -229,18 +232,18 @@ const JobDetail = ({
       
       return (
         <>
-        <div className='buttons'>
-          {/* TODO: handle loading/disable buttons */}
-          <button onClick={getRejected}>Rejected</button>
-          <button onClick={getInterview}>Interview!</button>
-        </div>
-        <details>
-          <summary>More...</summary>
           <div className='buttons'>
-            <button onClick={withdraw}>...Nevermind.</button>
-            <button onClick={getGhosted}>Ghosted...</button>
+            {/* TODO: handle loading/disable buttons */}
+            <button onClick={getRejected}>Rejected</button>
+            <button onClick={getInterview}>Interview!</button>
           </div>
-        </details>
+          <details className='moreButtons'>
+            <summary>More...</summary>
+            <div className='buttons'>
+              <button onClick={withdraw}>...Nevermind.</button>
+              <button onClick={getGhosted}>Ghosted...</button>
+            </div>
+          </details>
         </>
       )
     }
@@ -259,12 +262,13 @@ const JobDetail = ({
             {swiping && <button onClick={skip}>Skip</button>}
             <button onClick={apply}>Applied!</button>
           </div>
-          <details>
+          <details className='moreButtons'>
             <summary>More...</summary>
             <div className='buttons'>
               <button onClick={markExpired}>Expired</button>
               <button onClick={stash}>Stash for later</button>
-              <button onClick={shortlist}>Shortlist</button>
+              {lifecycle != 'shortlisted' && 
+                <button onClick={shortlist}>Shortlist</button>}
             </div>
           </details>
         </>
@@ -351,7 +355,7 @@ const JobDetail = ({
     return (
       <>
         <h2>{title}</h2>
-        <h3>{company}</h3>
+        <h3>{company.name || company}</h3>
         {/* TODO:
           get actual upper/lower bounds out of descriptions, where available
         */}
@@ -360,12 +364,17 @@ const JobDetail = ({
     )
   }
 
-  // FIXME: this breaks if using the current version of
-  //  `react-markdown`
-  const Description = () => (
-    <Markdown>
-      {description}
-    </Markdown>
+  const Description = () => description && (
+    <details name='tabs' open>
+      <summary>
+        <h3>
+          Job Description
+        </h3>
+      </summary>
+      <Markdown>
+        {description}
+      </Markdown>
+    </details>
   )
 
   return (
@@ -382,16 +391,7 @@ const JobDetail = ({
         <StatusMenu />
         { applyLink && <h4><a href={applyLink}>Apply</a></h4> }
         <RetrievalLinks />
-        <HiringContact />
-        {/* TODO: collapsible sections...
-            - generated cover letter
-            - notes on interviews
-        */}
-        {/* TODO: make the headers more consistent */}
-        {/* <details open> */}
-          {/* <summary>Description</summary> */}
         <Description />
-        {/* </details> */}
       </div>
     </dialog>
   )

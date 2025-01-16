@@ -10,6 +10,7 @@
 @keyframes fadeIn { from { opacity: 50%; }}
 @keyframes fadeInStagger {
   from { opacity: 0%; }
+  25% { opacity: 0%; }
   50% { opacity: 25%; }
 }
 @keyframes fadeOut { to { opacity: 50%; }}
@@ -147,81 +148,144 @@ section {
   }
 }
 
-/* TODO: update this */
-.matches details {
+/* TODO: this query can maybe make more sense... */
+/* refactor this all later */
+details {
   margin-bottom: 1vh;
-  background: linear-gradient(45deg, rgba(60,0,205,0.45), rgba(60,0,205,0.75)), black;
-  border-bottom: 2px solid black;
   border-radius: 10px;
-  margin-right: 5px;
-  &[open] {
-    padding-bottom: 2vh;
+
+  /* TODO: revisit this */
+  &:is(dialog *) {
+    padding: 0 10%;
+    &.moreButtons {
+      /* border-bottom: 3px solid rgba(70,0,205,0.85); */
+      margin-top: 3vh;
+      padding-bottom: 2vh;
+      margin-bottom: 1.5vh;
+    }
   }
 
-  & > summary {
-    padding: 2vh 0;
-  }
-
-  & fieldset {
-    width: clamp(250px, 80%, 600px);
-    margin: 2vh auto;
-    padding: 2vh 1.5vw;
-    border-radius: 5px;
-    border: 2px solid rgb(80,0,225);
-     /* linear-gradient(60deg, rgba(60,0,205,0.75), rgba(60,0,205,0.45)); */
-    box-shadow: 1px 2px 5px black, -2px -3px 10px rgba(0, 0, 0, 0.3);
+  &:not(.moreButtons){
+    background: linear-gradient(45deg, rgba(60,0,205,0.45), rgba(60,0,205,0.7)), black;
+    border-bottom: 2px solid black;
     
-    display: flex;
-    /* flex-direction: column; */
-    justify-content: space-evenly;
-    /* gap: 2vw; */
-    &:first-of-type {
-      flex-direction: column;
-      gap: 1vh;
-      & > label {
-        margin: 0 auto;
-        &:has(input[type="number"]){
-          margin: 1vh 25%;
-          justify-content: space-between;
+    &:is(dialog *) {
+      background: linear-gradient(135deg,
+      transparent,
+      rgba(85, 0, 235, 0.3));
+
+      &:hover:not([open]) {
+        background: linear-gradient(135deg,
+      transparent,
+      rgba(85, 0, 235, 0.35),
+      rgba(85, 0, 235, 0.55));
+      }
+        
+      border-top: 2px solid rgba(70,0,205,0.85);
+      border-bottom: 2px solid rgba(70,0,205,0.85);
+        
+      &[open] {
+        border-top: 2px solid rgba(80,0,195,0.85);
+        border-bottom: 2px solid rgba(80,0,195,0.85);
+        background:
+        /* rgba(35, 35, 35, 0.05), */
+        linear-gradient(110deg,
+        rgba(0, 0, 0, 0.45),
+        rgba(0, 0, 0, 0.35)),
+        rgb(80, 0, 190);
+  
+  
+        /* TODO: revisit this */
+  
+        text-shadow: 2px 3px 5px rgba(0, 0, 0, 0.45),
+          /* 2px 3px 3px rgba(85, 85, 85, 0.15), */
+          3px 5px 10px rgba(0, 0, 0, 0.65),
+          /* -3px 4px 5px rgba(85, 85, 85, 0.25), */
+          -5px -3px 15px rgba(0, 0, 0, 0.85);
+          /* -7px -7px 20px rgba(0, 0, 0, 0.85); */
+  
+        & p {
+          padding-bottom: 0.5rem;
+        }
+  
+        & li {
+          padding-bottom: 1.1rem;
         }
       }
     }
-    & label {
-      margin: 0;
+  
+    /*
+    & li {
+      line-height:normal;
+    }
+    */
+
+    &:not([open]) > div {
+      /* max-height: 0; */
+      /* display: none; */
+      /* opacity: 0; */
+      overflow: hidden;
+    }
+  
+    & > summary {
+      padding: 2vh 0;
+      list-style-position: initial;
+    }
+  
+    & fieldset {
+      width: clamp(250px, 80%, 600px);
+      margin: 2vh auto;
+      padding: 2vh 1.5vw;
+      border-radius: 5px;
+      border: 2px solid rgb(80,0,225);
+       /* linear-gradient(60deg, rgba(60,0,205,0.75), rgba(60,0,205,0.45)); */
+      box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.35), -2px -3px 10px rgba(0, 0, 0, 0.3);
+      
       display: flex;
-      gap: 1vw;
-    }
-    & input {
-      margin: 0;
-      place-self: center;
-    }
-    & p {
-      margin: 2px auto;
-    }
-    & > div {
-      display: flex;
-      gap: 2vw;
+      /* flex-direction: column; */
       justify-content: space-evenly;
+      /* gap: 2vw; */
+      &:first-of-type {
+        flex-direction: column;
+        gap: 1vh;
+        & > label {
+          margin: 0 auto;
+          &:has(input[type="number"]){
+            margin: 1vh 25%;
+            justify-content: space-between;
+          }
+        }
+      }
+      & label {
+        margin: 0;
+        display: flex;
+        gap: 1vw;
+      }
+      & input {
+        margin: 0;
+        place-self: center;
+      }
+      & p {
+        margin: 2px auto;
+      }
+      & > div {
+        display: flex;
+        gap: 2vw;
+        justify-content: space-evenly;
+      }
+    }
+  
+    /* TODO: remove when switching back to the form */
+    & div:not(fieldset > *):not(dialog *) {
+      padding-top: 2vh;
+      display: flex;
+      flex-direction: column;
+      margin: 0 auto;
+      gap: 2vh;
+      max-width: 600px;
     }
   }
-
-  /* TODO: remove when switching back to the form */
-  & div:not(fieldset > *) {
-    padding-top: 2vh;
-    display: flex;
-    flex-direction: column;
-    margin: 0 auto;
-    gap: 2vh;
-    max-width: 600px;
-  }
-  /* TODO: fix this transition?
-  &[open] {
-    min-height: 200px;
-    transition: height 0.6s linear;
-  }
-  */
 }
-
 
 /* FIX:
   for some reason I can't get this to nest
@@ -293,6 +357,7 @@ div.buttons {
 dialog {
   text-shadow: none;
   border: 3px solid rgb(100, 108, 255);
+  color: rgb(215,215,215);
 
   height: 95svh;
   width: 95vw;
@@ -301,7 +366,7 @@ dialog {
   &[open] {
     animation: unfold 0.3s;
     & > * {
-      animation: fadeInStagger ease-in 0.4s;
+      animation: fadeInStagger ease-in 0.5s;
     }
     
     &::backdrop{
