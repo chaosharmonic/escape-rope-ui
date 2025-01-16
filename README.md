@@ -21,16 +21,10 @@ The "roadmap" is that I'm building out things in the order that I do need them m
 ### Prerequisites
 
 - The backend linked at the top of this README
-- [Deno](https://deno.com/) 1.46 or above
-  - Vite itself only requires 1.28, but I'm using later versions for the API
+- [Deno](https://deno.com/) 2.0 or above 
+  - (The backend may use newer versions, but this requirement is specific to Vite)
 
 ### Running
 
-- Start a dev server: `deno task dev`
-- Build production assets: `deno task build`
-
-### Notes
-
-- You need to use `.mjs` or `.mts` extension for the `vite.config.[ext]` file.
-- Peer dependencies need to be referenced in `vite.config.js` - in this example
-  it is `react` and `react-dom` packages that need to be referenced
+- Start a dev server: `deno run dev`
+- Build production assets: `deno run build`
