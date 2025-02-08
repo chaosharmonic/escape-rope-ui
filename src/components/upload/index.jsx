@@ -13,8 +13,6 @@ const Upload = () => {
             const route = 'jobs/upload'
             const endpoint = `${baseURL}/${route}`
 
-            // TODO: set loading
-
             const payload = new FormData(e.target)
             
             // TODO: this could also be a CSV
@@ -26,7 +24,7 @@ const Upload = () => {
 
             const data = await fetch(endpoint, options).then(r => r.json())
 
-            // clear loading; set other status based on data returned
+            // TODO: set other status based on data returned
 
             e.target.reset()
         }
@@ -38,7 +36,6 @@ const Upload = () => {
         }
     }
 
-    // TODO: any kind of styling or other structure
     // TODO: some kind of explanation of the schema for this
     return (
         <section className='upload'>
