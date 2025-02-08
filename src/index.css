@@ -25,9 +25,9 @@ a {
   font-weight: 500;
   color: #646cff;
   text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
+  &:hover {
+    color: #535bf2;
+  }
 }
 
 body {
@@ -43,7 +43,10 @@ h1 {
   line-height: 1.1;
 }
 
-button, input[type="submit"], input::file-selector-button {
+button,
+input[type="submit"],
+input[type="reset"],
+input::file-selector-button {
   border-radius: 8px;
   border: 2px solid rgb(100, 108, 255);
   color: rgb(100, 108, 255);
@@ -56,7 +59,7 @@ button, input[type="submit"], input::file-selector-button {
   transition: border-color 0.35s, color 0.35s;
 }
 
-button, input[type="submit"] {
+button, input[type="submit"], input[type="reset"] {
   &:hover {
     border-color: rgb(120, 65, 255);
     color: rgb(120, 65, 255);
@@ -80,7 +83,7 @@ input[type='file'] {
   } */
 }
 
-@media (prefers-color-scheme: light) {
+/* @media (prefers-color-scheme: light) {
   :root {
     color: #213547;
     background-color: #ffffff;
@@ -91,4 +94,4 @@ input[type='file'] {
   button {
     background-color: #f9f9f9;
   }
-}
+} */

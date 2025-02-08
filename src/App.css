@@ -88,9 +88,12 @@ section {
 
   &.matches {
     margin-top: 2.5vh;
-    overflow-y: scroll;
   }
-
+  
+  &.matches, &.settings {
+    overflow-y: auto;
+  }
+  
   &.upload {
     display: flex;
     /* flex-direction: column; */
@@ -98,23 +101,46 @@ section {
   }
 }
 
-.upload form  {
+/* TODO: figure out which parts of this to tweak */
+/* , .settings  { */
+.upload form, .settings {
   display: inherit;
   flex-direction: column;
+  /* TODO: change this background */
+  box-shadow: 2px 3px 7px black;
+  /* width: clamp(300px, 50%, 600px); */
+  align-content: space-between;
+  align-items: center;
+  /* gap: 5vh; */
+}
+
+.settings {
+  background: linear-gradient(45deg, rgba(60,0,205,0.45), rgba(60,0,205,0.7)), black;
+  
+  & form {
+    display: inherit;
+    flex-direction: inherit;
+    gap: 1vh;
+    
+    & label {
+      display: inherit;
+      flex-direction: inherit;
+      gap: 1vh;
+    }
+  }
+}
+/* TODO: decide later if I want to keep this structure here */
+.upload form  {
   margin: 0 auto;
   padding: 10%;
   font-size: 1rem;
-  /* TODO: change this background */
+  gap: 10vh;
   /* background:linear-gradient(75deg, rgba(75, 0, 150, 0.35), rgba(75, 0, 150, 0.7)),
   black; */
   background: linear-gradient(75deg, rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0.7)),
   rgb(75, 0, 150);
   border-radius: 5%;
-  box-shadow: 2px 3px 7px black;
-  /* width: clamp(300px, 50%, 600px); */
-  gap: 10vh;
-  align-content: space-between;
-  align-items: center;
+  
 
   & div {
     display: inherit;
@@ -145,6 +171,25 @@ section {
       padding: 5px 0;
       width: 50%;
     }
+  }
+}
+
+.settings {
+  margin-top: 5vh;
+
+  align-items: center;
+
+  & form {
+    display: inherit;
+    min-width: min(750px, 75%);
+  }
+
+  & menu {
+    min-width: 400px;
+  }
+
+  & form {
+    flex-direction: column;
   }
 }
 
@@ -219,12 +264,28 @@ details {
       line-height:normal;
     }
     */
-
+  
+    & > * {
+      transition: opacity 0.8s linear; 
+    }
+  
     &:not([open]) > div {
       /* max-height: 0; */
       /* display: none; */
       /* opacity: 0; */
       overflow: hidden;
+    }
+    
+    &[open] {
+      padding-bottom: 2vh;
+      
+      & > div {
+        animation: unfoldDetails 0.8s;
+        /*
+        opacity: initial;
+        max-height: 80vh;
+        */
+      }
     }
   
     & > summary {
@@ -284,7 +345,21 @@ details {
       gap: 2vh;
       max-width: 600px;
     }
+    /* TODO: fix this transition?
+    &[open] {
+      min-height: 200px;
+      transition: height 0.6s linear;
+    }
+    */
   }
+}
+
+/* .sources {
+  padding-bottom: 2vh;
+} */
+
+.coverLetter {
+  text-align: left;
 }
 
 /* FIX:
@@ -337,20 +412,40 @@ details {
   }
 }
 
+menu {
+  padding-inline-start: 0;
+  
+  & li {
+    list-style: none;
+  }
+}
+
 div.buttons {
+  margin-bottom: 5%;
+}
+
+div.buttons, menu {
   display: flex;
   justify-content: space-evenly;
-  margin-bottom: 5%;
 
   &:is(dialog *) {
     max-width: 75%;
     margin: 1vh auto;
-    justify-content: space-evenly;
     flex-wrap: wrap;
 
     & button {
       min-width: 150px;
     }
+  }
+}
+
+dialog details form {
+  display: flex;
+  flex-direction: column;
+  gap: 2vh;
+
+  & menu {
+    min-width: 400px;
   }
 }
 
@@ -378,7 +473,7 @@ dialog {
   transition: all 0.3s ease-out allow-discrete;
   animation: fold 0.3s;
 
-  & form {
+  & > form {
     display: flex;
     flex-direction: row-reverse;
   }

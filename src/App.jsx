@@ -2,6 +2,7 @@ import './App.css'
 import Swiper from './components/swiper/'
 import Matches from './components/matches/'
 import Upload from './components/upload/'
+import Settings from './components/settings/'
 
 import {
   createBrowserRouter,
@@ -19,12 +20,14 @@ const Skeleton = () => (
       <Route path="/second_look" element={<Swiper secondLook />}/>
       <Route path="/matches" element={<Matches />}/>
       <Route path="/upload" element={<Upload />}/>
+      <Route path="/settings" element={<Settings />}/>
     </Routes>
     <nav>
       <Link to={'/'}>Batch</Link>
       <Link to={'/matches'}>Matches</Link>
       <Link to={'/second_look'}>Second Look</Link>
       <Link to={'/upload'}>Upload</Link>
+      <Link to={'/settings'}>Settings</Link>
     </nav>
   </main>
 )
