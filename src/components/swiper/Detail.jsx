@@ -2,23 +2,25 @@ import { useState, useEffect, useRef } from "react"
 import Markdown from 'react-markdown'
 // import { X } from 'npm:react-feather'
 import { baseURL } from "../../helpers/config"
+import { saveCoverLetter } from "../../api/job"
 
 // TODO: maybe break this out into layers
 // - modal
 // - job post
 // - job post -- swiped
 // - job post -- applied
-// TODO: completely redo this styling
 // TODO: rename this
 const JobDetail = ({
   detail,
   setDetail,
   swiping = false,
   displayStates = ['queued'],
-  updateOuterElement
+  updateOuterElement,
+  campaign = {} // this should be context
 }) => {
   const dialogRef = useRef(null)
   const [closing, setClosing] = useState(false)
+  
   
   // TODO: this should be an array
   // const [ editing, setEditing ] = useState([])
@@ -57,7 +59,6 @@ const JobDetail = ({
 
   // TODO: handle retrieval source for forum posts
   // link different data types?
-  // just 
 
   const applyLink = detail.applyLink
   || sources.find(({ redirectLink: link }) => link)
@@ -89,6 +90,12 @@ const JobDetail = ({
     'ghosted',
     'rescinded',
     'withdrawn',
+    'interview',
+    'offer',
+    'hire'
+  ].some(status => lifecycle == status)
+
+  const hasInterviews = [
     'interview',
     'offer',
     'hire'
@@ -364,18 +371,196 @@ const JobDetail = ({
     )
   }
 
-  const Description = () => description && (
-    <details name='tabs' open>
-      <summary>
-        <h3>
-          Job Description
-        </h3>
-      </summary>
-      <Markdown>
-        {description}
-      </Markdown>
-    </details>
-  )
+  const Description = () => {
+    // TODO: edit handlers for this
+    // if (!description) return (  
+    //   <details name='tabs'>
+    //     <summary>
+    //       <h3>
+    //         + Add Job Description
+    //       </h3>
+    //     </summary>
+    //     <textarea></textarea>
+    //   </details>
+    // )
+
+    return (
+      <details name='tabs' open>
+        <summary>
+          <h3>
+            Job Description
+          </h3>
+        </summary>
+        <Markdown>
+          {description}
+        </Markdown>
+      </details>
+    )
+  }
+
+  const CoverLetter = () => {
+    const templates = campaign.coverLetters || []
+
+    const {
+      coverLetter: initialCoverLetter = ''
+    } = detail
+    
+    const [editing, setEditing] = useState(false)
+    const [showing, setShowing] = useState(0)
+    const [
+      coverLetter,
+      setCoverLetter
+    ] =  useState(initialCoverLetter)
+    
+    const coverLetters = [
+      coverLetter,
+      ...templates
+    ].filter(e => e)
+
+    const editCoverLetter = () => {
+      setEditing(true)
+    }
+
+    // TODO: there might be more than one template
+    // buttons:
+    // - customize (copy from template)
+    // - next
+    // - previous
+    
+    const empty = !coverLetters.length
+
+    const startNewCoverLetter = () => {
+      setEditing(true)
+      !empty && setShowing(coverLetters.length)
+    }
+
+    // TODO: (on setting up validations)
+    // handle duplicated cover letter
+    const handleSubmit =  async (e) => {
+      e.preventDefault()
+
+      const payload = new FormData(e.target)
+
+      console.log(payload)
+
+      const res = await saveCoverLetter(payload, id)
+
+      const nextState = payload.get('coverLetter')
+
+      setCoverLetter(nextState)
+
+      setEditing(false)
+      setShowing(0)
+    }
+
+    const cancelEdits = (e) => {
+      e.preventDefault()
+
+      setEditing(false)
+      setShowing(0)
+  }
+
+    if (empty && !editing) return (
+      <details name='tabs'>
+        <summary>
+          <h3>
+            Cover Letter
+          </h3>
+        </summary>
+        <button onClick={(startNewCoverLetter)}>
+          New
+        </button>
+      </details>
+    )
+
+    const isTemplate = Boolean(coverLetters[showing]?.text)
+
+    const currentLetter = coverLetters[showing]
+    const text = currentLetter?.text || coverLetter
+
+    console.log({text, coverLetter})
+    
+    // TODO: dynamic detection and replacement for handlebars
+    const letter = text
+      ?.replaceAll('{{TITLE}}', title)
+      ?.replaceAll('{{COMPANY}}', company.name || company)
+      // TODO: company logging not fully baked yet
+
+    if (editing) return (
+      <details name='tabs'>
+        <summary>
+          <h3>
+            Cover Letter
+          </h3>
+        </summary>
+        <form onSubmit={handleSubmit} onReset={cancelEdits}>
+          <textarea
+            defaultValue={letter}
+            required
+            name="coverLetter"
+            rows="20"
+            cols="45"
+          />
+          <menu>
+            <input type="submit" value="Save" />
+            <input type="reset" value="Cancel" />
+          </menu>
+        </form>
+        {/* TODO: add delete button for saved cover letter */}
+      </details>
+    )
+
+    let templateLabel = ''
+    if (isTemplate) {
+      const head = 'From Template'
+      
+      const { name: tail } = coverLetters[showing]
+      
+      templateLabel = `${head}${tail && `: ${tail}`}`
+    }
+
+    let letterLabel = templateLabel || 'Tailored'
+
+    const editLabel = isTemplate ? 'Customize' : 'Edit'
+
+    const previous = () => setShowing(showing - 1)
+    const next = () => setShowing(showing + 1)
+
+    return (
+      // TODO: text align left
+      // setup editing here
+      <details name='tabs'>
+        <summary>
+          <h3>
+            Cover Letter
+          </h3>
+        </summary>
+        <menu>
+          {isTemplate && (
+            <li>
+              <button onClick={startNewCoverLetter}>New</button>
+            </li>
+          )}
+          <li>
+            <button onClick={editCoverLetter}>{editLabel}</button>
+          </li>
+          {/* copy to clipboard */}
+        </menu>
+        <h4>{letterLabel}</h4>
+        <Markdown>
+          {letter}
+        </Markdown>
+        <menu>
+          {showing != 0 && (
+            <li><button onClick={previous}>Previous</button></li>
+          )}
+          {showing != coverLetters.length - 1 && (
+            <li><button onClick={next}>Next</button></li>
+          )}
+        </menu>
+      </details>
+    )
+  }
 
   return (
     <dialog
@@ -391,7 +576,9 @@ const JobDetail = ({
         <StatusMenu />
         { applyLink && <h4><a href={applyLink}>Apply</a></h4> }
         <RetrievalLinks />
+        <HiringContact />
         <Description />
+        <CoverLetter />
       </div>
     </dialog>
   )

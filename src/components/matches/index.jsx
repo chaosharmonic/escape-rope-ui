@@ -1,15 +1,16 @@
 import { useState, useEffect } from 'react'
 import Detail from '../swiper/Detail'
 import { baseURL } from '../../helpers/config'
+import { getSettings } from '../../api/settings'
 
 const Matches = () => {
   const defaultFilters = {
     status: ['liked', 'shortlisted'],
     jobType: 'jobBoard',
-
   }
 
   const [jobs, setJobs] = useState([])
+  const [campaign, setCampaign] = useState()
   // const [loading, setLoading] = useState(false)
   const [detail, setDetail] = useState(null)
   const [filterSelections, setFilterSelections] = useState(defaultFilters)
@@ -75,6 +76,28 @@ const Matches = () => {
   
   // const rewinding
 
+  // TODO: (for next draft)
+  // optimize the state handling
+  // this should ideally be in a context
+  //  or something
+  useEffect(() => {
+    async function getData(){
+      const data = await getSettings()
+
+      const { value: settings } = data
+
+      // TODO: (for multiple search support)
+      // figure out how best to define
+      //  which search is current
+      const value = settings?.campaigns?.at(0)
+
+      console.log({value})
+
+      setCampaign(value)
+    }
+    getData()
+  }, [])
+
   useEffect(() => {
     async function getData(){
       // if (jobs.length) return
@@ -90,8 +113,6 @@ const Matches = () => {
       const options = {
         method: 'POST',
         body: payload
-        // TODO: fix the cors handling
-        // mode: 'cors'
       }
       const data = await fetch(target, options).then(r => r.json()) || []
 
@@ -114,7 +135,6 @@ const Matches = () => {
     }
 
     console.log({payload})
-    
     // deal with the state handling logic here
   }
 
@@ -186,7 +206,7 @@ const Matches = () => {
       </div>
     </li>
   )})
-  
+
   const targetIndex = detail?.id && jobs.findIndex(({ id }) => id == detail.id)
 
   return (
@@ -199,6 +219,7 @@ const Matches = () => {
       </section>
       <Detail
         detail={detail}
+        campaign={campaign}
         // setJobs={setJobs}
         updateOuterElement={() => removeJob(targetIndex)}
         setDetail={setDetail}
