@@ -80,7 +80,7 @@ const Settings = () => {
             setEditing(true)
         }
 
-        cancelEdits = (e) => {
+        const cancelEdits = (e) => {
             e.preventDefault()
 
             setEditing(false)
