@@ -8,11 +8,11 @@ For now it's built on React and Vite, but that's just to get basic functionality
 
 ## Why? (Motivations)
 
-A lot of reasons. First of all, like I said in the other repo, I built this for me. It's also for the sake of a new demo project -- one that's a little more evergreen than [my last thing](https://github.com/chaosharmonic/step-step-recollection), with usability that isn't location-dependent, and with the added bonus that I can link back to it in all the jobs that my tooling finds me. And there are other, similar personal tasks I may want to handle like this.
+A lot of reasons. First of all, like I said in the other repo, I built this for me. It's also for the sake of a new demo project -- one that's a little more evergreen than [my last thing](https://github.com/chaosharmonic/step-step-recollection), with usability that isn't location-dependent, and with the added bonus that I can link back to it in all the jobs that my tooling finds me. Additionally, I'm slowly expanding out to other automation -- like templating out cover letters, tracking interview details, and more.
 
-It's also various experiments. Later under-the-hood ideas aside, this one is also styled and (save for some class manipulation using JavaScript) animated purely in vanilla CSS, and attempts to lean as much on what's offered by native HTML as possible. I'm still working on ripping out the styling bits that Vite auto-generated and attempting to give this a real consistent and thought-out design language, but that's secondary.
+It's also various experiments. Later under-the-hood ideas aside, this one is also styled and (save for some class manipulation using JavaScript) animated purely in vanilla CSS, and it attempts to lean as much on what's offered by native HTML as possible. Things like the use of `formData` and `defaultValue` over inputs controlled through state are something of a choice, and not *just* a fragment of my longer-term plan to try writing this in something other than client-side React. (That said, the effort to use varied HTML elements and lean on thieir variety as well as their baseline functionality is *also* an effort to break away from the heavy use of class-based CSS, library or otherwise.) I'm still working on ripping out the styling pieces that Vite auto-generated and attempting to give this a semblance of original, thought-out design language, but that's secondary to getting the important pieces working first.
 
-The "roadmap" is that I'm building out things in the order that I do need them myself. It's focused on local use, there's no auth, no real user-level settings to speak of, and because this is internally a "for now" design anyway I'm being pretty loose with the code structure. You'll most likely be able to tell where I've put work into this and where I haven't, and that's fine, because again the primary goal of this is to make my life easier.
+The "roadmap" is in large part in order of personal usefulness/importance. It's focused on local use, there's no auth, no real user-level settings to speak of, and because this is internally a "for now" design anyway I'm being pretty loose with the code structure. You'll most likely be able to tell where I've put work into this and where I haven't -- and that's fine, because again the primary goal of this is to make my life easier, and not to give me something else to pour persistent effort into.
 
 ## How? (Running this project)
 
@@ -22,7 +22,7 @@ The "roadmap" is that I'm building out things in the order that I do need them m
 
 - The backend linked at the top of this README
 - [Deno](https://deno.com/) 2.0 or above 
-  - (The backend may use newer versions, but this requirement is specific to Vite)
+  - (The backend may use newer versions, but this requirement is for Vite and is specific to this repo)
 
 ### Running
 
