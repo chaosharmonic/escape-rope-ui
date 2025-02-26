@@ -24,6 +24,20 @@ export const updateSettings = async (payload) => {
     return data
 }
 
+export const updateBasicDetails = async (payload) => {
+    const options = {
+        method: 'PUT',
+        body: payload
+    }
+
+    const endpoint = `${baseURL}/settings/campaign/basic_details`
+
+    const data = await fetch(endpoint, options)
+        .then(r => r.json())
+    
+    return data
+}
+
 export const updateCoverLetters = async (payload) => {
     const options = {
         method: 'PUT',
@@ -58,12 +72,20 @@ export const updateInterviewQuestions = async (payload) => {
 }
 
 export const updateBlocklist = async (payload) => {
+    const blocklist = payload.entries()
+        .map(([k, v]) => ({[k]: JSON.parse(v)}))
+        .reduce((a, b) => ({ ...a, ...b }))
+
+    const body = new FormData()
+
+    body.set('blocklist', JSON.stringify(blocklist))
+
+    console.log(body.get('blocklist'))
+
     const options = {
         method: 'PUT',
-        body: payload
+        body
     }
-
-    console.log(payload.get('blocklist'))
 
     const endpoint = `${baseURL}/settings/campaign/blocklist`
 
