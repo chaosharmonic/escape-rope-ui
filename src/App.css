@@ -107,28 +107,52 @@ section {
   display: inherit;
   flex-direction: column;
   /* TODO: change this background */
-  box-shadow: 2px 3px 7px black;
   /* width: clamp(300px, 50%, 600px); */
   align-content: space-between;
-  align-items: center;
   /* gap: 5vh; */
 }
 
 .settings {
-  background: linear-gradient(45deg, rgba(60,0,205,0.45), rgba(60,0,205,0.7)), black;
+  /* background: linear-gradient(45deg, rgba(60,0,205,0.45), rgba(60,0,205,0.7)), black; */
+
+  margin-top: 5vh;
   
-  & form {
-    display: inherit;
-    flex-direction: inherit;
-    gap: 1vh;
+  align-items: center;
+
+  & details {
+    min-width: 90%;
     
-    & label {
-      display: inherit;
-      flex-direction: inherit;
+    /* TODO: that border thing */
+    & summary {
+      list-style-position: outside;
+      place-self: center;
+      width: 80%;
+    }
+
+    & h3 {
+      margin: 0 auto;
+      width: fit-content;
+    }
+    & form {
+      display: flex;
+      flex-direction: column;
       gap: 1vh;
+      width: 75%;
+      justify-self: center;
+      
+      & label {
+        display: inherit;
+        flex-direction: inherit;
+        gap: 1vh;
+      }
     }
   }
+  & menu {
+    width: min(400px, 50%);
+    place-self: center;
+  }
 }
+
 /* TODO: decide later if I want to keep this structure here */
 .upload form  {
   margin: 0 auto;
@@ -140,8 +164,10 @@ section {
   background: linear-gradient(75deg, rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0.7)),
   rgb(75, 0, 150);
   border-radius: 5%;
+  box-shadow: 2px 3px 7px black;
+  align-items: center;
   
-
+  
   & div {
     display: inherit;
     flex-direction: inherit;
@@ -174,25 +200,6 @@ section {
   }
 }
 
-.settings {
-  margin-top: 5vh;
-
-  align-items: center;
-
-  & form {
-    display: inherit;
-    min-width: min(750px, 75%);
-  }
-
-  & menu {
-    min-width: 400px;
-  }
-
-  & form {
-    flex-direction: column;
-  }
-}
-
 /* TODO: this query can maybe make more sense... */
 /* refactor this all later */
 details {
@@ -210,7 +217,7 @@ details {
     }
   }
 
-  &:not(.moreButtons){
+  &:not(.moreButtons) {
     background: linear-gradient(45deg, rgba(60,0,205,0.45), rgba(60,0,205,0.7)), black;
     border-bottom: 2px solid black;
     
@@ -288,6 +295,7 @@ details {
       }
     }
   
+    /* FIXME: this has different list styles everywhere */
     & > summary {
       padding: 2vh 0;
       list-style-position: initial;
@@ -302,56 +310,53 @@ details {
        /* linear-gradient(60deg, rgba(60,0,205,0.75), rgba(60,0,205,0.45)); */
       box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.35), -2px -3px 10px rgba(0, 0, 0, 0.3);
       
-      display: flex;
-      /* flex-direction: column; */
+      display: inherit;
+      flex-direction: column;
       justify-content: space-evenly;
       /* gap: 2vw; */
-      &:first-of-type {
-        flex-direction: column;
-        gap: 1vh;
+      gap: 1vh;
         & > label {
-          margin: 0 auto;
+          /* margin: 0 auto; */
           &:has(input[type="number"]){
             margin: 1vh 25%;
             justify-content: space-between;
           }
         }
       }
-      & label {
-        margin: 0;
-        display: flex;
-        gap: 1vw;
-      }
-      & input {
-        margin: 0;
-        place-self: center;
-      }
-      & p {
-        margin: 2px auto;
-      }
-      & > div {
-        display: flex;
-        gap: 2vw;
-        justify-content: space-evenly;
-      }
-    }
-  
-    /* TODO: remove when switching back to the form */
-    & div:not(fieldset > *):not(dialog *) {
-      padding-top: 2vh;
+    & label {
+      margin: 0;
       display: flex;
-      flex-direction: column;
-      margin: 0 auto;
-      gap: 2vh;
-      max-width: 600px;
+      gap: 1vw;
     }
-    /* TODO: fix this transition?
-    &[open] {
-      min-height: 200px;
-      transition: height 0.6s linear;
+    & input {
+      margin: 0;
+      place-self: center;
     }
-    */
+    & p {
+      margin: 2px auto;
+    }
+    & > div {
+      display: flex;
+      gap: 2vw;
+      justify-content: space-evenly;
+    }
   }
+  
+  /* TODO: remove when switching back to the form */
+  & div:not(fieldset > *):not(dialog *) {
+    padding-top: 2vh;
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto;
+    gap: 2vh;
+    max-width: 600px;
+  }
+  /* TODO: fix this transition?
+  &[open] {
+    min-height: 200px;
+    transition: height 0.6s linear;
+  }
+  */
 }
 
 /* .sources {
