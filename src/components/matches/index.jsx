@@ -24,6 +24,10 @@ const Matches = () => {
     status: ['shortlisted']
   })
 
+  const setStashed = () => setFilters({
+    status: ['stashed']
+  })
+
   const setApplied = () => setFilters({
     status: ['applied']
   })
@@ -149,6 +153,7 @@ const Matches = () => {
       <div>
         <button onClick={resetFilters}>Swiped right (Reset)</button>
         <button onClick={setShortlist}>Shortlisted only</button>
+        <button onClick={setStashed}>Stashed</button>
         <button onClick={setApplied}>Applied</button>
         <button onClick={setInterview}>Interviewing</button>
       </div>
