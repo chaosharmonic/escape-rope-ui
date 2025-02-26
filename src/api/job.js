@@ -1,5 +1,7 @@
 import { baseURL } from "../helpers/config"
 
+const basePath = `${baseURL}/jobs`
+
 // WIP
 
 // export const getJobs = async () => {
@@ -20,7 +22,7 @@ export const saveCoverLetter = async (payload, jobId) => {
         body: payload,
     }
 
-    const endpoint = `${baseURL}/jobs/${jobId}/cover_letter`
+    const endpoint = `${basePath}/${jobId}/cover_letter`
 
     const data = await fetch(endpoint, options)
         .then(r => r.json())
@@ -29,18 +31,16 @@ export const saveCoverLetter = async (payload, jobId) => {
 }
 
 // setInterviews
-// export const updateInterviewQuestions = async (payload) => {
-//     const options = {
-//         method: 'PUT',
-//         body: payload
-//     }
+export const updateInterview = async (payload, jobId, round) => {
+    const options = {
+        method: 'PUT',
+        body: JSON.stringify(payload)
+    }
 
-//     console.log(payload.get('defaultInterviewQuestions'))
+    const endpoint = `${basePath}/${jobId}/interviews/${round}`
 
-//     const endpoint = `${baseURL}/job/${jobId}/interviews/${}`
-
-//     const data = await fetch(endpoint, options)
-//         .then(r => r.json())
+    const data = await fetch(endpoint, options)
+        .then(r => r.json())
     
-//     return data
-// }
+    return data
+}
