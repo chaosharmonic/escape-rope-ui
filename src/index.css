@@ -46,6 +46,7 @@ h1 {
 button,
 input[type="submit"],
 input[type="reset"],
+input[type="button"],
 input::file-selector-button {
   border-radius: 8px;
   border: 2px solid rgb(100, 108, 255);
@@ -59,7 +60,11 @@ input::file-selector-button {
   transition: border-color 0.35s, color 0.35s;
 }
 
-button, input[type="submit"], input[type="reset"] {
+button,
+input[type="submit"],
+input[type="reset"],
+input[type="button"]
+{
   &:hover {
     border-color: rgb(120, 65, 255);
     color: rgb(120, 65, 255);
