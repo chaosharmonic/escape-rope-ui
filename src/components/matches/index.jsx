@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import Detail from '../swiper/Detail'
 import { baseURL } from '../../helpers/config'
 import { getSettings } from '../../api/settings'
+import { FiltersMenu } from './filters'
 
 const Matches = () => {
   const defaultFilters = {
@@ -18,50 +19,6 @@ const Matches = () => {
   const [exiting, setExiting] = useState(null) // rename this
 
   const resetFilters = () => setFilters(defaultFilters)
-
-  // TODO: remove these later and actually use the forms
-  const setShortlist = () => setFilters({
-    status: ['shortlisted']
-  })
-
-  const setStashed = () => setFilters({
-    status: ['stashed']
-  })
-
-  const setApplied = () => setFilters({
-    status: ['applied']
-  })
-
-  const setInterview = () => setFilters({
-    status: ['interview']
-  })
-
-  // existing filter state? 
-  // TODO: I'm pretty sure this is wrong
-  const updateFilterSelections = (details) => {
-    setFilterSelections({ ...filterSelections, ...details })
-  }
-
-  const confirmFilters = () => {
-    const storedFilters = { ...filters }
-    
-    setFilters({ ...filterSelections })
-
-    // fetch with filterSelections
-    // setData
-
-    // catch {
-      // flash error
-      // setFilters(storedFilters)
-      // setFilterSelections(storedFilters)
-    // }
-  }
-
-  const handleChange = (e) => {
-    // get target values... is this the same on multi-selects?
-    // updateFilterSelections(selections)
-    // updateFilters(details)
-  }
 
   const removeJob = (index) => {
     console.log('removing!')
@@ -110,8 +67,9 @@ const Matches = () => {
       // filter as body, or query string?
       // search
 
+      // TODO: FIXME: move this to /api while I'm doing this
       const payload = new FormData()
-      payload.set('filters', JSON.stringify({...filters}))
+      payload.set('filters', JSON.stringify({ ...filters }))
 
       const target = `${baseURL}/jobs/search`
       const options = {
@@ -126,46 +84,12 @@ const Matches = () => {
     getData()
   }, [filters])
 
-  const handleSubmit = (e) => {
-    e.preventDefault()
-
-    const form = document.querySelector('form#options')
-    const data = new FormData(form)
-    
-    const payload = {}
-    for (let k of data.keys()) {
-      const value = k == 'status' ? data.getAll(k) : data.get(k)
-      payload[k] = value == 'on' ? Boolean(value) : value
-    }
-
-    console.log({payload})
-    // deal with the state handling logic here
-  }
-
-
-  const Menu = () => (
-    <details>
-      <summary>Options</summary>
-      {/* TODO:
-        these are all stubs for now
-        this all *could* also be a modal...
-      */}
-      <div>
-        <button onClick={resetFilters}>Swiped right (Reset)</button>
-        <button onClick={setShortlist}>Shortlisted only</button>
-        <button onClick={setStashed}>Stashed</button>
-        <button onClick={setApplied}>Applied</button>
-        <button onClick={setInterview}>Interviewing</button>
-      </div>
-    </details>
-  )
-
   // TODO: handle a basic loading state for this
   // maybe just a shapeshifting CSS bubble of some kind?
   // a *slime* if you will...
   if (!jobs.length) return (
     <section className='matches'>
-      <Menu />
+      <FiltersMenu />
       No Matches
     </section>
   )
@@ -217,7 +141,10 @@ const Matches = () => {
   return (
     <>
       <section className='matches'>
-        <Menu />
+        <FiltersMenu
+          setFilters={setFilters}
+          resetFilters={resetFilters}
+        />
         <ul>
           {entries}
         </ul>
