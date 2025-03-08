@@ -2,14 +2,22 @@ import { baseURL } from "../helpers/config"
 
 const basePath = `${baseURL}/jobs`
 
+export const searchJobs = async (filters) => {
+  const payload = new FormData()
+  payload.set('filters', JSON.stringify({ ...filters }))
+
+
+  const target = `${baseURL}/jobs/search`
+  const options = {
+    method: 'POST',
+    body: payload
+  }
+  const data = await fetch(target, options).then(r => r.json()) || []
+
+  return data
+}
+
 // WIP
-
-// export const getJobs = async () => {
-//     // const endpoint = `${baseURL}/settings/`
-//     const data = await fetch(endpoint).then(r => r.json()) || []
-
-//     return data
-// }
 
 // export const uploadJobs = async () => {
 

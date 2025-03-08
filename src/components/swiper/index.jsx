@@ -2,8 +2,14 @@ import { useState, useEffect } from 'react'
 import JobCard from './JobCard'
 import Detail from './Detail'
 import { baseURL } from '../../helpers/config'
+import { FiltersMenu } from '../matches/filters'
+import { searchJobs } from '../../api/job'
 
-const Swiper = ({ secondLook = false }) => {
+const Swiper = () => {
+  const defaultFilters = {
+    status: ['queued']
+  }
+  
   const [jobs, setJobs] = useState([])
   const [jobsIndex, setJobsIndex] = useState(0)
   const [lastSwiped, setLastSwiped] = useState(null)
@@ -11,32 +17,24 @@ const Swiper = ({ secondLook = false }) => {
   const [transitionClasses, setTransitionClasses] = useState('')
   const [loading, setLoading] = useState(false)
   const [detail, setDetail] = useState(null)
-  // TODO: filters...
+  const [filters, setFilters] = useState(defaultFilters)
+
+  const resetFilters = () => setFilters(defaultFilters)
 
   // const rewinding
   
-  const route = secondLook ? 'second_look' : 'batch'
+  // const route = secondLook ? 'second_look' : 'batch'
 
   useEffect(() => {
     async function getData(){
       setLoading(true)
       // if (jobs.length) return
 
-      // TODO: 
-      // also cover second look entries
-      //  delete/'delete' on second left
-      const target = `${baseURL}/jobs/${route}`
-      // TODO: fix the cors handling
-      // const fetchOptions = {
-      //   mode: 'cors',
-      //   headers: {
-      //     'Content-Type': 'application/json'
-      //   }
-      // }
+      // TODO: maybe throw these try blocks into `/api`
       try {
-        const data = await fetch(target).then(r => r.json()) || []
+        const data = await searchJobs(filters) || []
   
-        setJobs(secondLook ? data.reverse() : data)
+        setJobs(filters.status == 'ignored' ? data.reverse() : data)
         if (data.length) setJobsIndex(0)
       } catch ({message}) {
         console.error(message)
@@ -45,7 +43,7 @@ const Swiper = ({ secondLook = false }) => {
       }
     }
     getData()
-  }, [secondLook])
+  }, [ filters ])
   // TODO: rename this prop
   //  enable swiping at multiple stages
   //  swiped-right: unmatched, shortlist
@@ -76,11 +74,18 @@ const Swiper = ({ secondLook = false }) => {
 
   if (!jobs.length || loading) return (
     <section className='cards'>
+      <FiltersMenu
+        view='queue'
+        setFilters={setFilters}
+        resetFilters={resetFilters}
+      />
       <div className='card empty'>
           {loading ? <progress /> : <h4>batch is empty</h4>}
       </div>
     </section>
   )
+  
+  const { status } = filters
   
   const targetJob = jobs[jobsIndex]
   const nextJob = jobs[jobsIndex + 1]
@@ -116,6 +121,11 @@ const Swiper = ({ secondLook = false }) => {
     // setLoading(true)
 
     const route = () => {
+      const isRightSwiped = ['shortlisted', 'liked'].includes(status)
+      
+      if (isRightSwiped && direction == 'left') return 'applied'
+      if (isRightSwiped && direction == 'right') return 'unmatched'
+
       if (direction == 'left') return 'ignore'
       if (direction == 'right') return 'like'
       // if (direction == 'up') return ''
@@ -188,6 +198,11 @@ const Swiper = ({ secondLook = false }) => {
 
   return (
     <section className='cards'>
+      <FiltersMenu
+        view='queue'
+        setFilters={setFilters}
+        resetFilters={resetFilters}
+      />
       <JobCard 
         job={value}
         // loading={loading}

@@ -116,7 +116,9 @@ section {
 
   &.cards {
     overflow: hidden;
-    display: grid;
+    display: flex;
+    flex-direction: column;
+    gap: 2vh;
     place-items: center;
   }
 
@@ -314,6 +316,9 @@ li, .coverLetter {
 }
 
 .card {
+  container-type: inline-size;
+  container-name: card;
+
   /*
   &:nth-of-type(2){
     transform: translateY(25px);

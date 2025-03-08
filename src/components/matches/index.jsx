@@ -3,6 +3,7 @@ import Detail from '../swiper/Detail'
 import { baseURL } from '../../helpers/config'
 import { getSettings } from '../../api/settings'
 import { FiltersMenu } from './filters'
+import { searchJobs } from '../../api/job'
 
 const Matches = () => {
   const defaultFilters = {
@@ -67,16 +68,7 @@ const Matches = () => {
       // filter as body, or query string?
       // search
 
-      // TODO: FIXME: move this to /api while I'm doing this
-      const payload = new FormData()
-      payload.set('filters', JSON.stringify({ ...filters }))
-
-      const target = `${baseURL}/jobs/search`
-      const options = {
-        method: 'POST',
-        body: payload
-      }
-      const data = await fetch(target, options).then(r => r.json()) || []
+      const data = await searchJobs(filters)
 
       setJobs(data)
       // TODO: catch block

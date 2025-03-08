@@ -4,34 +4,27 @@ export const FiltersMenu = ({
     setFilters,
     resetFilters
 }) => {
-  const setIgnored = () => setFilters({
-    status: ['ignored']
-  })
-    
-  
-  const setQueued = () => setFilters({
-    status: ['queued']
-  })
+  const updateStatus = (status) => {
+    // TODO: actually close detail pane from here
+    // TODO: also take arrays
+    setFilters({ status: [status] })
+  }
 
-  const setLiked = () => setFilters({
-    status: ['liked']
-  })
+  const setIgnored = () => updateStatus('ignored')
 
-  const setShortlist = () => setFilters({
-    status: ['shortlisted']
-  })
+  const setQueued = () => updateStatus('queued')
 
-  const setStashed = () => setFilters({
-    status: ['stashed']
-  })
+  const setLiked = () => {
+    setFilters({ status: ['liked', 'shortlisted'] })
+  }
 
-  const setApplied = () => setFilters({
-    status: ['applied']
-  })
+  const setShortlist = () => updateStatus('shortlisted')
 
-  const setInterview = () => setFilters({
-    status: ['interview']
-  })
+  const setStashed = () => updateStatus('stashed')
+
+  const setApplied = () => updateStatus('applied')
+
+  const setInterview = () => updateStatus('interview')
 
   const queuedListShortcut = view == 'queue'
   ? <button onClick={resetFilters}>Queue (Reset)</button>
@@ -42,8 +35,8 @@ export const FiltersMenu = ({
   ? <button onClick={resetFilters}>Swiped right (Reset)</button>
   : <button onClick={setLiked}>Swiped right</button>
 
-const Shortcuts = () => (
-  <div>
+  const Shortcuts = () => (
+    <div>
       {queuedListShortcut}
       <button onClick={setIgnored}>Second Look</button>
       {swipedRightListShortcut}
@@ -53,8 +46,8 @@ const Shortcuts = () => (
         <button onClick={setApplied}>Applied</button>
         <button onClick={setInterview}>Interviewing</button>
       </>}
-  </div>
-)
+    </div>
+  )
 
 {/*
 const handleSubmit = (e) => {

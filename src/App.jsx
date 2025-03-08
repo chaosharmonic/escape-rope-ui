@@ -17,7 +17,6 @@ const Skeleton = () => (
   <main>
     <Routes>
       <Route path="/" element={<Swiper/>}/>
-      <Route path="/second_look" element={<Swiper secondLook />}/>
       <Route path="/matches" element={<Matches />}/>
       <Route path="/upload" element={<Upload />}/>
       <Route path="/settings" element={<Settings />}/>
@@ -28,7 +27,6 @@ const Skeleton = () => (
         <button>Menu</button>
         <Link to={'/'}>Batch</Link>
         <Link to={'/matches'}>Matches</Link>
-        <Link to={'/second_look'}>Second Look</Link>
         <Link to={'/upload'}>Upload</Link>
         <Link to={'/settings'}>Settings</Link>
       {/* </details> */}
