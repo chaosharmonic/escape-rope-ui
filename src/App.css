@@ -147,9 +147,36 @@ section {
 .settings {
   align-items: center;
   
+  & ul {
+    padding: 0 1vw;
+    padding-inline-start: 0;
+  }
+  
+  & fieldset:not(:has(h3)) ul {
+    padding-inline-start: 20px;
+    & li { margin-bottom: 1vh; }
+  }
+  
+  & fieldset:has(h3) ul {
+    display: flex;
+    gap: 0.75vw;
+    margin-bottom: 0.5vh;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  
+  & li {
+    width: fit-content;
+    list-style-type: none;
+  }
+
   & details {    
     &:first-of-type {
       margin-top: 10vh;
+    }
+
+    & menu:last-child {
+      margin-bottom: 0;
     }
     
     & form {
@@ -162,15 +189,24 @@ section {
       & label {
         display: inherit;
         flex-direction: inherit;
-        gap: 1vh;
+        gap: 0.5vh;
+
+        & p:first-of-type {
+          margin-top: 1vh;
+        }
+
+        & p:not(:first-of-type){
+            font-size: 0.9rem;
+          }
+        }
       }
+
+    }
+    & menu {
+      width: clamp(200px, 50%, 400px);
+      place-self: center;
     }
   }
-  & menu {
-    width: clamp(200px, 50%, 400px);
-    place-self: center;
-  }
-}
 
 /* TODO: decide later if I want to keep this structure here */
 .upload form {

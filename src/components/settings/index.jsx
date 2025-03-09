@@ -180,21 +180,27 @@ const Settings = () => {
             : `$${salary.min}/yr and up`
         }
         
-        return <>
-        <h3>Roles</h3>
-        <p>{roles.join('; ')}</p>
-        <h3>Skills</h3>
-        <p>{skills.join('; ')}</p>
-        {payLabel && (
+        return (
             <>
-            <h3>Pay</h3>
-            <p>{payLabel}</p>
+                <fieldset>
+                    <h3>Roles</h3>
+                    <p>{roles.join('; ')}</p>
+                    <h3>Skills</h3>
+                    <p>{skills.join('; ')}</p>
+                    {payLabel && (
+                        <>
+                        <h3>Pay</h3>
+                        <p>{payLabel}</p>
+                        </>
+                    )}
+                </fieldset>
+                <menu>
+                    <button onClick={editBasicDetails}>
+                        Edit
+                    </button>
+                </menu>
             </>
-        )}
-        <button onClick={editBasicDetails}>
-            Edit
-        </button>
-        </>
+        )
     }
 
     const CoverLetters = () => {
@@ -302,7 +308,12 @@ const Settings = () => {
                     />
                 </label>
                 <label labelfor="text">
-                    <span>Text</span>
+                    <p>Content</p>
+                    <p>
+                        Write using <a href='https://markdownguide.org/'>Markdown</a>
+                    </p>
+                    <p>To add template fields (title, company, etc):</p>
+                    <p>{`{{TEMPLATE_NAME}}`}</p>
                     <textarea
                         defaultValue={text}
                         required
@@ -324,23 +335,27 @@ const Settings = () => {
             </>
         )
 
-        // add
         return (
             <>
+                <fieldset>
+                    {name && <h3>{name}</h3>}
+                    <Markdown>{coverLetters.at(showing)?.text}</Markdown>
+                </fieldset>
                 <menu>
                     <li><button onClick={editCoverLetter}>Edit</button></li>
                     <li><button onClick={startNewCoverLetter}>Add</button></li>
                 </menu>
-                {name && <h3>name</h3>}
-                <Markdown>{coverLetters.at(showing)?.text}</Markdown>
-                <menu>
-                    {showing != 0 && (
-                        <li><button onClick={previous}>Previous</button></li>
-                    )}
-                    {showing != coverLetters.length - 1 && (
-                        <li><button onClick={next}>Next</button></li>
-                    )}
-                </menu>
+                
+                { coverLetters.length > 1 && (
+                    <menu>
+                        {showing != 0 && (
+                            <li><button onClick={previous}>Previous</button></li>
+                        )}
+                        {showing != coverLetters.length - 1 && (
+                            <li><button onClick={next}>Next</button></li>
+                        )}
+                    </menu>
+                )}
                 {/* 
                 <menu>
                     <li>
@@ -365,8 +380,6 @@ const Settings = () => {
             defaultInterviewQuestions,
             setDefaultInterviewQuestions
         ] = useState(initialDefaultInterviewQuestions)
-
-        const questions = defaultInterviewQuestions.join('\n\n')
 
         const editInterviewQuestions = () => setEditing(true)
 
@@ -400,7 +413,10 @@ const Settings = () => {
             </button>
         )
 
-        if (editing) return (
+        if (editing) {
+            
+            const questions = defaultInterviewQuestions.join('\n\n')
+            return (
             <>
             <form onSubmit={saveInterviewQuestions} onReset={cancelEdits}>
                 <fieldset>
@@ -424,13 +440,21 @@ const Settings = () => {
                 <li><button onClick={deleteCoverLetter}>Delete</button></li>
             </menu> */}
             </>
-        )
+        )}
+
+        const questions = defaultInterviewQuestions
+            .map(q => `- ${q}`)
+            .join('\n')
         
         return <>
-        <Markdown>{questions}</Markdown>
-        <button onClick={editInterviewQuestions}>
-            Edit
-        </button>
+            <fieldset>
+                <Markdown>{questions}</Markdown>
+            </fieldset>
+            <menu>
+                <button onClick={editInterviewQuestions}>
+                    Edit
+                </button>
+            </menu>
         </>
     }
 
@@ -443,6 +467,8 @@ const Blocklist = () => {
     const [blocklist, setBlocklist] = useState(initialBlocklist)
 
     const editBlocklist = () => setEditing(true)
+
+    const cancelEdits = () => setEditing(false)
 
     const saveBlocklist = async (e) => {
         e.preventDefault()
@@ -499,11 +525,14 @@ const Blocklist = () => {
 
         return (
         <>
-        <form onSubmit={saveBlocklist}>
+        <form onSubmit={saveBlocklist} onReset={cancelEdits}>
             <fieldset>
                 {fields}
             </fieldset>
-            <input type="submit" value="Save" />
+            <menu>
+                <input type="submit" value="Save" />
+                <input type="reset" value="Cancel" />
+            </menu>
         </form>
         {/* <menu>
             <li><button onClick={clearBlocklist}>Clear</button></li>
@@ -513,17 +542,17 @@ const Blocklist = () => {
     
     const lists = Object.entries(blocklist)?.map(([ k, v ]) => {
         console.log({v})
-        const items = v.join('; ')
-        //.map(e => `- ${e}`)
-        // .join('\n')
+        const items = v//.join('; ')
+        .map(e => `- ${e}`)
+        .join('\n')
 
         return (
-            <>
-                <h4>{k}</h4>
+            <fieldset>
+                <h3>{k}</h3>
                 <Markdown>
                     {items}
                 </Markdown>
-            </>
+            </fieldset>
         )
         // return (
         // <>
@@ -536,9 +565,11 @@ const Blocklist = () => {
     
     return <>
     {lists}
-    <button onClick={editBlocklist}>
-        Edit
-    </button>
+    <menu>
+        <button onClick={editBlocklist}>
+            Edit
+        </button>
+    </menu>
     </>
 }
 
@@ -550,15 +581,15 @@ const Blocklist = () => {
                 <details open name='tabs'>
                     <summary>
                         <h3>
-                        Basic Details:
+                        Search Details:
                         </h3>
                     </summary>
-                <BasicDetails />
+                    <BasicDetails />
                 </details>
                 <details name='tabs'>
                     <summary>
                         <h3>
-                        Cover letters:
+                            Default Cover Letters:
                         </h3>
                     </summary>
                     <CoverLetters />
@@ -566,18 +597,16 @@ const Blocklist = () => {
                 <details name='tabs'>
                     <summary>
                         <h3>
-                        Blocklist:
-                        </h3>
-                    </summary>
-                    <Blocklist />
-                </details>
-                <details name='tabs'>
-                    <summary>
-                        <h3>
-                        Default Interview Questions:
+                            Default Interview Questions:
                         </h3>
                     </summary>
                     <InterviewQuestions />
+                </details>
+                <details name='tabs'>
+                    <summary>
+                        <h3>Blocklist:</h3>
+                    </summary>
+                    <Blocklist />
                 </details>
             {/* </div> */}
         </section>
