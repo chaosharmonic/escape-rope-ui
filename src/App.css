@@ -123,7 +123,6 @@ section {
   }
 
   &.matches, &.settings {
-    margin-top: 2.5vh;
     overflow-y: auto;
   }
   
@@ -146,11 +145,13 @@ section {
 }
 
 .settings {
-  margin-top: 5vh;
-  
   align-items: center;
-
+  
   & details {    
+    &:first-of-type {
+      margin-top: 10vh;
+    }
+    
     & form {
       display: flex;
       flex-direction: column;
