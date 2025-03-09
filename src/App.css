@@ -82,6 +82,10 @@ section {
 
   transition: all 0.5s;
 
+  &:not(.settings) > details[open] {
+    margin-bottom: 20vh;
+  }
+
   & > details {
     background: linear-gradient(45deg, rgba(60,0,205,0.45), rgba(60,0,205,0.7)), black;
     border-bottom: 2px solid black;
