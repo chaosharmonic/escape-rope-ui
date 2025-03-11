@@ -1,5 +1,7 @@
 export const FiltersMenu = ({
     // initValues
+    filters = {},
+    total = 0,
     view = 'matches',
     setFilters,
     resetFilters
@@ -177,11 +179,39 @@ const handleSubmit = (e) => {
   )
 */}
 
+  const getFilterLabel = () => {
+    const {
+      status: lifecycleStages = [ 'liked', 'shortlisted' ]
+    } = filters
+
+    console.log({lifecycleStages})
+
+    // TODO: this whole thing will have to change later
+    //  whenever I get to finishing detailed filters
+    if (lifecycleStages?.length == 1) {
+      const status = lifecycleStages.at(0)
+
+      if (status == 'ignored') return 'Second Look'
+      if (status == 'interview') return 'Interviewing'
+
+      const cap = status.at(0).toUpperCase()
+      const lower = status.slice(1)
+      return `${cap}${lower}`
+    }
+
+    return 'Swiped Right'
+  }
+
   return (
     <details>
-      {/* TODO: total found/left here */}
-      <summary>Options</summary>
+      <summary>
+        <h3>Options</h3>
+      </summary>
       <Shortcuts />
+      <div>
+        <span>Viewing: {getFilterLabel()}</span>
+        {total ? <span>{total} entries</span> : ''}
+      </div>
     </details>
   )
 }

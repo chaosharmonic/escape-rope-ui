@@ -31,9 +31,9 @@ const JobCard = ({
       }
     </div>
     <div className='buttons'>
-      <button disabled={loading} onClick={swipeLeft}>Not</button>
+      <button disabled={loading} onClick={swipeLeft}>Nah!</button>
       <button disabled={loading} onClick={skip}>Skip</button>
-      <button disabled={loading} onClick={swipeRight}>Hot</button>
+      <button disabled={loading} onClick={swipeRight}>Yeah!</button>
       {/* <button onClick={swipeUp}>Hot</button> */}
       {/* <button onClick={swipeDown}>Hot</button> */}
       {/* <button onClick={skip}>next</button> */}

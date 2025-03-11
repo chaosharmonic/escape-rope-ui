@@ -13,7 +13,7 @@ const Matches = () => {
 
   const [jobs, setJobs] = useState([])
   const [campaign, setCampaign] = useState()
-  // const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false)
   const [detail, setDetail] = useState(null)
   const [filterSelections, setFilterSelections] = useState(defaultFilters)
   const [filters, setFilters] = useState(defaultFilters)
@@ -62,6 +62,7 @@ const Matches = () => {
 
   useEffect(() => {
     async function getData(){
+      setLoading(true)
       // if (jobs.length) return
 
       // get filter states:
@@ -71,6 +72,8 @@ const Matches = () => {
       const data = await searchJobs(filters)
 
       setJobs(data)
+
+      setLoading(false)
       // TODO: catch block
     }
     getData()
@@ -79,10 +82,15 @@ const Matches = () => {
   // TODO: handle a basic loading state for this
   // maybe just a shapeshifting CSS bubble of some kind?
   // a *slime* if you will...
-  if (!jobs.length) return (
+  if (!jobs.length || loading) return (
     <section className='matches'>
-      <FiltersMenu />
-      No Matches
+      <FiltersMenu
+        setFilters={setFilters}
+        resetFilters={resetFilters}
+      />
+      <ul className='empty'>
+        <li>{loading ? <progress /> : <h4>No Matches</h4>}</li>
+      </ul>
     </section>
   )
   console.log(jobs.map(({value: v}) => v))
@@ -134,6 +142,7 @@ const Matches = () => {
     <>
       <section className='matches'>
         <FiltersMenu
+          total={jobs?.length || 0}
           setFilters={setFilters}
           resetFilters={resetFilters}
         />

@@ -113,8 +113,13 @@ section {
       display: flex;
       flex-direction: column;
       margin: 0 auto;
+      margin-bottom: min(5vh, 15px);
       gap: 2vh;
       max-width: 600px;
+    }
+
+    & > div:last-of-type {
+      font-weight: bold;
     }
   }
 
@@ -360,6 +365,10 @@ li, .coverLetter {
   container-type: inline-size;
   container-name: card;
 
+  & p {
+    font-size: 0.9em;
+  }
+
   /*
   &:nth-of-type(2){
     transform: translateY(25px);
@@ -537,6 +546,11 @@ dialog {
   margin-block-start: 0;
   padding-inline-start: 0;
 
+  &.empty li {
+    place-items: center;
+    place-content: center;
+  }
+
   & li {
     list-style: none;
     min-height: 10vh;
@@ -708,6 +722,10 @@ nav button {
         }
       }
     }
+  }
+
+  .card p {
+    display: none;
   }
 }
 

@@ -76,6 +76,7 @@ const Swiper = () => {
     <section className='cards'>
       <FiltersMenu
         view='queue'
+        filters={filters}
         setFilters={setFilters}
         resetFilters={resetFilters}
       />
@@ -200,6 +201,8 @@ const Swiper = () => {
     <section className='cards'>
       <FiltersMenu
         view='queue'
+        total={jobs?.length || 0}
+        filters={filters}
         setFilters={setFilters}
         resetFilters={resetFilters}
       />
