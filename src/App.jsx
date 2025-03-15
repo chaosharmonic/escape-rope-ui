@@ -22,14 +22,14 @@ const Skeleton = () => (
       <Route path="/settings" element={<Settings />}/>
     </Routes>
     <nav>
-      {/* <details> */}
-        {/* TODO: icon */}
-        <button>Menu</button>
-        <Link to={'/'}>Batch</Link>
-        <Link to={'/matches'}>Matches</Link>
-        <Link to={'/upload'}>Upload</Link>
-        <Link to={'/settings'}>Settings</Link>
-      {/* </details> */}
+      {/* TODO: icon */}
+      <label>
+        <input type="button" value="Menu" />
+      </label>
+      <Link to={'/'}>Batch</Link>
+      <Link to={'/matches'}>Matches</Link>
+      <Link to={'/upload'}>Upload</Link>
+      <Link to={'/settings'}>Settings</Link>
     </nav>
   </main>
 )

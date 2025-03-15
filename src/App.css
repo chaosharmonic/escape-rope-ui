@@ -76,14 +76,14 @@ nav {
 section {
   /* max-width: inherit; */
   width: max(95vw, 300px);
-  height: max(85vh, 300px);
+  height: max(85dvh, 300px);
   place-self: center;
   padding: 0 2vw;
 
   transition: all 0.5s;
 
   &:not(.settings) > details[open] {
-    margin-bottom: 20vh;
+    margin-bottom: 20dvh;
   }
 
   & > details {
@@ -109,12 +109,12 @@ section {
 
     /* TODO: clean this up further */
     & > div:first-of-type {
-      padding-top: 2vh;
+      padding-top: 2dvh;
       display: flex;
       flex-direction: column;
       margin: 0 auto;
-      margin-bottom: min(5vh, 15px);
-      gap: 2vh;
+      margin-bottom: min(5dvh, 15px);
+      gap: 2dvh;
       max-width: 600px;
     }
 
@@ -127,7 +127,7 @@ section {
     overflow: hidden;
     display: flex;
     flex-direction: column;
-    gap: 2vh;
+    gap: 2dvh;
     place-items: center;
   }
 
@@ -225,7 +225,7 @@ section {
   margin: 0 auto;
   padding: 10%;
   font-size: 1rem;
-  gap: 10vh;
+  gap: 10dvh;
   /* background:linear-gradient(75deg, rgba(75, 0, 150, 0.35), rgba(75, 0, 150, 0.7)),
   black; */
   background: linear-gradient(75deg, rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0.7)),
@@ -239,10 +239,10 @@ section {
     display: inherit;
     flex-direction: inherit;
     width: 100%;
-    gap: 3.5vh;
+    gap: 3.5dvh;
     align-items: center;
     &:last-of-type {
-      height: 10vh;
+      height: 10dvh;
       flex-direction: column-reverse;
     }
   }
@@ -269,7 +269,7 @@ section {
 details {
   place-self: center;
   width: 90%;
-  margin-bottom: 1vh;
+  margin-bottom: 1dvh;
   border-radius: 10px;
 
   & summary {
@@ -285,7 +285,7 @@ details {
   
   &[name="tabs"], &:is(section > *) {
     &[open] {
-      padding: 2vh 3vw;
+      padding: 2dvh 3vw;
       
       & > summary {
         /* TODO: list style something something */
@@ -294,13 +294,13 @@ details {
     }
   
     & > summary {
-      padding: 2vh 0;
+      padding: 2dvh 0;
     }
   
     & fieldset {
       width: clamp(250px, 85%, 800px);
-      margin: 2vh auto;
-      padding: 2vh 1.5vw;
+      margin: 2dvh auto;
+      padding: 2dvh 1.5vw;
       border-radius: 5px;
       border: 2px solid rgb(80,0,225);
        /* linear-gradient(60deg, rgba(60,0,205,0.75), rgba(60,0,205,0.45)); */
@@ -310,12 +310,12 @@ details {
       flex-direction: column;
       justify-content: space-evenly;
       /* gap: 2vw; */
-      gap: 1vh;
+      gap: 1dvh;
       
       & > label {
         /* margin: 0 auto; */
         &:has(input[type="number"]){
-          margin: 1vh 25%;
+          margin: 1dvh 25%;
           justify-content: space-between;
         }
       }
@@ -362,8 +362,8 @@ li, .coverLetter {
 }
 
 .card {
-  container-type: inline-size;
-  container-name: card;
+  /* container-type: inline-size;
+  container-name: card; */
 
   & p {
     font-size: 0.9em;
@@ -426,7 +426,7 @@ div.buttons, menu {
 
   &:is(dialog *) {
     max-width: 75%;
-    margin: 1vh auto;
+    margin: 1dvh auto;
     flex-wrap: wrap;
 
     & button {
@@ -440,7 +440,7 @@ dialog {
   border: 3px solid rgb(100, 108, 255);
   color: rgb(215,215,215);
 
-  height: 95svh;
+  height: 95dvh;
   width: 95vw;
 
   /* highighted: text shadow: none */
@@ -475,8 +475,8 @@ dialog {
 
   & details {
     &:first-of-type {
-      margin-top: 3vh;
-      margin-bottom: 1.5vh;
+      margin-top: 3dvh;
+      margin-bottom: 1.5dvh;
     }
       
     &[name="tabs"] {
@@ -529,7 +529,7 @@ dialog {
       & form {
         display: flex;
         flex-direction: column;
-        gap: 2vh;
+        gap: 2dvh;
       
         & menu {
           width: clamp(200px, 50%, 400px);
@@ -542,7 +542,7 @@ dialog {
 .matches ul {
   display: flex;
   flex-direction: column;
-  gap: 2vh;
+  gap: 2dvh;
   margin-block-start: 0;
   padding-inline-start: 0;
 
@@ -553,7 +553,7 @@ dialog {
 
   & li {
     list-style: none;
-    min-height: 10vh;
+    min-height: 10dvh;
     text-align: left;
     padding: 3%;
     background: linear-gradient(75deg, rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0.7)),
@@ -602,14 +602,34 @@ dialog {
 
 
 @media screen and (max-width: 600px) {
+  section {
+    height: 80dvh;
+    justify-content: space-between;
+    &.matches {
+      height: 85dvh;
+    }
+  }
+
+  main {
+    height: 100dvh;
+    min-height: unset;
+    flex-direction: column;
+  }
+
+  nav label {
+    width: 100%;
+  }
+
   .card {
-    padding: 0.75em;
+    padding: 0.25em;
+    height: 80%;
+    margin-bottom: 5vh;
   }
 
 }
 
 @media screen and (max-height: 600px) and (orientation: landscape) {
-  main, section, nav {
+  main, section {
     height: 100vh;
   }
 
@@ -627,7 +647,8 @@ dialog {
   .card {
     padding: 0.75em;
   }
-}
+} 
+
 
 
 /* test stuff. TODO: organize and put this somewhere */
@@ -658,11 +679,11 @@ input, textarea, label:has(input[type="file"]) {
     &::file-selector-button {
       width: 100%;
       padding: 5px 0;
-      margin-bottom: max(2vh, 10px);
+      margin-bottom: max(2dvh, 10px);
     }
     border: none;
     background: none;
-    padding: 1vh 0;
+    padding: 1dvh 0;
   }
 }
 
@@ -677,7 +698,7 @@ textarea {
   border-radius: 5px;
 }
 
-nav button {
+nav label, nav input {
   display: none;
 }
 
@@ -689,21 +710,33 @@ nav button {
 
   nav {
     flex-direction: column;
+    justify-content: flex-start;
+    height: 95dvh;
+    padding-top: 5vh;
   }
 
-  nav button {
-    display: initial;
-    padding: 3px;
+  nav input[type="button"] {
+    padding: 5px;
   }
-
+  
   nav a {
     opacity: 0;
+    display: none;
   }
 
+  nav label, nav input[type="button"] {
+    display: initial;
+  }
+
+  nav label {
+    width: 100%;
+  }
+  
+  
   section {
     max-width: 85vw;
 
-    &:has(~ nav:focus-within),
+    &:has(~ nav label:focus-within),
     /* &:has(~ nav a:hover), */
     &:has(~ nav *:active) {
       width: 80%;
@@ -713,11 +746,12 @@ nav button {
         transition: width 0.6s;
 
         & a {
-          opacity: initial;
+          display: unset;
           transition: opacity 1s;
         }
-        & button {
+        & input[type="button"] {
           padding: 5%;
+          margin-bottom: 20px;
           transition: padding 0.3s;
         }
       }
@@ -735,7 +769,10 @@ nav button {
     overflow-y: hidden;
   }
 
-  nav button { display: initial; }
+  nav label, nav input {
+    display: initial;
+  }
+  
 
   nav a { display: none; }
 
@@ -743,10 +780,10 @@ nav button {
     &:has(~ nav:focus-within),
     /* &:has(~ nav a:hover), */
     &:has(~ nav *:active) {
-      height: 45vh;
+      height: 45dvh;
 
       & ~ nav {
-        height: 45vh;
+        height: 45dvh;
         flex-direction: column;
         & a {
           display: initial;
