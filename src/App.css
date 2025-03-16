@@ -34,10 +34,10 @@
   transform: scale(90%);
 }}
 
+/* 
 @keyframes unfoldDetails { from {
   opacity: 0;
 }}
-/*
 */
 
 @keyframes unfold { from { transform: scaleY( 40% ); }}
@@ -74,7 +74,6 @@ nav {
 }
 
 section {
-  /* max-width: inherit; */
   width: max(95vw, 300px);
   height: max(85dvh, 300px);
   place-self: center;
@@ -91,7 +90,7 @@ section {
     border-bottom: 2px solid black;
 
     &:not([open]) {
-      
+
       &:hover{
         background: linear-gradient(45deg, rgba(60,0,205,0.6), rgba(60,0,205,0.85)), black;
       }
@@ -101,7 +100,7 @@ section {
         opacity: 0;
       }
     }
-    
+
     &[open] > div {
       transition: opacity 0.7s linear;
       opacity: initial;
@@ -134,7 +133,7 @@ section {
   &.matches, &.settings {
     overflow-y: auto;
   }
-  
+
   &.upload {
     display: flex;
     /* flex-direction: column; */
@@ -143,7 +142,6 @@ section {
 }
 
 /* TODO: figure out which parts of this to tweak */
-/* , .settings  { */
 .upload form, .settings {
   display: inherit;
   flex-direction: column;
@@ -155,17 +153,17 @@ section {
 
 .settings {
   align-items: center;
-  
+
   & ul {
     padding: 0 1vw;
     padding-inline-start: 0;
   }
-  
+
   & fieldset:not(:has(h3)) ul {
     padding-inline-start: 20px;
     & li { margin-bottom: 1vh; }
   }
-  
+
   & fieldset:has(h3) ul {
     display: flex;
     gap: 0.75vw;
@@ -173,7 +171,7 @@ section {
     flex-wrap: wrap;
     justify-content: center;
   }
-  
+
   & li {
     width: fit-content;
     list-style-type: none;
@@ -187,14 +185,14 @@ section {
     & menu:last-child {
       margin-bottom: 0;
     }
-    
+
     & form {
       display: flex;
       flex-direction: column;
       gap: 1vh;
       width: clamp(300px, 75%, 800px);
       justify-self: center;
-      
+
       & label {
         display: inherit;
         flex-direction: inherit;
@@ -209,8 +207,8 @@ section {
           }
         }
       }
-
     }
+
     & menu {
       width: clamp(200px, 50%, 400px);
       place-self: center;
@@ -226,15 +224,18 @@ section {
   padding: 10%;
   font-size: 1rem;
   gap: 10dvh;
-  /* background:linear-gradient(75deg, rgba(75, 0, 150, 0.35), rgba(75, 0, 150, 0.7)),
-  black; */
+  /*
+  TODO: something with this...?
+    background:linear-gradient(75deg, rgba(75, 0, 150, 0.35), rgba(75, 0, 150, 0.7)),
+  black;
+  */
   background: linear-gradient(75deg, rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0.7)),
   rgb(75, 0, 150);
   border-radius: 5%;
   box-shadow: 2px 3px 7px black;
   align-items: center;
-  
-  
+
+
   & div {
     display: inherit;
     flex-direction: inherit;
@@ -246,7 +247,7 @@ section {
       flex-direction: column-reverse;
     }
   }
-  
+
   & label {
     min-height: 140px;
     & p {
@@ -282,21 +283,21 @@ details {
     margin: 0 auto;
     width: fit-content;
   }
-  
+
   &[name="tabs"], &:is(section > *) {
     &[open] {
       padding: 2dvh 3vw;
-      
+
       & > summary {
         /* TODO: list style something something */
         list-style-type:  none;
       }
     }
-  
+
     & > summary {
       padding: 2dvh 0;
     }
-  
+
     & fieldset {
       width: clamp(250px, 85%, 800px);
       margin: 2dvh auto;
@@ -305,13 +306,13 @@ details {
       border: 2px solid rgb(80,0,225);
        /* linear-gradient(60deg, rgba(60,0,205,0.75), rgba(60,0,205,0.45)); */
       box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.35), -2px -3px 10px rgba(0, 0, 0, 0.3);
-      
+
       display: inherit;
       flex-direction: column;
       justify-content: space-evenly;
       /* gap: 2vw; */
       gap: 1dvh;
-      
+
       & > label {
         /* margin: 0 auto; */
         &:has(input[type="number"]){
@@ -320,22 +321,22 @@ details {
         }
       }
     }
-    
+
     & label {
       margin: 0;
       display: flex;
       gap: 1vw;
     }
-    
+
     & input {
       margin: 0;
       place-self: center;
     }
-    
+
     & p {
       margin: 2px auto;
     }
-    
+
     & > div {
       display: flex;
       gap: 2vw;
@@ -347,311 +348,6 @@ details {
 /* .sources {
   padding-bottom: 2vh;
 } */
-
-li, .coverLetter {
-  text-align: left;
-}
-
-/* FIX:
-  for some reason I can't get this to nest
-  more than 2 layers deep?
-*/
-.swiping {
-  &.right { animation: swipeRight 0.6s, fadeOutFull 0.5s }
-  &.left { animation: swipeLeft 0.6s, fadeOutFull 0.5s }
-}
-
-.card {
-  /* container-type: inline-size;
-  container-name: card; */
-
-  & p {
-    font-size: 0.9em;
-  }
-
-  /*
-  &:nth-of-type(2){
-    transform: translateY(25px);
-  }
-
-  grid-area: 1/1;
-  */
-
-  &.vanish{
-    /* opacity: 0; */
-    animation: fadeOutFull 0.6s, slideDown 0.6s;
-  }
-
-  transition: all 0.6s;
-  
-  padding: 2em;
-  /* TODO: transitions here */
-  border-radius: 5%;
-  /* background: rgba(0, 0, 0, 0.9); */
-  background: linear-gradient(75deg, rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.7)),
-  rgb(75, 0, 150);
-  box-shadow: 2px 4px 10px black;
-
-  width: min(90%, 550px);
-  height: min(90%, 550px);
-  /* width: 90%;
-  height: 90%; */
-
-  display: flex;
-  flex-direction: column;
-  place-content: space-between;
-
-  &.empty { 
-    display: grid;
-    place-content: center;
-    animation: none;
-  }
-}
-
-menu {
-  padding-inline-start: 0;
-  
-  & li {
-    list-style: none;
-  }
-}
-
-div.buttons {
-  margin-bottom: 5%;
-}
-
-div.buttons, menu {
-  display: flex;
-  justify-content: space-evenly;
-
-  &:is(dialog *) {
-    max-width: 75%;
-    margin: 1dvh auto;
-    flex-wrap: wrap;
-
-    & button {
-      min-width: 150px;
-    }
-  }
-}
-
-dialog {
-  text-shadow: none;
-  border: 3px solid rgb(100, 108, 255);
-  color: rgb(215,215,215);
-
-  height: 95dvh;
-  width: 95vw;
-
-  /* highighted: text shadow: none */
-  &[open] {
-    animation: unfold 0.3s;
-    & > * {
-      animation: fadeInStagger ease-in 0.5s;
-    }
-    
-    &::backdrop{
-      background-color: rgba(0, 0, 0, 0.6);
-      animation: fadeIn 0.3s;
-    }
-  }
-
-  transition: all 0.3s ease-out allow-discrete;
-  animation: fold 0.3s;
-
-  & > form {
-    display: flex;
-    flex-direction: row-reverse;
-  }
-
-  & > div {
-    max-width: 80%;
-    margin: 0 auto;
-
-    & ul {
-      text-align: left;
-    }
-  }
-
-  & details {
-    &:first-of-type {
-      margin-top: 3dvh;
-      margin-bottom: 1.5dvh;
-    }
-      
-    &[name="tabs"] {
-      padding: 0 1vw;
-  
-      background: linear-gradient(135deg,
-      transparent,
-      rgba(85, 0, 235, 0.3));
-
-      &:hover:not([open]) {
-        background: linear-gradient(135deg,
-          transparent,
-        rgba(85, 0, 235, 0.35),
-        rgba(85, 0, 235, 0.55));
-      }
-        
-      border-top: 2px solid rgba(70,0,205,0.85);
-      border-bottom: 2px solid rgba(70,0,205,0.85);
-        
-      &[open] {
-        border-top: 2px solid rgba(80,0,195,0.85);
-        border-bottom: 2px solid rgba(80,0,195,0.85);
-        
-        background:
-        /* rgba(35, 35, 35, 0.05), */
-          linear-gradient(110deg,
-          rgba(0, 0, 0, 0.45),
-          rgba(0, 0, 0, 0.35)),
-          rgb(80, 0, 190);
-  
-  
-        /* TODO: revisit this */
-  
-        text-shadow: 2px 3px 5px rgba(0, 0, 0, 0.45),
-          /* 2px 3px 3px rgba(85, 85, 85, 0.15), */
-          3px 5px 10px rgba(0, 0, 0, 0.65),
-          /* -3px 4px 5px rgba(85, 85, 85, 0.25), */
-          -5px -3px 15px rgba(0, 0, 0, 0.85);
-          /* -7px -7px 20px rgba(0, 0, 0, 0.85); */
-      }
-
-      & p {
-        padding-bottom: 0.5rem;
-      }
-
-      & li {
-        padding-bottom: 1.1rem;
-      }
-
-      & form {
-        display: flex;
-        flex-direction: column;
-        gap: 2dvh;
-      
-        & menu {
-          width: clamp(200px, 50%, 400px);
-        }
-      }
-    }
-  }
-}
-
-.matches ul {
-  display: flex;
-  flex-direction: column;
-  gap: 2dvh;
-  margin-block-start: 0;
-  padding-inline-start: 0;
-
-  &.empty li {
-    place-items: center;
-    place-content: center;
-  }
-
-  & li {
-    list-style: none;
-    min-height: 10dvh;
-    text-align: left;
-    padding: 3%;
-    background: linear-gradient(75deg, rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0.7)),
-    rgb(75, 0, 150);
-    /*
-    background: linear-gradient(45deg,
-      rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.3));
-    */
-    border-radius: 10px;
-    border: 2px solid black;
-
-    display: flex;
-    justify-content: space-between;
-    
-    & div {
-      width: 50%;
-      &:last-of-type {
-        display: inherit;
-        align-items: flex-end;
-        text-align: right;
-        flex-direction: column;
-      }
-      & p {
-        width: 100%;
-      }
-    }
-    
-    &:hover{
-      /* linear-gradient(45deg, black, rgba(0, 0, 0, 0.6)); */
-      background: linear-gradient(45deg,
-        rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.8));
-
-      transition: background 0.2s;
-    }
-
-    &.vanish{
-      opacity: 0;
-      transition: all 0.6s;
-    }
-  }
-  & p {
-    margin: 3px 0;
-    max-width: 80%;
-  }
-}
-
-
-@media screen and (max-width: 600px) {
-  section {
-    height: 80dvh;
-    justify-content: space-between;
-    &.matches {
-      height: 85dvh;
-    }
-  }
-
-  main {
-    height: 100dvh;
-    min-height: unset;
-    flex-direction: column;
-  }
-
-  nav label {
-    width: 100%;
-  }
-
-  .card {
-    padding: 0.25em;
-    height: 80%;
-    margin-bottom: 5vh;
-  }
-
-}
-
-@media screen and (max-height: 600px) and (orientation: landscape) {
-  main, section {
-    height: 100vh;
-  }
-
-  main {
-    flex-direction: initial;
-  }
-
-  nav {
-    border-radius: initial;
-    flex-direction: column;
-    max-width: 75px;
-    justify-content: space-evenly;
-  }
-  
-  .card {
-    padding: 0.75em;
-  }
-} 
-
-
-
-/* test stuff. TODO: organize and put this somewhere */
 
 input, textarea, label:has(input[type="file"]) {
   background: linear-gradient(75deg, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.35)),
@@ -702,95 +398,385 @@ nav label, nav input {
   display: none;
 }
 
-@media screen and (max-height: 600px) and (orientation: landscape) {
-  main {
-    flex-direction: row;
-    width: 100vw;
+
+li, .coverLetter {
+  text-align: left;
+}
+
+/* FIX:
+  for some reason I can't get this to nest
+  more than 2 layers deep?
+*/
+.swiping {
+  &.right { animation: swipeRight 0.6s, fadeOutFull 0.5s }
+  &.left { animation: swipeLeft 0.6s, fadeOutFull 0.5s }
+}
+
+.card {
+  /* container-type: inline-size;
+  container-name: card; */
+
+  & p {
+    font-size: 0.9em;
   }
 
-  nav {
-    flex-direction: column;
-    justify-content: flex-start;
-    height: 95dvh;
-    padding-top: 5vh;
+  /*
+  &:nth-of-type(2){
+    transform: translateY(25px);
   }
 
-  nav input[type="button"] {
-    padding: 5px;
+  grid-area: 1/1;
+  */
+
+  &.vanish{
+    /* opacity: 0; */
+    animation: fadeOutFull 0.6s, slideDown 0.6s;
   }
+
+  transition: all 0.6s;
+
+  padding: 2em;
+  /* TODO: transitions here */
+  border-radius: 5%;
+  background: linear-gradient(75deg, rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.7)),
+  rgb(75, 0, 150);
+  box-shadow: 2px 4px 10px black;
+
+  width: min(90%, 550px);
+  height: min(90%, 550px);
+
+  display: flex;
+  flex-direction: column;
+  place-content: space-between;
+
+  &.empty { 
+    display: grid;
+    place-content: center;
+    animation: none;
+  }
+}
+
+menu {
+  padding-inline-start: 0;
+
+  & li {
+    list-style: none;
+  }
+}
+
+div.buttons {
+  margin-bottom: 5%;
+}
+
+div.buttons, menu {
+  display: flex;
+  justify-content: space-evenly;
+
+  &:is(dialog *) {
+    max-width: 75%;
+    margin: 1dvh auto;
+    flex-wrap: wrap;
+
+    & button {
+      min-width: 150px;
+    }
+  }
+}
+
+dialog {
+  text-shadow: none;
+  border: 3px solid rgb(100, 108, 255);
+  color: rgb(215,215,215);
+
+  height: 95dvh;
+  width: 95vw;
+
+  /* TODO: highighted: text shadow: none */
+  &[open] {
+    animation: unfold 0.3s;
+    & > * {
+      animation: fadeInStagger ease-in 0.5s;
+    }
+
+    &::backdrop{
+      background-color: rgba(0, 0, 0, 0.6);
+      animation: fadeIn 0.3s;
+    }
+  }
+
+  transition: all 0.3s ease-out allow-discrete;
+  animation: fold 0.3s;
+
+  & > form {
+    display: flex;
+    flex-direction: row-reverse;
+  }
+
+  & > div {
+    max-width: 80%;
+    margin: 0 auto;
+
+    & ul {
+      text-align: left;
+    }
+  }
+
+  & details {
+    &:first-of-type {
+      margin-top: 3dvh;
+      margin-bottom: 1.5dvh;
+    }
+
+    &[name="tabs"] {
+      padding: 0 1vw;
+
+      background: linear-gradient(135deg,
+      transparent,
+      rgba(85, 0, 235, 0.3));
+
+      &:hover:not([open]) {
+        background: linear-gradient(135deg,
+          transparent,
+        rgba(85, 0, 235, 0.35),
+        rgba(85, 0, 235, 0.55));
+      }
   
-  nav a {
-    opacity: 0;
-    display: none;
+      border-top: 2px solid rgba(70,0,205,0.85);
+      border-bottom: 2px solid rgba(70,0,205,0.85);
+  
+      &[open] {
+        border-top: 2px solid rgba(80,0,195,0.85);
+        border-bottom: 2px solid rgba(80,0,195,0.85);
+  
+        background:
+        /* rgba(35, 35, 35, 0.05), */
+          linear-gradient(110deg,
+          rgba(0, 0, 0, 0.45),
+          rgba(0, 0, 0, 0.35)),
+          rgb(80, 0, 190);
+
+
+        /* TODO: revisit this */
+
+        text-shadow: 2px 3px 5px rgba(0, 0, 0, 0.45),
+          /* 2px 3px 3px rgba(85, 85, 85, 0.15), */
+          3px 5px 10px rgba(0, 0, 0, 0.65),
+          /* -3px 4px 5px rgba(85, 85, 85, 0.25), */
+          -5px -3px 15px rgba(0, 0, 0, 0.85);
+          /* -7px -7px 20px rgba(0, 0, 0, 0.85); */
+      }
+
+      & p {
+        padding-bottom: 0.5rem;
+      }
+
+      & li {
+        padding-bottom: 1.1rem;
+      }
+
+      & form {
+        display: flex;
+        flex-direction: column;
+        gap: 2dvh;
+
+        & menu {
+          width: clamp(200px, 50%, 400px);
+        }
+      }
+    }
+  }
+}
+
+.matches ul {
+  display: flex;
+  flex-direction: column;
+  gap: 2dvh;
+  margin-block-start: 0;
+  padding-inline-start: 0;
+
+  &.empty li {
+    place-items: center;
+    place-content: center;
   }
 
-  nav label, nav input[type="button"] {
+  & li {
+    list-style: none;
+    min-height: 10dvh;
+    text-align: left;
+    padding: 3%;
+    background: linear-gradient(75deg, rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0.7)),
+    rgb(75, 0, 150);
+    /*
+    background: linear-gradient(45deg,
+      rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.3));
+    */
+    border-radius: 10px;
+    border: 2px solid black;
+
+    display: flex;
+    justify-content: space-between;
+
+    & div {
+      width: 50%;
+      &:last-of-type {
+        display: inherit;
+        align-items: flex-end;
+        text-align: right;
+        flex-direction: column;
+      }
+      & p {
+        width: 100%;
+      }
+    }
+
+    &:hover{
+      /* linear-gradient(45deg, black, rgba(0, 0, 0, 0.6)); */
+      background: linear-gradient(45deg,
+        rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.8));
+
+      transition: background 0.2s;
+    }
+
+    &.vanish{
+      opacity: 0;
+      transition: all 0.6s;
+    }
+  }
+  & p {
+    margin: 3px 0;
+    max-width: 80%;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  main {
+    height: 100dvh;
+    min-height: unset;
+    flex-direction: column;
+  }
+
+  main, nav {
+    overflow-y: hidden;
+  }
+
+  section {
+    height: 80dvh;
+    justify-content: space-between;
+    &.matches {
+      height: 85dvh;
+    }
+  }
+
+  nav label, nav input {
     display: initial;
   }
 
   nav label {
     width: 100%;
   }
-  
-  
+
+
+  nav {
+    width: 100vw;
+    border-radius: initial;
+
+    & a { display: none; }
+
+    &:has(*:focus),
+    /* &:has(a:hover), */
+    &:has(*:active) {
+      height: 45dvh;
+      flex-direction: column;
+
+      & a {
+        display: initial;
+      }
+
+      & ~ section {
+        height: 45dvh;
+      }
+    }
+
+  }
+  .card {
+    padding: 0.25em;
+    height: 80%;
+    margin-bottom: 5vh;
+  }
+
+}
+
+@media screen and (max-height: 600px) and (orientation: landscape) {
+  main, section {
+    height: 100vh;
+  }
+
+  main {
+    flex-direction: initial;
+      /* flex-direction: row; */
+    width: 100vw;
+  }
+
   section {
     max-width: 85vw;
+  }
 
-    &:has(~ nav label:focus-within),
-    /* &:has(~ nav a:hover), */
-    &:has(~ nav *:active) {
-      width: 80%;
+  .card {
+    padding: 0.75em;
 
-      & ~ nav {
-        max-width: 150px;
-        transition: width 0.6s;
-
-        & a {
-          display: unset;
-          transition: opacity 1s;
-        }
-        & input[type="button"] {
-          padding: 5%;
-          margin-bottom: 20px;
-          transition: padding 0.3s;
-        }
-      }
+    & p {
+      display: none;
     }
   }
 
-  .card p {
-    display: none;
-  }
-}
+  nav {
+    height: 95dvh;
+    max-width: 75px;
+    padding-top: 5vh;
+    flex-direction: column;
+    justify-content: flex-start;
+    border-radius: initial;
 
+    & input[type="button"] {
+      padding: 10px;
+    }
 
-@media screen and (max-width: 600px) {
-  nav, main {
-    overflow-y: hidden;
-  }
+    & a {
+      /* opacity: 0; */
+      display: none;
+    }
 
-  nav label, nav input {
-    display: initial;
-  }
-  
+    & label, & input[type="button"] {
+      display: initial;
+    }
 
-  nav a { display: none; }
+    & label {
+      width: 100%;
+    }
 
-  section {
-    &:has(~ nav:focus-within),
-    /* &:has(~ nav a:hover), */
-    &:has(~ nav *:active) {
-      height: 45dvh;
+    &:has(*:focus),
+    /* &:has(a:hover), */
+    &:has(*:active) {
+      max-width: 150px;
+      gap: 2vh;
+      transition: width 0.6s;
+      /* justify-content: space-evenly; */
 
-      & ~ nav {
-        height: 45dvh;
-        flex-direction: column;
-        & a {
-          display: initial;
-        }
+      & a {
+        display: unset;
+        /* opacity: unset; */
+        /* transition: opacity 1s; FIXME: */
       }
-  }
+      & input[type="button"] {
+        padding: 5%;
+        margin-bottom: 20px;
+        transition: padding 0.3s;
+      }
 
+      & ~ section {
+        width: 80%;
+      }
+    }
   }
 }
 
@@ -798,7 +784,7 @@ nav label, nav input {
 /* TODO:
 - check for this on corresponding JS handlers
   (and turn them off conditionally)
-- alternate effects
+- generally flesh this out with alternate and/or no effects
 */
 @media screen and (prefers-reduced-motion: no-preference) {
   .card, .upload form {
