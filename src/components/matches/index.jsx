@@ -143,6 +143,7 @@ const Matches = () => {
       <section className='matches'>
         <FiltersMenu
           total={jobs?.length || 0}
+          filters={filters}
           setFilters={setFilters}
           resetFilters={resetFilters}
         />
