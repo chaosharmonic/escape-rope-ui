@@ -4,15 +4,17 @@
 
 It's a UI for [my job search automation project](https://github.com/chaosharmonic/escape-rope).
 
-For now it's built on React and Vite, but that's just to get basic functionality scaffolded so I have something immediately usable, and I'm still evaluating other options longer-term. Note that, for those reasons, it's not really focused on being performance optimized, and there are still a few things that are broken. (Notably, this has mostly been tested on Chromium browsers, and I'm still working out some of the issues on Firefox. I also don't even *have* any iDevices to test this with.)
+For now it's built on React and Vite, but that's just to get basic functionality scaffolded so I have something immediately usable, and I'm still evaluating other options longer-term. Note that, for those reasons, it's not really focused on being performance optimized, and there are still a few things that are broken. (Notably, this has mostly been tested on Chromium browsers, and I'm still working out some of the issues on Firefox around the animations in particular as well as a handful of other CSS compatibility snags. I also don't even *have* any iDevices to test this with.) It's local first, so the mobile UI is still experimental, and I haven't put time into other features that I might care about if this were in any way meant to be a product.
 
 ## Why? (Motivations)
 
-A lot of reasons. First of all, like I said in the other repo, I built this for me. It's also for the sake of a new demo project -- one that's a little more evergreen than [my last thing](https://github.com/chaosharmonic/step-step-recollection), with usability that isn't location-dependent, and with the added bonus that I can link back to it in all the jobs that my tooling finds me. Additionally, I'm slowly expanding out to other automation -- like templating out cover letters, tracking interview details, and more.
+A lot of reasons. First of all, like I said in the other repo, I built this for me. It's also for the sake of a new demo project -- one that's a little more evergreen than [my last thing](https://github.com/chaosharmonic/step-step-recollection), with usability (and continued reason to work on it) that doesn't depend on something like having a consistent place to play DDR, and the added bonus that I can link back to it in all the jobs that my project finds me. Additionally, I'm slowly expanding out to other automation -- like templating out cover letters, tracking interview details, and more.
 
-It's also various experiments. Later under-the-hood ideas aside, this one is also styled and (save for some class manipulation using JavaScript) animated purely in vanilla CSS, and it attempts to lean as much on what's offered by native HTML as possible. Things like the use of `formData` and `defaultValue` over inputs controlled through state are something of a choice, and not *just* a fragment of my longer-term plan to try writing this in something other than client-side React. (That said, the effort to use varied HTML elements and lean on thieir variety as well as their baseline functionality is *also* an effort to break away from the heavy use of class-based CSS, library or otherwise.) I'm still working on ripping out the styling pieces that Vite auto-generated and attempting to give this a semblance of original, thought-out design language, but that's secondary to getting the important pieces working first.
+It's also various experiments. Later under-the-hood ideas aside, this one is also styled and (save for some class manipulation using JavaScript) animated purely in vanilla CSS, and it attempts to lean as much on what's offered by native HTML as possible. Things like the use of `formData` are something of a choice, and not *just* a fragment of my longer-term plan to try writing this in something other than client-side React. (That said, the effort to broaden my use of plain HTML elements, and further lean on their baseline functionality, is *also* an effort to break away from the heavy use of class-based CSS -- library or otherwise.)
 
-The "roadmap" is in large part in order of personal usefulness/importance. It's focused on local use, there's no auth, no real user-level settings to speak of, and because this is internally a "for now" design anyway I'm being pretty loose with the code structure. You'll most likely be able to tell where I've put work into this and where I haven't -- and that's fine, because again the primary goal of this is to make my life easier, and not to give me something else to pour persistent effort into.
+On a related note, the whole project generally targets modern browsers, and doesn't really make effort toward legacy compatibility.
+
+The "roadmap" is in large part in order of personal usefulness/importance. There's no auth since it's primarily single-user, and because this is internally a "for now" design anyway I'm being pretty loose with the code structure. You'll most likely be able to tell where I've put work into this and where I haven't -- and that's fine, because again the primary goal of this is to *use* the automation, and spend my time on anything else.
 
 ## How? (Running this project)
 
@@ -26,5 +28,9 @@ The "roadmap" is in large part in order of personal usefulness/importance. It's 
 
 ### Running
 
-- Start a dev server: `deno run dev`
+- Start a live dev server: `deno run dev`
 - Build production assets: `deno run build`
+- Serve a static build: `deno run serve`
+
+The default server and port are matched up with those on the backend repo. For custom ones, optionally pass in the environment variables `VITE_SERVER_URL`,`VITE_SERVER_PORT`, and/or `VITE_SERVER_PROTOCOL`.
+
