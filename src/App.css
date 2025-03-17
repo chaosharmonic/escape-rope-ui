@@ -768,7 +768,6 @@ dialog {
         /* transition: opacity 1s; FIXME: */
       }
       & input[type="button"] {
-        padding: 5%;
         margin-bottom: 20px;
         transition: padding 0.3s;
       }
