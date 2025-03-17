@@ -85,6 +85,7 @@ const Matches = () => {
   if (!jobs.length || loading) return (
     <section className='matches'>
       <FiltersMenu
+        filters={filters}
         setFilters={setFilters}
         resetFilters={resetFilters}
       />
