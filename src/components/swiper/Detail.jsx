@@ -256,10 +256,15 @@ const JobDetail = ({
     }
 
     if (isMatch) {
-      const unmatch = () => setStatus('unmatched')
-      const apply = () => setStatus('applied')
-
       // TODO: confirm prompt for this, optionally with reason
+      const unmatch = () => swiping
+      ? setStatus('unmatched', 'swiping left')
+      : setStatus('unmatched')
+
+      const apply = () => swiping
+      ? setStatus('applied', 'swiping right')
+      : setStatus('applied')
+
 
       return (
         <>
