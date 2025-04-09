@@ -275,7 +275,8 @@ details {
 
   & summary {
     list-style-position: outside;
-    place-self: center;
+    margin: 0 auto;
+/*     place-self: center; */
     width: min(80%, 450px);
   }
 
@@ -430,7 +431,7 @@ li, .coverLetter {
 
   &.vanish{
     /* opacity: 0; */
-    animation: fadeOutFull 0.6s, slideDown 0.6s;
+    animation: slideDown 0.6s, fadeOutFull 0.5s;
   }
 
   transition: all 0.6s;
