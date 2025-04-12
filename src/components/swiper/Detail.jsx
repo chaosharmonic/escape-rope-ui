@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from "react"
 import Markdown from 'react-markdown'
 // import { X } from 'npm:react-feather'
 import { baseURL } from "../../helpers/config"
-import { saveCoverLetter, updateInterview } from "../../api/job"
+import { saveCoverLetter, updateInterview, updateStatus } from "../../api/job"
 
 // TODO: maybe break this out into layers
 // - modal
@@ -20,7 +20,6 @@ const JobDetail = ({
 }) => {
   const dialogRef = useRef(null)
   const [closing, setClosing] = useState(false)
-  
   
   // TODO: this should be an array
   // const [ editing, setEditing ] = useState([])
@@ -102,48 +101,33 @@ const JobDetail = ({
   ].some(status => lifecycle == status)
 
   const setStatus = async (nextStatus, outerAnimation = '') => {
-    const endpoint = `${baseURL}/jobs/${id}/${nextStatus}`
-    
-    // TODO: catch block
-    const data = await fetch(endpoint, { method: 'POST' })
-      .then(r => r.json())
+    try {
+      const data = await updateStatus(nextStatus, id)
 
-    // TODO: should this come back with an actual value
-    if (!data.ok) throw new Error('request failed!')
-
-    // const { value: { lifecycle: nextLifecycle }} = data
-
-    // remove entry if no longer a match
-    // that said, removing matches should be behind a confirm prompt
-    //  (probably ahead of calling this whole fn honestly)
-    // TODO: these checks (to close and remove the entry)
-    //  should probably vary based on stage
-    //  - queued, second look: *any* change
-    //  - liked or more: not matching filters
-    // call this `stillActive`?
-    // main page: if still queued
-    // second look: anything
-    // matches: pass in existing filters
-
-    // TODO: this needs a success/failure indicator
-    const shouldKeepDisplaying = displayStates
-      .some(status => nextStatus == status)
-
-    const nextJob = { ...detail, lifecycle: nextStatus }
-    
-    // TODO: handle jobs and targetJob in context
-    //  and/or with routes
-    //  (maybe sleep on this)
-    
-    if (shouldKeepDisplaying) {
-      // update job in modal and outer list:
-      // setDetail nextJob
-      // updateJob(target, nextJob)
-      return
+      // TODO: this needs a success/failure indicator
+      // TODO: should this come back with an actual value
+      if (!data.ok) throw new Error('request failed!')
+      
+      const shouldKeepDisplaying = displayStates
+        .some(status => nextStatus == status)
+        
+      const nextJob = { ...detail, lifecycle: nextStatus }
+        
+      // TODO: handle jobs and targetJob in context
+      //  and/or with routes
+        
+      if (shouldKeepDisplaying) {
+        // update job in modal and outer list:
+        // setDetail nextJob
+        // updateJob(target, nextJob)
+        return
+      }
+        
+        // else, this is handled by any op passed in from outside
+      outerAnimation ? handleClosure(outerAnimation) : handleClosure()
+    } catch {
+      console.log('failed!')
     }
-    
-    // else, this is handled by any op passed in from outside
-    outerAnimation ? handleClosure(outerAnimation) : handleClosure()
   }
 
   const StatusMenu = () => {

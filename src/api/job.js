@@ -6,49 +6,58 @@ export const searchJobs = async (filters) => {
   const payload = new FormData()
   payload.set('filters', JSON.stringify({ ...filters }))
 
-
-  const target = `${baseURL}/jobs/search`
+  const target = `${basePath}/search`
   const options = {
     method: 'POST',
     body: payload
   }
-  const data = await fetch(target, options).then(r => r.json()) || []
-
-  return data
+  
+  return await fetch(target, options).then(r => r.json()) || []
 }
 
-// WIP
+export const uploadJobs = async (payload) => {
+  // TODO: this should also cover companies
+  const route = 'jobs/upload'
+  const endpoint = `${basePath}/${route}`
 
-// export const uploadJobs = async () => {
+  // TODO: this could also be a CSV
 
-// }
+  const options = {
+    method: 'POST',
+    body: payload
+  }
+
+  return await fetch(endpoint, options).then(r => r.json())
+}
+
+export const updateStatus = async (route, jobId) => {
+  const endpoint = `${basePath}/${jobId}/${route}`
+
+  return await fetch(endpoint, { method: 'POST' }).then(r => r.json())
+}
 
 // formdata
 export const saveCoverLetter = async (payload, jobId) => {
-    const options = {
-        method: 'PUT',
-        body: payload,
-    }
+  const options = {
+    method: 'PUT',
+    body: payload,
+  }
 
-    const endpoint = `${basePath}/${jobId}/cover_letter`
+  const endpoint = `${basePath}/${jobId}/cover_letter`
 
-    const data = await fetch(endpoint, options)
-        .then(r => r.json())
-
-    return data
+  return await fetch(endpoint, options)
+    .then(r => r.json())
 }
 
 // setInterviews
 export const updateInterview = async (payload, jobId, round) => {
-    const options = {
-        method: 'PUT',
-        body: JSON.stringify(payload)
-    }
+  const options = {
+    method: 'PUT',
+    body: JSON.stringify(payload)
+  }
 
-    const endpoint = `${basePath}/${jobId}/interviews/${round}`
+  const endpoint = `${basePath}/${jobId}/interviews/${round}`
 
-    const data = await fetch(endpoint, options)
-        .then(r => r.json())
-    
-    return data
+  return await fetch(endpoint, options)
+    .then(r => r.json())
 }

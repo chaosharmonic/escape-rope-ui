@@ -1,9 +1,8 @@
 import { useState, useEffect } from 'react'
 import JobCard from './JobCard'
 import Detail from './Detail'
-import { baseURL } from '../../helpers/config'
 import { FiltersMenu } from '../matches/filters'
-import { searchJobs } from '../../api/job'
+import { searchJobs, updateStatus } from '../../api/job'
 
 const Swiper = () => {
   const defaultFilters = {
@@ -12,8 +11,7 @@ const Swiper = () => {
   
   const [jobs, setJobs] = useState([])
   const [jobsIndex, setJobsIndex] = useState(0)
-  const [lastSwiped, setLastSwiped] = useState(null)
-  const [swipeDirection, setSwipeDirection] = useState('')
+  // const [lastSwiped, setLastSwiped] = useState(null)
   const [transitionClasses, setTransitionClasses] = useState('')
   const [loading, setLoading] = useState(false)
   const [detail, setDetail] = useState(null)
@@ -22,8 +20,6 @@ const Swiper = () => {
   const resetFilters = () => setFilters(defaultFilters)
 
   // const rewinding
-  
-  // const route = secondLook ? 'second_look' : 'batch'
 
   useEffect(() => {
     async function getData(){
@@ -33,9 +29,12 @@ const Swiper = () => {
       // TODO: maybe throw these try blocks into `/api`
       try {
         const data = await searchJobs(filters) || []
-  
-        setJobs(filters.status == 'ignored' ? data.reverse() : data)
-        if (data.length) setJobsIndex(0)
+
+        const next = filters.status == 'ignored' && data?.length
+        ? data.reverse()
+        : data
+
+        setJobs(next)
       } catch ({message}) {
         console.error(message)
       } finally {
@@ -44,10 +43,6 @@ const Swiper = () => {
     }
     getData()
   }, [ filters ])
-  // TODO: rename this prop
-  //  enable swiping at multiple stages
-  //  swiped-right: unmatched, shortlist
-  //  shortlist: unmatched, applied
 
   // TODO: figure out stacking effect
   //  (there was an article somewhere about stacking elements w CSS Grid...)
@@ -56,10 +51,6 @@ const Swiper = () => {
   //  should take lastSwiped, an obj representing a job,
   //  and put it at the beginning of the last array
   //  the catch blocks should probably *also* call this
-  // 
-  // useEffect(() => {
-    
-  // }, [swipeDirection])
   
   useEffect(() => {
     if (!jobs.length) return
@@ -72,7 +63,7 @@ const Swiper = () => {
     })
   }, [jobs.length])
 
-  if (!jobs.length || loading) return (
+  if (!jobs.length) return (
     <section className='cards'>
       <FiltersMenu
         view='queue'
@@ -81,31 +72,46 @@ const Swiper = () => {
         resetFilters={resetFilters}
       />
       <div className='card empty'>
-          {loading ? <progress /> : <h4>batch is empty</h4>}
+        {loading ? <progress /> : <h4>batch is empty</h4>}
+      </div>
+    </section>
+  )
+
+  if (loading && !transitionClasses) return (
+    <section className='cards'>
+      <FiltersMenu
+        view='queue'
+        filters={filters}
+        setFilters={setFilters}
+        resetFilters={resetFilters}
+      />
+      <div className='card empty'>
+        <progress />
       </div>
     </section>
   )
   
   const { status } = filters
   
-  const targetJob = jobs[jobsIndex]
-  const nextJob = jobs[jobsIndex + 1]
+  const targetJob = jobs.at(0)
+  // const nextJob = jobs.at(1)
 
   const { value, id } = targetJob
 
 
   const openDetails = () => setDetail({...value, id})
 
-  // am I even gonna need that for something I'm designing for local use?
-  const animate = (transitionClass) => {
+  const animate = async (transitionClass) => {
     setTransitionClasses(transitionClass)
 
-    setTimeout(() => {
-      const nextJobs = jobs.slice(1)
-      
-      setJobs(nextJobs)
-      setTransitionClasses('')
-    }, 450)
+    // TODO: replace this with @std/async delay
+    await new Promise(r => setTimeout(() => r(), 450))
+    const nextJobs = jobs.slice(1)
+    
+    setJobs(nextJobs)
+    // await new Promise(r => setTimeout(() => r(), 25))
+
+    setTransitionClasses('')
   }
 
   const swipe = async (id, direction) => {
@@ -117,9 +123,7 @@ const Swiper = () => {
     //  remove from UI
     //  set loader
     //  animate in next entry
-    animate(`swiping ${direction}`)
-    // setSwipeDirection(direction)
-    // setLoading(true)
+    setLoading(true)
 
     const route = () => {
       const isRightSwiped = ['shortlisted', 'liked'].includes(status)
@@ -134,30 +138,35 @@ const Swiper = () => {
       
       return ''
     }
-    
-    const endpoint = `${baseURL}/jobs/${id}/${route()}`
 
     try {
-      const data = await fetch(endpoint, { method: 'POST' }).then(r => r.json())
+      // TODO: move this out
+      
+      const [ data ] = await Promise.all([
+        updateStatus(route(), id),
+        animate(`swiping ${direction}`)
+      ])
     }
     catch {
-      // setTransitionClasses
-        // reverse out animation
-      // rewind to previous state
-      // don't worry about skipping last swiped,
-      //  bc that's a confirm action
-      // how to handle reverse animation vs default entry animation?
-      //  (this is also an undo question)
-      //  *probably* use classes for the initial entry too
+      // TODO: actually flash error
+      console.log('failed!')
+      
+      // TODO: replace this with @std/async delay
+      await new Promise(r => setTimeout(() => r(), 450))
+
       setJobs(existingJobs)
     }
     finally {
-      // setTransitionClasses('')
-      // setLoading(false)
+      setLoading(false)
     }
   }
 
-  const skip = () => animate('vanish', true)
+  // FIXME: this is still breaking on Firefox
+  const skip = async () => {
+    // setLoading(true)
+    await animate('vanish')
+    // setLoading(false)
+  }
 
   const swipeLeft = async () => await swipe(id, 'left')
   const swipeRight = async () => await swipe(id, 'right')
@@ -177,24 +186,6 @@ const Swiper = () => {
   // TODO: handle this later
   // need to store previous ID, and clear it if you use undo
   // const undoSwipe = async (id) => await swipe(id)
-
-    /*
-    async function getData(){
-      if (jobs.length) return
-
-      const target = 'http://localhost:3030/jobs'
-      const fetchOptions = {
-        mode: 'cors',
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      }
-      const data = await fetch(target).then(r => r.json()) || []
-
-      setJobs(data)
-      if (data.length) setJobsIndex(0)
-    }
-    */
   // }
 
   return (
@@ -208,7 +199,7 @@ const Swiper = () => {
       />
       <JobCard 
         job={value}
-        // loading={loading}
+        loading={loading}
         openDetails={openDetails}
         swipeLeft={swipeLeft}
         swipeRight={swipeRight}
@@ -229,11 +220,10 @@ const Swiper = () => {
         transitionClasses={transitionClasses}
       /> */}
       <Detail
-        job={{...value, id}}
         detail={detail}
-        swiping
         setDetail={setDetail}
         updateOuterElement={animate}
+        swiping
       />
     </section>
   )

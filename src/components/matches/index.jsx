@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react'
 import Detail from '../swiper/Detail'
-import { baseURL } from '../../helpers/config'
 import { getSettings } from '../../api/settings'
 import { FiltersMenu } from './filters'
 import { searchJobs } from '../../api/job'
