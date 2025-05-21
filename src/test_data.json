@@ -1,0 +1,685 @@
+{
+  "jobs": [
+    {
+      "id": "6be11a1b-aff2-435e-a3a8-99b665ea7469",
+      "value": {
+        "title": "Director",
+        "company": "Federal Bureau of Control",
+        "description": "### About Us\n\nThe less you know about us, the better.\n\n### The Role\n\nOur director was recently fired/terminated -- found/announced with Service\nWeapon in hand. Pick it up, and start the most rigorous interview/fight you've\never encountered.\n\nWe need a _lot_ of things right now, but nothing is more urgent than finding\nsomeone to keep the lights on.",
+        "lifecycle": "ignored",
+        "sources": [
+          {
+            "name": "user upload"
+          }
+        ]
+      }
+    },
+    {
+      "id": "c6e706a7-485a-4c32-9a51-a16284004fd5",
+      "value": {
+        "title": "Janitor's Assistant",
+        "company": "Federal Bureau of Control",
+        "description": "### About Us\n\nThe less you know about us, the better.\n\n### The Role\n\nThere are a _lot_ of inscrutable parts of the Oldest House, but the Janitor is\nthe most confounding of all.\n\nHe is one of the most essential parts of this Bureau. He *understands* this\nplace in ways no one else is capable of. But like the House itself, we need\nsomeone who can decipher him.\n\nWe're looking for an extra set of hands who's good at interfacing with non-native\nEnglish speakers and neurodivergence, and can do it in an environment that's\nregularly shifting, to help us keep our House in order. Don't worry about the\nrest -- he'll get you through navigating the House as long as you can navigate him.\n\nBonus points if you're *really* good at fixing clogs, or if you speak Finnish.",
+        "lifecycle": "queued",
+        "sources": [
+          {
+            "name": "user upload"
+          }
+        ]
+      }
+    },
+    {
+      "id": "fd91a8aa-0c1a-4c54-b5e8-0b94817f497c",
+      "value": {
+        "title": "Head of Research",
+        "company": "Federal Bureau of Control",
+        "description": "### About Us\n\nThe less you know about us, the better.\n\n### The Role\n\n🎵 db4, gb4, bb4 🎵\n\nOur head of research left behind _lots_ of video footage describing what's been happening in the Bureau, but not much about his own whereabouts...\n\nContinue his work...\n\n- Make fun videos! ship the crew!\n- Test music for the paranormal (We have a killer sound system)\n- Play with rocks!\n\nYou'll have all the resources you could possibly need to chase your wildest ideas.\n\nAnd other people's.",
+        "lifecycle": "queued",
+        "sources": [
+          {
+            "name": "user upload"
+          }
+        ]
+      }
+    },
+    {
+      "id": "b5a74ce1-853a-4dc2-a658-bad894ad9cb5",
+      "value": {
+        "title": "Head of Communications",
+        "company": "Federal Bureau of Control",
+        "description": "### About Us\n\nThe less you know about us, the better.\n\n### The Role\n\nAfter what Research found, the Bureau has seen a need to restructure our leadership team.\n\nThe rest of this description is *your* job.",
+        "lifecycle": "ignored",
+        "sources": [
+          {
+            "name": "user upload"
+          }
+        ]
+      }
+    },
+    {
+      "id": "4dbd6ba6-74b0-4b2e-b3f5-504e0c207c24",
+      "value": {
+        "title": "Head of Security",
+        "company": "Federal Bureau of Control",
+        "description": "### About Us\n\nThe less you know about us, the better.\n\n### The Role\n\nWe need a new Head of Security to improve our containment facility.\n\nYou'll need a clearance to find out more.",
+        "lifecycle": "ignored",
+        "sources": [
+          {
+            "name": "user upload"
+          }
+        ]
+      }
+    },
+    {
+      "id": "4124e360-a2b7-4841-b803-bed4e5b1371b",
+      "value": {
+        "title": "Ranger",
+        "company": "Federal Bureau of Control",
+        "description": "### About Us\n\nThe less you know about us, the better.\n\n### The Role\n\nVenture into the weird and unexplained. And also, somehow, the same hotel. A lot.",
+        "lifecycle": "queued",
+        "sources": [
+          {
+            "name": "user upload"
+          }
+        ]
+      }
+    },
+    {
+      "id": "e1df404d-47b9-4a84-9d55-9ad298b07d9c",
+      "value": {
+        "title": "CEO",
+        "company": "PlanEx",
+        "description": "### About Us\n\nAn ambitious, misunderstood delivery company imbued with the sleek, dazzling veneer of the 1980s\n\n### The Role\n\nOur CEO is so incompetent that the company's \"revenue\" for a year was an $8 bank error in our favor.\n\nAlso, he hates cats.\n\nWe need someone to come right this ship before it crashes. *Again.*\n\nOur health plan covers bone-itis!",
+        "lifecycle": "ignored",
+        "sources": [
+          {
+            "name": "user upload"
+          }
+        ]
+      }
+    },
+    {
+      "id": "afe95766-eaa5-409c-8e5d-2896f506efbe",
+      "value": {
+        "title": "Ship Captain",
+        "company": "PlanEx",
+        "description": "### About Us\n\nAn ambitious, misunderstood delivery company imbued with the sleek, dazzling veneer of the 1980s\n\n### The Role\n\nAre you a born leader?\n\nThen good news! We need one of those!\n\nSpecifically, one who can manage the day-to-day operations on our delivery jobs.\n\nMust-have skills include piloting, martial arts and preventing mutinies.",
+        "lifecycle": "ignored",
+        "sources": [
+          {
+            "name": "user upload"
+          }
+        ]
+      }
+    },
+    {
+      "id": "2ca52021-a7d8-4205-b15b-b2262d0a3ceb",
+      "value": {
+        "title": "Delivery Boy",
+        "company": "PlanEx",
+        "description": "### About Us\n\nAn ambitious, misunderstood delivery company imbued with the sleek, dazzling veneer of the 1980s\n\n### The Role\n\nDo you like space? Do you want to visit distant planets, and go on adventures?\n\nThen good news!\n\nCome work at PlanEx, where you'll have new places to go every day! Places that\nneed packages!\n\nWe're currently staffing up an entire crew, so we have multiple openings.",
+        "lifecycle": "ignored",
+        "sources": [
+          {
+            "name": "user upload"
+          }
+        ]
+      }
+    },
+    {
+      "id": "162ff3d5-18b2-4ce2-a9e2-ad5f1e38e153",
+      "value": {
+        "title": "Bureaucrat",
+        "company": "PlanEx",
+        "description": "### About Us\n\nAn ambitious, misunderstood delivery company imbued with the sleek, dazzling veneer of the 1980s\n\n### The Role\n\nOur last bureaucrat recently went off to requisition his groove back.\n\nDo you like filing? Managing money? Managing *people*?\n\n(...should I have started with \"firing\"?)\n\nCome help us organize! (Our cabinets, not our employees.)",
+        "lifecycle": "ignored",
+        "sources": [
+          {
+            "name": "user upload"
+          }
+        ]
+      }
+    },
+    {
+      "id": "159e4e10-cf0b-4394-9679-762d048741e8",
+      "value": {
+        "title": "Nimbus Crew",
+        "company": "Democratic Order of Planets -- Earth Military",
+        "description": "### About Us\n\nWe're the DOOP!\n\n### The Role\n\nDo you like glory? How about blazes of it?\n\nCome join the crew of the most glorious ship in the Earth military -- the Nimbus.\n\nUnder the tutelage of Zapp Brannigan, you'll become the best men that you can. You'll be lucky to know him -- however short of a time that might be.",
+        "lifecycle": "queued",
+        "sources": [
+          {
+            "name": "user upload"
+          }
+        ]
+      }
+    },
+    {
+      "id": "4f8fd79f-ec1d-49fe-999b-439678b51f18",
+      "value": {
+        "title": "Assembly Line Inspector",
+        "company": "MomCorp",
+        "description": "### About Us\n\nHere at MomCorp, we strive to pamper our employees like they were Mom's own children.\n\nRemember: at MomCorp, we're family. ❤️\n\n### The Role\n\nLike the emptying of any nest, even our *best* employees eventually leave us to venture off to something new. But that's how we find room for new talent to nurture! And that's where you come in.\n\nYou'll be the extension of Mom's loving arms that carefully inspect every robot produced by Mom's Friendly Robot Company, to make sure they'll make all of our customers' lives better.",
+        "lifecycle": "liked",
+        "sources": [
+          {
+            "name": "user upload"
+          }
+        ]
+      }
+    },
+    {
+      "id": "4bc53cb8-c22d-4ec0-9566-ee5101c1577b",
+      "value": {
+        "title": "Mayor",
+        "company": "City of Sunnydale",
+        "description": "### About Us\n\nNot much to say, really. Just a normal city -- certainly not the kind where anything *weird* happens.\n\n### The Role\n\nOur last mayor had a corruption scandal, so you should join the race to rebuild the destruction he left in his wake.\n\nCampaigning in this town is unique -- you'll see more coalitions spring up over highly specific causes than you've ever encountered before. The causes themselves might also surprise you.",
+        "lifecycle": "queued",
+        "sources": [
+          {
+            "name": "user upload"
+          }
+        ]
+      }
+    },
+    {
+      "id": "75363c4b-955c-4c2c-bcb0-be699eb7a379",
+      "value": {
+        "title": "High School Principal",
+        "company": "City of Sunnydale",
+        "description": "### About Us\n\nNot much to say, really. Just a normal city -- certainly not the kind where anything *weird* happens.\n\n### The Role\n\nOur schools are... challenging, and our previous principals haven't lasted very long. We're hoping you'll do better.\n\nThe requirements aren't out of line with anything normal for this job -- it's just *really* important that no one has ever called you \"edible.\"\n\nOr maybe it's important that someone *has.* Maybe it works... backwards? We don't know yet. Help us figure that out!",
+        "lifecycle": "liked",
+        "sources": [
+          {
+            "name": "user upload"
+          }
+        ]
+      }
+    },
+    {
+      "id": "1713db2b-c71e-441b-bf25-e1fdeb61de9e",
+      "value": {
+        "title": "Police Officer",
+        "company": "City of Sunnydale",
+        "description": "### About Us\n\nNot much to say, really. Just a normal city -- certainly not the kind where anything *weird* happens.\n\n### The Role\n\nDo you like action? Do you need excitement in your life? Come work at the Sunnydale PD! This is a fast-paced environment where you'll never run out of something new to do.\n\nYou'll also learn a lot about what is and isn't related to gangs doing PCP.\n\nBeware: this isn't your average everyday danger. This is *advanced* danger.\n\nBenefits include AD&D insurance and on-site grief counselors.\n\nBe my deputy!",
+        "lifecycle": "queued",
+        "sources": [
+          {
+            "name": "user upload"
+          }
+        ]
+      }
+    },
+    {
+      "id": "dc2d06df-1a97-4e85-80ef-d26a1edf7106",
+      "value": {
+        "title": "Cashier",
+        "company": "Krusty Krab",
+        "description": "### About Us\n\nWe make Krabby Patties!\n\n### The Role\n\nAhoy! Me staff is on strike -- they owe me money and walked out instead of\npaying up, so I need to find some teenagers to work for cheap so I can keep me\nship afloat.\n\nMan the register! Withstand the anchovies! Count me money!",
+        "lifecycle": "unmatched",
+        "sources": [
+          {
+            "name": "user upload"
+          }
+        ]
+      }
+    },
+    {
+      "id": "3bfb059a-6c70-46f0-8702-b1b3cc2f1c68",
+      "value": {
+        "title": "Fry Cook",
+        "company": "Krusty Krab",
+        "description": "### About Us\n\nWe make Krabby Patties!\n\n### The Role\n\nAhoy! Me staff is on strike -- they owe me money and walked out instead of\npaying up, so I need to find some teenagers to work for cheap so I can keep me\nship afloat.\n\nSling Hash! Sling Patties! Outpace the anchovies!",
+        "lifecycle": "queued",
+        "sources": [
+          {
+            "name": "user upload"
+          }
+        ]
+      }
+    },
+    {
+      "id": "eea8e215-35aa-4476-922b-26b2f3ed5134",
+      "value": {
+        "title": "Brett",
+        "company": "The Spy/Detective Agency Formerly Known as ISIS",
+        "description": "### About Us\n\n...Who even posted this here? We're not supposed to be *online!* CHERYL!\n\n### The Role\n\nDo you have a propensity for attracting every stray ping pong ball, no matter how improbable? Do you have a surprising capacity to recover from serious injury? Is your name Brett?\n\nCome join us at... we're still working on the name. That whole thing really caught us out of nowhere.\n\nDon't ask about what happened to our last Brett.",
+        "lifecycle": "queued",
+        "sources": [
+          {
+            "name": "user upload"
+          }
+        ]
+      }
+    },
+    {
+      "id": "ab417f78-88a6-4ecf-ba55-dea21e39e3cc",
+      "value": {
+        "title": "Accountant",
+        "company": "Dunder Mifflin",
+        "lifecycle": "ignored",
+        "sources": [
+          {
+            "name": "user upload"
+          }
+        ]
+      }
+    },
+    {
+      "id": "7c57e354-fe00-4332-be81-1bb3fbb0cf3f",
+      "value": {
+        "title": "Assistant Regional Manager",
+        "company": "Dunder Mifflin",
+        "lifecycle": "queued",
+        "sources": [
+          {
+            "name": "user upload"
+          }
+        ]
+      }
+    },
+    {
+      "id": "2a25f382-23da-4acc-a4d3-cb5ce40ea049",
+      "value": {
+        "title": "Chief Financial Officer",
+        "company": "Dunder Mifflin",
+        "lifecycle": "queued",
+        "sources": [
+          {
+            "name": "user upload"
+          }
+        ]
+      }
+    },
+    {
+      "id": "1fabbcf7-14b8-4bc3-a264-483c2bd606ec",
+      "value": {
+        "title": "Co-Manager",
+        "company": "Dunder Mifflin",
+        "lifecycle": "liked",
+        "sources": [
+          {
+            "name": "user upload"
+          }
+        ]
+      }
+    },
+    {
+      "id": "bd5e5f5a-5e99-492b-9869-f1c86127f3bd",
+      "value": {
+        "title": "Customer Service Representative",
+        "company": "Dunder Mifflin",
+        "lifecycle": "shortlisted",
+        "sources": [
+          {
+            "name": "user upload"
+          }
+        ]
+      }
+    },
+    {
+      "id": "e02ebc41-3e51-478c-a2ad-ad8c4be70168",
+      "value": {
+        "title": "Head, Party Planning Committee",
+        "company": "Dunder Mifflin",
+        "lifecycle": "queued",
+        "sources": [
+          {
+            "name": "user upload"
+          }
+        ]
+      }
+    },
+    {
+      "id": "fc0cc626-93b1-4a51-afb3-9c31a0b5f71d",
+      "value": {
+        "title": "Human Resources Representative",
+        "company": "Dunder Mifflin",
+        "lifecycle": "ignored",
+        "sources": [
+          {
+            "name": "user upload"
+          }
+        ]
+      }
+    },
+    {
+      "id": "b38ed1b9-ddee-4916-af8d-0588cf8d1e01",
+      "value": {
+        "title": "Member, Party Planning Committee",
+        "company": "Dunder Mifflin",
+        "lifecycle": "liked",
+        "sources": [
+          {
+            "name": "user upload"
+          }
+        ]
+      }
+    },
+    {
+      "id": "924b7d35-86de-4549-9495-7f97d4adc205",
+      "value": {
+        "title": "Office Administrator",
+        "company": "Dunder Mifflin",
+        "lifecycle": "stashed",
+        "sources": [
+          {
+            "name": "user upload"
+          }
+        ]
+      }
+    },
+    {
+      "id": "b609e975-bd10-4fcb-a6c8-6d56bbf1ab0a",
+      "value": {
+        "title": "Quality Assurance Representative",
+        "company": "Dunder Mifflin",
+        "lifecycle": "ignored",
+        "sources": [
+          {
+            "name": "user upload"
+          }
+        ]
+      }
+    },
+    {
+      "id": "b8777167-1fd4-450f-bdc7-865737796398",
+      "value": {
+        "title": "Receptionist",
+        "company": "Dunder Mifflin",
+        "lifecycle": "queued",
+        "sources": [
+          {
+            "name": "user upload"
+          }
+        ]
+      }
+    },
+    {
+      "id": "a5af2b75-c09b-454b-808d-bd7b6b634ade",
+      "value": {
+        "title": "Director, Sales",
+        "company": "Dunder Mifflin",
+        "lifecycle": "unmatched",
+        "sources": [
+          {
+            "name": "user upload"
+          }
+        ]
+      }
+    },
+    {
+      "id": "52210433-51df-435b-a6e9-bb0511b4b1e3",
+      "value": {
+        "title": "Sales Representative",
+        "company": "Dunder Mifflin",
+        "lifecycle": "shortlisted",
+        "sources": [
+          {
+            "name": "user upload"
+          }
+        ]
+      }
+    },
+    {
+      "id": "e1adaa4a-b759-4149-8b8e-b018ef5474c4",
+      "value": {
+        "title": "Senior Accountant",
+        "company": "Dunder Mifflin",
+        "lifecycle": "ignored",
+        "sources": [
+          {
+            "name": "user upload"
+          }
+        ]
+      }
+    },
+    {
+      "id": "eae02199-ac02-4363-8ade-682b1c87fa1a",
+      "value": {
+        "title": "Supplier Relations Representative",
+        "company": "Dunder Mifflin",
+        "lifecycle": "queued",
+        "sources": [
+          {
+            "name": "user upload"
+          }
+        ]
+      }
+    },
+    {
+      "id": "3fdb7f45-ff87-4bdb-ba86-d878e8a417af",
+      "value": {
+        "title": "Temp",
+        "company": "Dunder Mifflin",
+        "lifecycle": "queued",
+        "sources": [
+          {
+            "name": "user upload"
+          }
+        ]
+      }
+    },
+    {
+      "id": "c0dd9f6a-0798-4089-8eb0-c0517aaea157",
+      "value": {
+        "title": "Vice President, North East Region",
+        "company": "Dunder Mifflin",
+        "lifecycle": "queued",
+        "sources": [
+          {
+            "name": "user upload"
+          }
+        ]
+      }
+    },
+    {
+      "id": "91c15691-ce01-4932-88d9-6652ce05ecc6",
+      "value": {
+        "title": "Director, New Media",
+        "company": "Dunder Mifflin",
+        "lifecycle": "ignored",
+        "sources": [
+          {
+            "name": "user upload"
+          }
+        ]
+      }
+    },
+    {
+      "id": "d0dc872d-857f-4691-b682-748ecd8007cb",
+      "value": {
+        "title": "Vice President, Sales",
+        "company": "Dunder Mifflin",
+        "lifecycle": "ignored",
+        "sources": [
+          {
+            "name": "user upload"
+          }
+        ]
+      }
+    },
+    {
+      "id": "d3dc6741-0e3c-4a8b-b40e-8266f6cd68a3",
+      "value": {
+        "title": "Warehouse Associate",
+        "company": "Dunder Mifflin",
+        "lifecycle": "liked",
+        "sources": [
+          {
+            "name": "user upload"
+          }
+        ]
+      }
+    },
+    {
+      "id": "cddae5de-1664-4fa4-a9dc-2445c69333be",
+      "value": {
+        "title": "Warehouse Foreman",
+        "company": "Dunder Mifflin",
+        "lifecycle": "ignored",
+        "sources": [
+          {
+            "name": "user upload"
+          }
+        ]
+      }
+    },
+    {
+      "id": "b7afa480-8eb9-47da-bfa7-057dccae491c",
+      "value": {
+        "title": "Accountant",
+        "company": "Sabre",
+        "lifecycle": "ignored",
+        "sources": [
+          {
+            "name": "user upload"
+          }
+        ]
+      }
+    },
+    {
+      "id": "6f4ccd3a-40f0-413c-9391-3d3bd221855f",
+      "value": {
+        "title": "Chief Financial Officer",
+        "company": "Sabre",
+        "lifecycle": "ignored",
+        "sources": [
+          {
+            "name": "user upload"
+          }
+        ]
+      }
+    },
+    {
+      "id": "cf437369-9b9a-4ef7-a826-d957c238426d",
+      "value": {
+        "title": "Customer Service Representative",
+        "company": "Sabre",
+        "lifecycle": "stashed",
+        "sources": [
+          {
+            "name": "user upload"
+          }
+        ]
+      }
+    },
+    {
+      "id": "70170ef1-8f9b-4c16-8495-1696d8d01d78",
+      "value": {
+        "title": "Human Resources Representative",
+        "company": "Sabre",
+        "lifecycle": "unmatched",
+        "sources": [
+          {
+            "name": "user upload"
+          }
+        ]
+      }
+    },
+    {
+      "id": "1d355356-bf51-454d-85e2-496bcaf93b08",
+      "value": {
+        "title": "Quality Assurance Representative",
+        "company": "Sabre",
+        "lifecycle": "stashed",
+        "sources": [
+          {
+            "name": "user upload"
+          }
+        ]
+      }
+    },
+    {
+      "id": "6baf94eb-333f-4bbf-b7a8-a5743b965b61",
+      "value": {
+        "title": "Receptionist",
+        "company": "Sabre",
+        "lifecycle": "liked",
+        "sources": [
+          {
+            "name": "user upload"
+          }
+        ]
+      }
+    },
+    {
+      "id": "6bfe6c96-e7a8-4b49-82e4-0b556bb16c02",
+      "value": {
+        "title": "Sales Representative",
+        "company": "Sabre",
+        "lifecycle": "liked",
+        "sources": [
+          {
+            "name": "user upload"
+          }
+        ]
+      }
+    },
+    {
+      "id": "cb2075c8-0194-4893-984a-3438094a5406",
+      "value": {
+        "title": "Senior Accountant",
+        "company": "Sabre",
+        "lifecycle": "stashed",
+        "sources": [
+          {
+            "name": "user upload"
+          }
+        ]
+      }
+    },
+    {
+      "id": "959f1101-11fd-40fb-b56a-529b9834abe0",
+      "value": {
+        "title": "Supplier Relations Representative",
+        "company": "Sabre",
+        "lifecycle": "liked",
+        "sources": [
+          {
+            "name": "user upload"
+          }
+        ]
+      }
+    },
+    {
+      "id": "ca36a6d1-4bf1-4094-b8d4-8c9b98839302",
+      "value": {
+        "title": "Temp",
+        "company": "Sabre",
+        "lifecycle": "ignored",
+        "sources": [
+          {
+            "name": "user upload"
+          }
+        ]
+      }
+    },
+    {
+      "id": "0f856623-bc01-4dd5-bad7-15ec4f703a33",
+      "value": {
+        "title": "Hunter",
+        "company": "Serenity by Jan",
+        "lifecycle": "queued",
+        "sources": [
+          {
+            "name": "user upload"
+          }
+        ]
+      }
+    },
+    {
+      "id": "c2c6d430-6be9-48bc-8148-f61d95694840",
+      "value": {
+        "title": "Sales Representative",
+        "company": "The Michael Scott Paper Company",
+        "lifecycle": "ignored",
+        "sources": [
+          {
+            "name": "user upload"
+          }
+        ]
+      }
+    }
+  ]
+}
