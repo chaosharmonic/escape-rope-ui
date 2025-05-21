@@ -1,50 +1,73 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
+import { useSignals } from '@preact/signals-react/runtime'
+import { useSignal, useComputed, useSignalEffect, batch } from '@preact/signals-react'
 import JobCard from './JobCard'
 import Detail from './Detail'
 import { FiltersMenu } from '../matches/filters'
 import { searchJobs, updateStatus } from '../../api/job'
 
 const Swiper = () => {
+  useSignals()
   const defaultFilters = {
     status: ['queued']
   }
   
-  const [jobs, setJobs] = useState([])
-  const [jobsIndex, setJobsIndex] = useState(0)
+  const jobs = useSignal([])
+  const setJobs = (nextJobs) => {
+    jobs.value = [...nextJobs]
+  }
+
+  const remaining = useComputed(() => jobs?.value?.length)
+  const targetJob = useComputed(() => {
+    if (!remaining.value) return null
+    return jobs?.value?.at(0)
+  })
+  
   // const [lastSwiped, setLastSwiped] = useState(null)
-  const [transitionClasses, setTransitionClasses] = useState('')
-  const [loading, setLoading] = useState(false)
+  const transitionClasses = useSignal('')
+  const setTransitionClasses = (transitionClass) => {
+    transitionClasses.value = transitionClass
+  }
+
+  const loading = useSignal(false)
+  const setLoading = (bool) => {
+    loading.value = bool
+  }
+
   const [detail, setDetail] = useState(null)
-  const [filters, setFilters] = useState(defaultFilters)
+  
+  const filters = useSignal(defaultFilters)
+  const setFilters = (nextFilters) => {
+    filters.value = nextFilters
+  }
 
   const resetFilters = () => setFilters(defaultFilters)
 
   // const rewinding
 
-  useEffect(() => {
-    async function getData(){
-      setLoading(true)
-      // if (jobs.length) return
+  useSignalEffect(async () => {
+    if (jobs?.value?.length) return
+    setLoading(true)
 
-      // TODO: maybe throw these try blocks into `/api`
-      try {
-        const data = await searchJobs(filters) || []
+    // TODO: maybe throw these try blocks into `/api`
+    try {
+      const data = await searchJobs(filters.value) || []
 
-        const next = filters.status == 'ignored' && data?.length
-        ? data.reverse()
-        : data
+      const nextJobs = filters.value.status == 'ignored'
+      ? data.reverse()
+      : data
 
-        setJobs(next)
-      } catch ({message}) {
-        console.error(message)
-      } finally {
+      batch(() => {
+        setJobs(nextJobs)
         setLoading(false)
-      }
+      })
+    } catch ({ message }) {
+      console.error(message)
+      setLoading(false)
     }
-    getData()
-  }, [ filters ])
+  })
 
-  // TODO: figure out stacking effect
+  // TODO: figure out stacking useSignalEffect
   //  (there was an article somewhere about stacking elements w CSS Grid...)
 
   // TODO: handle rewind
@@ -52,18 +75,21 @@ const Swiper = () => {
   //  and put it at the beginning of the last array
   //  the catch blocks should probably *also* call this
   
-  useEffect(() => {
-    if (!jobs.length) return
-    const current = jobs.at(0).value
+  const current = targetJob.value
+
+  useSignalEffect(() => {
+    if (!remaining.value) return
     
     console.log({
       current,
-      sources: current.sources.length,
-      remaining: jobs.length, 
+      loading: loading.value,
+      sources: current?.sources?.length,
+      remaining: remaining.value
     })
-  }, [jobs.length])
+  })
 
-  if (!jobs.length) return (
+  if (!remaining.value) {
+    return (
     <section className='cards'>
       <FiltersMenu
         view='queue'
@@ -72,12 +98,12 @@ const Swiper = () => {
         resetFilters={resetFilters}
       />
       <div className='card empty'>
-        {loading ? <progress /> : <h4>batch is empty</h4>}
+        {loading.value ? <progress /> : <h4>batch is empty</h4>}
       </div>
     </section>
-  )
+  )}
 
-  if (loading && !transitionClasses) return (
+  if (loading.value && !transitionClasses.value) return (
     <section className='cards'>
       <FiltersMenu
         view='queue'
@@ -90,23 +116,21 @@ const Swiper = () => {
       </div>
     </section>
   )
-  
+
   const { status } = filters
-  
-  const targetJob = jobs.at(0)
-  // const nextJob = jobs.at(1)
 
-  const { value, id } = targetJob
+  const { value: job, id } = current
 
-
-  const openDetails = () => setDetail({...value, id})
+  const openDetails = () => setDetail({...job, id})
 
   const animate = async (transitionClass) => {
     setTransitionClasses(transitionClass)
 
+    console.log(transitionClass)
+
     // TODO: replace this with @std/async delay
     await new Promise(r => setTimeout(() => r(), 450))
-    const nextJobs = jobs.slice(1)
+    const nextJobs = jobs.value.slice(1)
     
     setJobs(nextJobs)
     // await new Promise(r => setTimeout(() => r(), 25))
@@ -116,7 +140,7 @@ const Swiper = () => {
 
   const swipe = async (id, direction) => {
     // setLastSwipe
-    const existingJobs = [...jobs]
+    const existingJobs = [...jobs.value]
     
     // eager actions:
     //  animate action out
@@ -161,14 +185,14 @@ const Swiper = () => {
     }
   }
 
-  // FIXME: this is still breaking on Firefox
   const skip = async () => {
-    // setLoading(true)
+    setLoading(true)
     await animate('vanish')
-    // setLoading(false)
+    setLoading(false)
   }
 
   const swipeLeft = async () => await swipe(id, 'left')
+  //  async () => await swipe(id, 'left')
   const swipeRight = async () => await swipe(id, 'right')
   // const swipeUp = async () => await swipe(id, 'up')
   // const swipeDown = async () => await swipe(id, 'down')
@@ -185,20 +209,19 @@ const Swiper = () => {
   
   // TODO: handle this later
   // need to store previous ID, and clear it if you use undo
-  // const undoSwipe = async (id) => await swipe(id)
-  // }
-
+  // const undoSwipe = something...
+  
   return (
     <section className='cards'>
       <FiltersMenu
         view='queue'
-        total={jobs?.length || 0}
+        total={remaining || 0}
         filters={filters}
         setFilters={setFilters}
         resetFilters={resetFilters}
       />
       <JobCard 
-        job={value}
+        job={job}
         loading={loading}
         openDetails={openDetails}
         swipeLeft={swipeLeft}
@@ -220,6 +243,7 @@ const Swiper = () => {
         transitionClasses={transitionClasses}
       /> */}
       <Detail
+        job={{...job, id}}
         detail={detail}
         setDetail={setDetail}
         updateOuterElement={animate}
