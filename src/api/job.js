@@ -17,8 +17,7 @@ export const searchJobs = async (filters) => {
 
 export const uploadJobs = async (payload) => {
   // TODO: this should also cover companies
-  const route = 'jobs/upload'
-  const endpoint = `${basePath}/${route}`
+  const endpoint = `${basePath}/upload`
 
   // TODO: this could also be a CSV
 
