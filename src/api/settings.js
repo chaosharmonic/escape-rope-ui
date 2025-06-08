@@ -1,6 +1,9 @@
+import { settings } from '../test_data.json' with { type: 'json' }
 import { baseURL } from "../helpers/config"
 
 export const getSettings = async () => {
+    return settings
+    
     const endpoint = `${baseURL}/settings/`
     const data = await fetch(endpoint).then(r => r.json()) || []
 
@@ -8,6 +11,8 @@ export const getSettings = async () => {
 }
 
 export const updateSettings = async (payload) => {
+    return true
+    
     const options = {
         method: 'POST',
         headers: {
@@ -25,6 +30,8 @@ export const updateSettings = async (payload) => {
 }
 
 export const updateBasicDetails = async (payload) => {
+    return true
+    
     const options = {
         method: 'PUT',
         body: payload
@@ -39,6 +46,8 @@ export const updateBasicDetails = async (payload) => {
 }
 
 export const updateCoverLetters = async (payload) => {
+    return true
+    
     const options = {
         method: 'PUT',
         body: JSON.stringify(payload),
@@ -56,6 +65,8 @@ export const updateCoverLetters = async (payload) => {
 }
 
 export const updateInterviewQuestions = async (payload) => {
+    return true
+    
     const options = {
         method: 'PUT',
         body: payload
@@ -72,6 +83,8 @@ export const updateInterviewQuestions = async (payload) => {
 }
 
 export const updateBlocklist = async (payload) => {
+    return true
+    
     const blocklist = payload.entries()
         .map(([k, v]) => ({[k]: JSON.parse(v)}))
         .reduce((a, b) => ({ ...a, ...b }))

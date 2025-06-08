@@ -28,6 +28,9 @@ export const searchJobs = async (filters) => {
 }
 
 export const uploadJobs = async (payload) => {
+  await new Promise (r => setTimeout(() => r(), 450))
+  return true
+
   // TODO: this should also cover companies
   const endpoint = `${basePath}/upload`
 
