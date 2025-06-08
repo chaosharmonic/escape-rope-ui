@@ -33,7 +33,7 @@
       "value": {
         "title": "Head of Research",
         "company": "Federal Bureau of Control",
-        "description": "### About Us\n\nThe less you know about us, the better.\n\n### The Role\n\n🎵 db4, gb4, bb4 🎵\n\nOur head of research left behind _lots_ of video footage describing what's been happening in the Bureau, but not much about his own whereabouts...\n\nContinue his work...\n\n- Make fun videos! ship the crew!\n- Test music for the paranormal (We have a killer sound system)\n- Play with rocks!\n\nYou'll have all the resources you could possibly need to chase your wildest ideas.\n\nAnd other people's.",
+        "description": "### About Us\n\nThe less you know about us, the better.\n\n### The Role\n\n🎵 db4, gb4, bb4 🎵\n\nOur head of research left behind _lots_ of video footage describing what's been happening in the Bureau, but not much about his own whereabouts...\n\nContinue his work...\n\nMake fun videos! ship the crew!\nTest music for the paranormal (We have a killer sound system)\nPlay with rocks!\n\nYou'll have all the resources you could possibly need to chase your wildest ideas.\n\nAnd other people's.",
         "lifecycle": "queued",
         "sources": [
           {
@@ -145,7 +145,7 @@
       "value": {
         "title": "Nimbus Crew",
         "company": "Democratic Order of Planets -- Earth Military",
-        "description": "### About Us\n\nWe're the DOOP!\n\n### The Role\n\nDo you like glory? How about blazes of it?\n\nCome join the crew of the most glorious ship in the Earth military -- the Nimbus.\n\nUnder the tutelage of Zapp Brannigan, you'll become the best men that you can. You'll be lucky to know him -- however short of a time that might be.",
+        "description": "### About Us\n\nWe're the DOOP!\n\n### The Role\n\nDo you like glory? How about blazes of it?\n\nCome join the crew of the most glorious ship in the Earth military -- the Nimbus.\n\nUnder the tutelage of Zapp Brannigan, you'll become the best men that you can. You'll be lucky to know him -however short of a time that might be.",
         "lifecycle": "queued",
         "sources": [
           {
@@ -173,7 +173,7 @@
       "value": {
         "title": "Mayor",
         "company": "City of Sunnydale",
-        "description": "### About Us\n\nNot much to say, really. Just a normal city -- certainly not the kind where anything *weird* happens.\n\n### The Role\n\nOur last mayor had a corruption scandal, so you should join the race to rebuild the destruction he left in his wake.\n\nCampaigning in this town is unique -- you'll see more coalitions spring up over highly specific causes than you've ever encountered before. The causes themselves might also surprise you.",
+        "description": "### About Us\n\nNot much to say, really. Just a normal city -- certainly not the kind where anything *weird* happens.\n\n### The Role\n\nOur last mayor had a corruption scandal, so you should join the race to rebuild the destruction he left in his wake.\n\nCampaigning in this town is unique -you'll see more coalitions spring up over highly specific causes than you've ever encountered before. The causes themselves might also surprise you.",
         "lifecycle": "queued",
         "sources": [
           {
@@ -187,7 +187,7 @@
       "value": {
         "title": "High School Principal",
         "company": "City of Sunnydale",
-        "description": "### About Us\n\nNot much to say, really. Just a normal city -- certainly not the kind where anything *weird* happens.\n\n### The Role\n\nOur schools are... challenging, and our previous principals haven't lasted very long. We're hoping you'll do better.\n\nThe requirements aren't out of line with anything normal for this job -- it's just *really* important that no one has ever called you \"edible.\"\n\nOr maybe it's important that someone *has.* Maybe it works... backwards? We don't know yet. Help us figure that out!",
+        "description": "### About Us\n\nNot much to say, really. Just a normal city -- certainly not the kind where anything *weird* happens.\n\n### The Role\n\nOur schools are... challenging, and our previous principals haven't lasted very long. We're hoping you'll do better.\n\nThe requirements aren't out of line with anything normal for this job -it's just *really* important that no one has ever called you \"edible.\"\n\nOr maybe it's important that someone *has.* Maybe it works... backwards? We don't know yet. Help us figure that out!",
         "lifecycle": "liked",
         "sources": [
           {
@@ -681,5 +681,55 @@
         ]
       }
     }
-  ]
+  ],
+  "settings": {
+    "campaigns": [
+      {
+        "name": "Dev",
+        "pay": {
+          "min": 50000,
+          "max": 200000
+        },
+        "roles": [],
+        "skills": [
+          "Delivery",
+          "Spacecraft Piloting",
+          "Holofonr"
+        ],
+        "locations": [
+          "New New York"
+        ],
+        "defaultInterviewQuestions": [
+          "First of all, how dare you?",
+          "Is this a mob front?"
+        ],
+        "coverLetters": [
+          {
+            "name": "Breadcrumb",
+            "text": "I found this by building crawlers to doomscroll job boards for me! Check out the writeup linked in my resume, or better yet feel incredibly free to just ask me more about it sometime 🧑‍💻😎\n"
+          }
+        ],
+        "blocklist": {
+          "title": [
+            "bureaucrat",
+            "chief",
+            "blernsball",
+            "ultimate",
+            "robot",
+            "fighting"
+          ],
+          "company": [
+            "cryogenics"
+          ],
+          "description": [
+            "zoidberg"
+          ],
+          "global": [
+            "omicron",
+            "persei"
+          ]
+        }
+      }
+    ]
+  }
 }
