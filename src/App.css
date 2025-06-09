@@ -76,38 +76,43 @@ nav {
 section {
   width: max(95vw, 300px);
   height: max(85dvh, 300px);
+  display: flex;
+  flex-direction: column;
   place-self: center;
   padding: 0 2vw;
 
   transition: all 0.5s;
 
-  &:not(.settings) > details[open] {
-    margin-bottom: 20dvh;
+  &:not(.settings) > details {
+    &[open] {
+      margin-bottom: 20dvh;
+      & > div {
+        transition: opacity 0.7s linear;
+        opacity: initial;
+      }
+    }
+
+    &:not([open]) {
+      & > div:first-of-type {
+        opacity: 0;
+      }
+    }
+
+    & > div:last-of-type {
+      font-weight: bold;
+    }
   }
 
   & > details {
     background: linear-gradient(45deg, rgba(60,0,205,0.45), rgba(60,0,205,0.7)), black;
     border-bottom: 2px solid black;
 
-    &:not([open]) {
-
-      &:hover{
-        background: linear-gradient(45deg, rgba(60,0,205,0.6), rgba(60,0,205,0.85)), black;
-      }
-
-
-      & > div:first-of-type {
-        opacity: 0;
-      }
-    }
-
-    &[open] > div {
-      transition: opacity 0.7s linear;
-      opacity: initial;
+    &:not([open]):hover{
+      background: linear-gradient(45deg, rgba(60,0,205,0.6), rgba(60,0,205,0.85)), black;
     }
 
     /* TODO: clean this up further */
-    & > div:first-of-type {
+    & > div.shortcuts {
       padding-top: 2dvh;
       display: flex;
       flex-direction: column;
@@ -116,16 +121,10 @@ section {
       gap: 2dvh;
       max-width: 600px;
     }
-
-    & > div:last-of-type {
-      font-weight: bold;
-    }
   }
 
   &.cards {
     overflow: hidden;
-    display: flex;
-    flex-direction: column;
     gap: 2dvh;
     place-items: center;
   }
@@ -135,9 +134,7 @@ section {
   }
 
   &.upload {
-    display: flex;
-    /* flex-direction: column; */
-    place-items: center;
+    place-content: center;
   }
 }
 
@@ -156,30 +153,48 @@ section {
 
   & ul {
     padding: 0 1vw;
-    padding-inline-start: 0;
   }
 
-  & fieldset:not(:has(h3)) ul {
-    padding-inline-start: 20px;
-    & li { margin-bottom: 1vh; }
+  & > fieldset, div {
+    flex-direction: column;
+
+    &:not(:has(h3)) ul {
+      padding-inline-start: 20px;
+      & li { margin-bottom: 1vh; }
+    }
+
+    &:has(h3) ul {
+      display: flex;
+      gap: 0.75vw;
+      margin-top: 0.5vh;
+      margin-bottom: 0.5vh;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
   }
 
-  & fieldset:has(h3) ul {
-    display: flex;
-    gap: 0.75vw;
-    margin-bottom: 0.5vh;
-    flex-wrap: wrap;
-    justify-content: center;
-  }
 
   & li {
     width: fit-content;
     list-style-type: none;
   }
 
-  & details {    
+  & details {
+    display: inherit;
+    flex-direction: column;
+    
+    &[open] { gap: 2vh; }
+
+    & > * { margin: 0 auto; }
+    & legend { margin: 0 auto; }
+    
     &:first-of-type {
       margin-top: 10vh;
+    }
+
+    & ul {
+      margin: 0 auto;
+      max-width: 600px;
     }
 
     & menu:last-child {
@@ -191,7 +206,10 @@ section {
       flex-direction: column;
       gap: 1vh;
       width: clamp(300px, 75%, 800px);
-      justify-self: center;
+
+      & ~ menu {
+        margin-top: 1vh;
+      }
 
       & label {
         display: inherit;
@@ -206,7 +224,7 @@ section {
             font-size: 0.9rem;
           }
         }
-      }
+      
     }
 
     & menu {
@@ -214,6 +232,7 @@ section {
       place-self: center;
     }
   }
+}
 
 /* TODO: decide later if I want to keep this structure here */
 .upload form {
@@ -299,7 +318,7 @@ details {
       padding: 2dvh 0;
     }
 
-    & fieldset {
+    & fieldset, div:is(.settings *) {
       width: clamp(250px, 85%, 800px);
       margin: 2dvh auto;
       padding: 2dvh 1.5vw;
@@ -308,7 +327,6 @@ details {
        /* linear-gradient(60deg, rgba(60,0,205,0.75), rgba(60,0,205,0.45)); */
       box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.35), -2px -3px 10px rgba(0, 0, 0, 0.3);
 
-      display: inherit;
       flex-direction: column;
       justify-content: space-evenly;
       /* gap: 2vw; */
@@ -455,6 +473,11 @@ li, .coverLetter {
     place-content: center;
     animation: none;
   }
+
+  & .content {
+    width: 95%;
+    margin: 0 auto;
+  }
 }
 
 menu {
@@ -474,8 +497,10 @@ div.buttons, menu {
   justify-content: space-evenly;
 
   &:is(dialog *) {
-    max-width: 75%;
+    width: 75%;
+    gap: 1dvh;
     margin: 1dvh auto;
+    place-self:center;
     flex-wrap: wrap;
 
     & button {
@@ -516,6 +541,9 @@ dialog {
   & > div {
     max-width: 80%;
     margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-content: center;
 
     & ul {
       text-align: left;
@@ -732,11 +760,12 @@ dialog {
 
   nav {
     height: 95dvh;
-    max-width: 75px;
+    max-width: 100px;
     padding-top: 5vh;
     flex-direction: column;
     justify-content: flex-start;
     border-radius: initial;
+    background: transparent;
 
     & input[type="button"] {
       padding: 10px;
@@ -753,6 +782,10 @@ dialog {
 
     & label {
       width: 100%;
+      height: 75px;
+      background: black;
+      border-radius: 20px;
+      align-content: center;
     }
 
     &:has(*:focus),
@@ -760,7 +793,8 @@ dialog {
     &:has(*:active) {
       max-width: 150px;
       gap: 2vh;
-      transition: width 0.6s;
+      transition: background-color 0.6s, width 0.6s;
+      background: black;
       /* justify-content: space-evenly; */
 
       & a {
