@@ -1,11 +1,15 @@
+import { useContext } from "react"
+import { JobsContext, setFilters } from "../../contexts/job"
+
 export const FiltersMenu = ({
-    // initValues
-    filters = {},
-    total = 0,
-    view = 'matches',
-    setFilters,
-    resetFilters
+  total = 0,
+  view = 'matches',
+  defaultFilters
 }) => {
+  const { filters } = useContext(JobsContext)
+
+  const resetFilters = () => setFilters(defaultFilters)
+
   const updateStatus = (status) => {
     // TODO: actually close detail pane from here
     // TODO: also take arrays
@@ -38,7 +42,7 @@ export const FiltersMenu = ({
   : <button onClick={setLiked}>Swiped right</button>
 
   const Shortcuts = () => (
-    <div>
+    <div className="shortcuts">
       {queuedListShortcut}
       <button onClick={setIgnored}>Second Look</button>
       {swipedRightListShortcut}
@@ -182,9 +186,7 @@ const handleSubmit = (e) => {
   const getFilterLabel = () => {
     const {
       status: lifecycleStages = [ 'liked', 'shortlisted' ]
-    } = filters
-
-    console.log({lifecycleStages})
+    } = filters.value
 
     // TODO: this whole thing will have to change later
     //  whenever I get to finishing detailed filters

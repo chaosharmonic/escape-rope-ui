@@ -1,10 +1,20 @@
-import { useState } from 'react'
 import { useSignals } from '@preact/signals-react/runtime'
-import { useSignal, useComputed, useSignalEffect, batch } from '@preact/signals-react'
+import {
+  useSignal,
+  useComputed,
+  useSignalEffect,
+  batch
+} from '@preact/signals-react'
 import JobCard from './JobCard'
 import Detail from './Detail'
 import { FiltersMenu } from '../matches/filters'
 import { searchJobs, updateStatus } from '../../api/job'
+import { useContext } from 'react'
+import {
+  JobsContext,
+  totalJobs,
+  setJobs
+} from '../../contexts/job'
 
 const Swiper = () => {
   useSignals()
@@ -12,17 +22,18 @@ const Swiper = () => {
     status: ['queued']
   }
   
-  const jobs = useSignal([])
-  const setJobs = (nextJobs) => {
-    jobs.value = [...nextJobs]
-  }
-
-  const remaining = useComputed(() => jobs?.value?.length)
+  // FIXME: figure out using computed values in context
+  const { jobs, filters } = useContext(JobsContext)
+      
+  // const totalJobs = useComputed(() => jobs?.value?.length)
   const targetJob = useComputed(() => {
-    if (!remaining.value) return null
-    return jobs?.value?.at(0)
+    if (!totalJobs.value) return null
+    
+    const { id, value: job } = jobs?.value?.at(0)
+    
+    return { id, ...job }
   })
-  
+    
   // const [lastSwiped, setLastSwiped] = useState(null)
   const transitionClasses = useSignal('')
   const setTransitionClasses = (transitionClass) => {
@@ -34,19 +45,24 @@ const Swiper = () => {
     loading.value = bool
   }
 
-  const [detail, setDetail] = useState(null)
-  
-  const filters = useSignal(defaultFilters)
-  const setFilters = (nextFilters) => {
-    filters.value = nextFilters
+  const displayingDetail = useSignal(false)
+
+  const setDisplayingDetail = (bool) => {
+    displayingDetail.value = bool
   }
 
-  const resetFilters = () => setFilters(defaultFilters)
+  const resetModal = () => setDisplayingDetail(false)
 
   // const rewinding
 
   useSignalEffect(async () => {
-    if (jobs?.value?.length) return
+    if (totalJobs.value) {
+      const isHydrated = filters?.value?.status
+        ?.includes(targetJob.value.lifecycle)
+      
+      if (isHydrated) return
+    }
+
     setLoading(true)
 
     // TODO: maybe throw these try blocks into `/api`
@@ -78,24 +94,22 @@ const Swiper = () => {
   const current = targetJob.value
 
   useSignalEffect(() => {
-    if (!remaining.value) return
+    if (!totalJobs.value) return
     
     console.log({
       current,
       loading: loading.value,
       sources: current?.sources?.length,
-      remaining: remaining.value
+      totalJobs: totalJobs
     })
   })
 
-  if (!remaining.value) {
+  if (!totalJobs.value) {
     return (
     <section className='cards'>
       <FiltersMenu
         view='queue'
-        filters={filters}
-        setFilters={setFilters}
-        resetFilters={resetFilters}
+        defaultFilters={defaultFilters}
       />
       <div className='card empty'>
         {loading.value ? <progress /> : <h4>batch is empty</h4>}
@@ -107,9 +121,7 @@ const Swiper = () => {
     <section className='cards'>
       <FiltersMenu
         view='queue'
-        filters={filters}
-        setFilters={setFilters}
-        resetFilters={resetFilters}
+        defaultFilters={defaultFilters}
       />
       <div className='card empty'>
         <progress />
@@ -119,14 +131,12 @@ const Swiper = () => {
 
   const { status } = filters
 
-  const { value: job, id } = current
+  const { id } = current
 
-  const openDetails = () => setDetail({...job, id})
+  const openDetails = () => setDisplayingDetail(true)
 
   const animate = async (transitionClass) => {
     setTransitionClasses(transitionClass)
-
-    console.log(transitionClass)
 
     // TODO: replace this with @std/async delay
     await new Promise(r => setTimeout(() => r(), 450))
@@ -171,9 +181,9 @@ const Swiper = () => {
         animate(`swiping ${direction}`)
       ])
     }
-    catch {
+    catch ({ message: m }) {
       // TODO: actually flash error
-      console.log('failed!')
+      console.error(m)
       
       // TODO: replace this with @std/async delay
       await new Promise(r => setTimeout(() => r(), 450))
@@ -215,13 +225,11 @@ const Swiper = () => {
     <section className='cards'>
       <FiltersMenu
         view='queue'
-        total={remaining || 0}
-        filters={filters}
-        setFilters={setFilters}
-        resetFilters={resetFilters}
+        total={totalJobs || 0}
+        defaultFilters={defaultFilters}
       />
       <JobCard 
-        job={job}
+        job={current}
         loading={loading}
         openDetails={openDetails}
         swipeLeft={swipeLeft}
@@ -243,9 +251,8 @@ const Swiper = () => {
         transitionClasses={transitionClasses}
       /> */}
       <Detail
-        job={{...job, id}}
-        detail={detail}
-        setDetail={setDetail}
+        job={displayingDetail.value ? current : null}
+        resetModal={resetModal}
         updateOuterElement={animate}
         swiping
       />

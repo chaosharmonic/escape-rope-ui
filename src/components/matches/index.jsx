@@ -1,37 +1,68 @@
-import { useState, useEffect } from 'react'
+import {
+  useSignal,
+  useSignalEffect,
+  useComputed,
+  batch
+} from '@preact/signals-react'
+import { useSignals } from '@preact/signals-react/runtime'
+import { useState, useContext } from 'react'
 import Detail from '../swiper/Detail'
-import { getSettings } from '../../api/settings'
 import { FiltersMenu } from './filters'
 import { searchJobs } from '../../api/job'
+import {
+  JobsContext,
+  setFilters,
+  setJobs,
+  totalJobs
+} from '../../contexts/job'
 
 const Matches = () => {
+  useSignals()
+
   const defaultFilters = {
     status: ['liked', 'shortlisted'],
     jobType: 'jobBoard',
   }
 
-  const [jobs, setJobs] = useState([])
-  const [campaign, setCampaign] = useState()
+  const { jobs, filters } = useContext(JobsContext)
+
+  const targetIndex = useSignal(null)
+  const setTargetIndex = (i) => {
+    targetIndex.value = i
+  }
+  const resetModal = () => setTargetIndex(null)
+
+  const targetJob = useComputed(() => {
+    if (targetIndex.value === null) return null
+
+    const { value: i } = targetIndex
+
+    const { id, value: job } = jobs.value.at(i)
+
+    return { id, ...job }
+  })
+
   const [loading, setLoading] = useState(false)
-  const [detail, setDetail] = useState(null)
   const [filterSelections, setFilterSelections] = useState(defaultFilters)
-  const [filters, setFilters] = useState(defaultFilters)
-  const [exiting, setExiting] = useState(null) // rename this
+  const removing = useSignal(null)
+  const setRemoving = (index) => {
+    removing.value = index
+  }
 
   const resetFilters = () => setFilters(defaultFilters)
 
   const removeJob = (index) => {
     console.log('removing!')
-    setExiting(index)
+    setRemoving(index)
 
     setTimeout(() => {
-      const nextJobs = [
-        ...jobs.slice(0, index),
-        ...jobs.slice(index + 1)
-      ]
+      const nextJobs = jobs.value.toSpliced(index, 1)
 
-      setJobs(nextJobs)
-      setExiting(null)
+      batch(
+        setJobs(nextJobs),
+        setRemoving(null),
+        setTargetIndex(null)
+      )
     }, 450)
   }
   
@@ -41,47 +72,45 @@ const Matches = () => {
   // optimize the state handling
   // this should ideally be in a context
   //  or something
-  useEffect(() => {
-    async function getData(){
-      const data = await getSettings()
+  // useEffect(() => {
+  //   async function getData(){
+  //     const data = await getSettings()
 
-      const { value: settings } = data
+  //     const { value: settings } = data
 
-      // TODO: (for multiple search support)
-      // figure out how best to define
-      //  which search is current
-      const value = settings?.campaigns?.at(0)
+  //     // TODO: (for multiple search support)
+  //     // figure out how best to define
+  //     //  which search is current
+  //     const value = settings?.campaigns?.at(0)
 
-      console.log({value})
+  //     console.log({value})
 
-      setCampaign(value)
-    }
-    getData()
-  }, [])
+  //     setCampaign(value)
+  //   }
+  //   getData()
+  // }, [])
 
-  useEffect(() => {
-    async function getData(){
-      setLoading(true)
-      // if (jobs.length) return
+  useSignalEffect(async() => {
+    setLoading(true)
+    // console.log('hey!')
+    // if (jobs.length) return
 
-      // get filter states:
-      // filter as body, or query string?
-      // search
+    // get filter states:
+    // filter as body, or query string?
+    // search
 
-      const data = await searchJobs(filters)
+    const data = await searchJobs(filters.value)
 
-      setJobs(data)
+    setJobs(data)
 
-      setLoading(false)
-      // TODO: catch block
-    }
-    getData()
-  }, [filters])
+    setLoading(false)
+    // TODO: catch block
+  })
 
   // TODO: handle a basic loading state for this
   // maybe just a shapeshifting CSS bubble of some kind?
   // a *slime* if you will...
-  if (!jobs.length || loading) return (
+  if (!totalJobs.value || loading) return (
     <section className='matches'>
       <FiltersMenu
         filters={filters}
@@ -93,15 +122,11 @@ const Matches = () => {
       </ul>
     </section>
   )
-  console.log(jobs.map(({value: v}) => v))
-
-  // TODO: move this to context and remove this duplicate fn
-  //  alternatively, look into handling it via React Router links
-  //  *or whatever* I end up doing for the frontend...
-  const handleClick = (job) => (e) => setDetail(job)
+  
+  const handleClick = (i) => (e) => setTargetIndex(i)
   // const handleClick = (index) => (e) => removeJob(index)
 
-  const entries = jobs.map(({
+  const entries = jobs.value.map(({
     value,
     value:
     {
@@ -113,7 +138,9 @@ const Matches = () => {
     },
     id
   }, index) => {
-    const animationClass = exiting == index ? 'vanish' : ''
+    const isExiting = removing.value === index
+
+    const animationClass = isExiting ? 'vanish' : ''
 
     const applyLink = sources.find(s => s.redirectLink)?.redirectLink
 
@@ -121,7 +148,7 @@ const Matches = () => {
 
     return (
     // TODO: maybe this transform should be happening at a context level?
-    <li key={id} onClick={ handleClick({ ...value, id })} className={animationClass}>
+    <li key={id} onClick={handleClick(index)} className={animationClass}>
       <div>
         <p><strong>{title}</strong></p>
         <p><em>{company}</em></p>
@@ -136,28 +163,26 @@ const Matches = () => {
     </li>
   )})
 
-  const targetIndex = detail?.id && jobs.findIndex(({ id }) => id == detail.id)
+  // const targetIndex = detail?.id && jobs.findIndex(({ id }) => id == detail.id)
 
   return (
     <>
       <section className='matches'>
         <FiltersMenu
-          total={jobs?.length || 0}
-          filters={filters}
-          setFilters={setFilters}
-          resetFilters={resetFilters}
+          total={totalJobs || 0}
+          defaultFilters={defaultFilters}
         />
         <ul>
           {entries}
         </ul>
       </section>
       <Detail
-        detail={detail}
-        campaign={campaign}
+        job={targetJob.value}
+        // index
         // setJobs={setJobs}
-        updateOuterElement={() => removeJob(targetIndex)}
-        setDetail={setDetail}
-        displayStates={filters.status}
+        updateOuterElement={() => removeJob(targetIndex.value)}
+        resetModal={resetModal}
+        displayStates={filters.value.status}
       />
     </>
   )

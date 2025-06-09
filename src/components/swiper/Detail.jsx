@@ -1,8 +1,12 @@
 import { useState, useEffect, useRef } from "react"
 import Markdown from 'react-markdown'
 // import { X } from 'npm:react-feather'
-import { baseURL } from "../../helpers/config"
-import { saveCoverLetter, updateInterview, updateStatus } from "../../api/job"
+import { updateInterview, updateStatus } from "../../api/job"
+import CoverLetter from "./CoverLetter"
+import Interviews from "./Interview"
+import { campaign } from "../../contexts/settings"
+// import { batch, useSignal, useSignalEffect } from "@preact/signals-react"
+import { useSignals } from "@preact/signals-react/runtime"
 
 // TODO: maybe break this out into layers
 // - modal
@@ -11,16 +15,18 @@ import { saveCoverLetter, updateInterview, updateStatus } from "../../api/job"
 // - job post -- applied
 // TODO: rename this
 const JobDetail = ({
-  detail,
-  setDetail,
+  job,
+  // targetIndex = 0
+  resetModal = () => {},
   swiping = false,
   displayStates = ['queued'],
   updateOuterElement,
-  campaign = {} // this should be context
 }) => {
+  useSignals()
+
   const dialogRef = useRef(null)
   const [closing, setClosing] = useState(false)
-  
+
   // TODO: this should be an array
   // const [ editing, setEditing ] = useState([])
   // title
@@ -28,22 +34,22 @@ const JobDetail = ({
   // 
   
   useEffect(() => {
-    if (detail && !dialogRef?.current?.open) {
+    if (job && !dialogRef?.current?.open) {
       dialogRef?.current?.showModal()
     }
-  }, [ detail ])
+  }, [ job ])
 
   useEffect(() => {
     dialogRef?.current?.close()
     if (closing) setTimeout(() => {
-      setDetail(null)
       setClosing(false)
+      resetModal()
     }, 300)
   }, [ closing ])
 
-  if (!detail) return null
+  if (!job) return null
 
-  console.log({ detail })
+  console.log({ job, campaign: campaign.value })
 
   const {
     id,
@@ -54,12 +60,12 @@ const JobDetail = ({
     lifecycle,
     sources,
     hiringManager
-  } = detail
+  } = job
 
   // TODO: handle retrieval source for forum posts
   // link different data types?
 
-  const applyLink = detail.applyLink
+  const applyLink = job.applyLink
   || sources.find(({ redirectLink: link }) => link)
       ?.redirectLink
   const retrievalSources = [...new Set(sources.map(s => s.retrievalLink || null ))]
@@ -94,24 +100,19 @@ const JobDetail = ({
     'hire'
   ].some(status => lifecycle == status)
 
-  const hasInterviews = [
-    'interview',
-    'offer',
-    'hire'
-  ].some(status => lifecycle == status)
-
   const setStatus = async (nextStatus, outerAnimation = '') => {
     try {
       const data = await updateStatus(nextStatus, id)
 
       // TODO: this needs a success/failure indicator
       // TODO: should this come back with an actual value
-      if (!data.ok) throw new Error('request failed!')
+      // NOTE: this also sisn't going to return on the demo branch
+      // if (!data.ok) throw new Error('request failed!')
       
       const shouldKeepDisplaying = displayStates
         .some(status => nextStatus == status)
         
-      const nextJob = { ...detail, lifecycle: nextStatus }
+      const nextJob = { ...job, lifecycle: nextStatus }
         
       // TODO: handle jobs and targetJob in context
       //  and/or with routes
@@ -125,8 +126,8 @@ const JobDetail = ({
         
         // else, this is handled by any op passed in from outside
       outerAnimation ? handleClosure(outerAnimation) : handleClosure()
-    } catch {
-      console.log('failed!')
+    } catch ({message: m}) {
+      console.error(m)
     }
   }
 
@@ -342,7 +343,7 @@ const JobDetail = ({
   // .....all of this is *if* I've right-swiped it anyway
 
   const DetailHeader = () => {
-    if (detail.forumPost && !(title && company)) return (
+    if (job.forumPost && !(title && company)) return (
       <>
         <h2>Forum Post from {forum}</h2>
         <h3>{threadTitle}</h3>
@@ -387,562 +388,6 @@ const JobDetail = ({
     )
   }
 
-  const CoverLetter = () => {
-    const templates = campaign.coverLetters || []
-
-    const {
-      coverLetter: initialCoverLetter = ''
-    } = detail
-    
-    const [editing, setEditing] = useState(false)
-    const [showing, setShowing] = useState(0)
-    const [
-      tailoredCoverLetter,
-      setTailoredCoverLetter
-    ] =  useState(initialCoverLetter)
-    
-    const coverLetters = [
-      tailoredCoverLetter,
-      ...templates
-    ].filter(e => e)
-
-    const editCoverLetter = () => {
-      setEditing(true)
-    }
-
-    // TODO: there might be more than one template
-    // buttons:
-    // - customize (copy from template)
-    // - next
-    // - previous
-    
-    const empty = !coverLetters.length
-
-    const startNewCoverLetter = () => {
-      setEditing(true)
-      !empty && setShowing(coverLetters.length)
-    }
-
-    // TODO: (on setting up validations)
-    // handle duplicated cover letter
-    const handleSubmit =  async (e) => {
-      e.preventDefault()
-
-      const payload = new FormData(e.target)
-
-      console.log(payload)
-
-      const res = await saveCoverLetter(payload, id)
-
-      const nextState = payload.get('coverLetter')
-
-      setTailoredCoverLetter(nextState)
-
-      setEditing(false)
-      setShowing(0)
-    }
-
-    const cancelEdits = (e) => {
-      e.preventDefault()
-
-      setEditing(false)
-      setShowing(0)
-  }
-
-    if (empty && !editing) return (
-      <details name='tabs'>
-        <summary>
-          <h3>
-            Cover Letter
-          </h3>
-        </summary>
-        <button onClick={(startNewCoverLetter)}>
-          New
-        </button>
-      </details>
-    )
-
-    const isTemplate = Boolean(coverLetters[showing]?.text)
-
-    const currentLetter = coverLetters[showing]
-    const text = isTemplate
-      ? currentLetter.text
-      : tailoredCoverLetter
-
-    // console.log({text, coverLetter: tailoredCoverLetter})
-    
-    // TODO: dynamic detection and replacement for handlebars
-    const letter = text
-      ?.replaceAll('{{TITLE}}', title)
-      ?.replaceAll('{{COMPANY}}', company.name || company)
-      // TODO: company logging not fully baked yet
-
-    if (editing) return (
-      <details name='tabs'>
-        <summary>
-          <h3>
-            Cover Letter
-          </h3>
-        </summary>
-        <form onSubmit={handleSubmit} onReset={cancelEdits}>
-          <textarea
-            defaultValue={letter}
-            required
-            name="coverLetter"
-            rows="20"
-            cols="45"
-          />
-          <menu>
-            <li><input type="submit" value="Save" /></li>
-            <li><input type="reset" value="Cancel" /></li>
-          </menu>
-        </form>
-        {/* TODO: add delete button for saved cover letter */}
-      </details>
-    )
-
-    let templateLabel = ''
-    if (isTemplate) {
-      const head = 'From Template'
-      
-      const { name: tail } = coverLetters[showing]
-      
-      templateLabel = `${head}${tail && `: ${tail}`}`
-    }
-
-    let letterLabel = templateLabel || 'Tailored'
-
-    const editLabel = isTemplate ? 'Customize' : 'Edit'
-
-    const previous = () => setShowing(showing - 1)
-    const next = () => setShowing(showing + 1)
-
-    return (
-      // TODO: text align left
-      // setup editing here
-      <details name='tabs'>
-        <summary>
-          <h3>
-            Cover Letter
-          </h3>
-        </summary>
-        <menu>
-          {isTemplate && (
-            <li>
-              <button onClick={startNewCoverLetter}>New</button>
-            </li>
-          )}
-          <li>
-            <button onClick={editCoverLetter}>{editLabel}</button>
-          </li>
-          {/* copy to clipboard */}
-        </menu>
-        <fieldset>
-          <h4>{letterLabel}</h4>
-          <Markdown>
-            {letter}
-          </Markdown>
-        </fieldset>
-        <menu>
-          {showing != 0 && (
-            <li><button onClick={previous}>Previous</button></li>
-          )}
-          {showing != coverLetters.length - 1 && (
-            <li><button onClick={next}>Next</button></li>
-          )}
-        </menu>
-      </details>
-    )
-  }
-
-  const Interviews = () => {
-    if (!hasInterviews) return null
-
-    const {
-      interviews: storedInterviews = [...mockInterviews]
-    } = detail
-
-    // if (!storedInterviews.length) {
-    //   storedInterviews.push(...mockInterviews)
-    // }
-
-    const empty = !storedInterviews.length
-
-    const [ editTarget, setEditTarget ] = useState(null)
-    // const [ showing, setShowing ] = useState(0)
-    // TODO: deal with this later
-    // const [
-    //   interviewerFields,
-    //   setInterviewerFields
-    // ] = useState([])
-    const [
-      questionFields,
-      setQuestionFields
-    ] = useState([])
-    const [
-      interviews,
-      setInterviews
-    ] = useState(storedInterviews)
-
-    const addNew = () => setEditTarget(interviews.length)
-
-    const isEditing = editTarget !== null
-
-    useEffect(() => {
-      if (editTarget === null) return
-
-      if (editTarget === interviews.length) {
-
-        const existingInterviewQuestions = interviews
-          .flatMap(({ questions }) => questions)
-          .map(({ question: q }) => q)
-        
-        // TODO: defaults should filter
-        //  by interview type
-        const questionsToAsk = defaultInterviewQuestions
-          .filter(q => {
-            if (empty) return true
-  
-            console.log({q, existingInterviewQuestions})
-
-            const existingQuestion = existingInterviewQuestions
-              .find((question) => question == q)
-            
-            return !existingQuestion
-          })
-          .map(question => ({ question }))
-
-        console.log({questionsToAsk})
-        
-        setQuestionFields(questionsToAsk)
-
-        return
-      }
-
-      const {
-        // interviewer, TODO:
-        questions
-      } = interviews[editTarget]
-
-      setQuestionFields(questions)
-
-    }, [editTarget])
-
-    const {
-      defaultInterviewQuestions = []
-    } = campaign
-
-    const handleSubmit = async (e) => {
-      e.preventDefault()
-      
-      const formData = new FormData(e.target)
-
-      const questionValues = formData.getAll('question')
-      const answerValues = formData.getAll('answer')
-
-      const isMineValues = [
-        ...document.querySelectorAll('input[name="isMine"]')
-      ].map(i => i.checked)
-      
-      const questionPayload = questionValues
-        .map((q, i) => ({
-          question: q,
-          answer: answerValues[i],
-          isMine: isMineValues[i]
-        }))
-
-      const payload = {
-        interviewer: {
-          name: formData.get('interviewerName'),
-          title: formData.get('interviewerTitle'),
-          email: formData.get('interviewerEmail'),
-          linkedIn: formData.get('interviewerLinkedIn'),
-        },
-        questions: questionPayload,
-        notes: formData.get('notes')
-      }
-
-      console.log({ questionValues, answerValues })
-
-      const data = await updateInterview(payload, id, editTarget)
-        // .then(r => r.json())
-
-      const next = interviews.toSpliced(editTarget, 1, payload)
-
-      setInterviews(next)
-      setEditTarget(null)
-    }
-
-    const cancelEdits = (e) => {
-      e.preventDefault()
-
-      setEditTarget(null) // TODO: should be null
-    }
-
-    const addQuestion = () => {
-      const blank = { question: '' }
-
-      const next = [ ...questionFields, blank ]
-      
-      setQuestionFields(next)
-    }
-
-    const deleteQuestion = (index) => {
-      const next = questionFields
-        .filter((e, i) => i != index)
-      
-      setQuestionFields(next)
-    }
-
-
-    const InterviewQuestionForm = (({
-      question = '',
-      answer = '',
-      isMine = true, // default
-      index
-    }) => {
-      return (
-        // do I want a fieldset here?
-        <>
-          <label htmlFor="question">
-            Question
-            <input
-              type="text"
-              name="question"
-              defaultValue={question}
-            />
-          </label>
-          <label htmlFor="answer">
-            Answer
-            <input
-              type="text"
-              name="answer"
-              defaultValue={answer}
-            />
-          </label>
-          <label htmlFor="isMine">
-            Mine?
-            <input
-              type="checkbox"
-              name="isMine"
-              defaultChecked={isMine}
-            />
-          </label>
-          <label htmlFor="delete">
-            {/* TODO: color, confirm prompt */}
-            <input
-              type="button"
-              name="delete"
-              value="🗑️"
-              onClick={(() => deleteQuestion(index))}
-              // TODO: stop mocking this
-            />
-          </label>
-        </>
-      )
-    })
-
-    if (empty && !isEditing) return (
-      <details name='tabs'>
-        <summary>
-          <h3>
-            Interviews
-          </h3>
-        </summary>
-        <button onClick={addNew}>Add Interview</button>
-      </details>
-    )
-
-    // something something interviewQuestions here
-
-    // something something map other fields here
-
-    /* TODO: interview type
-      should be configurable,
-        with different default questions
-
-      basic examples:
-      - recon (optional as its own initial step)
-      - HR screen
-      - hiring manager
-      - ...others (could vary by industry)
-    */
-
-    if (isEditing) {
-      const interview = interviews[editTarget] || {}
-
-      const {
-        // type, TODO:
-        interviewer
-      } = interview
-
-      const questionInputs = questionFields
-        .map(({
-          question,
-          answer = '',
-          // isMine = true // TODO: deal w this later
-        }, index) => (
-          // TODO: fieldset?
-          <div key={index}>
-            <InterviewQuestionForm
-              question={question}
-              answer={answer}
-              index={index}
-            />
-          </div>
-        ))
-
-      return (
-        <details name='tabs'>
-          <summary>
-            <h3>
-              Interviews
-            </h3>
-          </summary>
-          <form onSubmit={handleSubmit} onReset={cancelEdits}>
-            <fieldset>
-              {/* TODO: figure out panels later */}
-              <legend>Interviewer(s)</legend>
-              <label htmlFor="interviewerName">
-                Name
-                <input
-                  type="text"
-                  name="interviewerName"
-                  defaultValue={interviewer?.name || ''}
-                />
-              </label>
-
-              <label htmlFor="interviewerTitle">
-                Title
-                <input
-                  type="text"
-                  name="interviewerTitle"
-                  defaultValue={interviewer?.title || ''}
-                />
-              </label>
-
-              <label htmlFor="interviewerEmail">
-                Email
-                <input
-                  type="email"
-                  name="interviewerEmail"
-                  defaultValue={interviewer?.email || ''}
-                />
-              </label>
-              <label htmlFor="interviewerLinkedIn">
-                LinkedIn
-                <input
-                  type="url"
-                  name="interviewerLinkedIn"
-                  defaultValue={interviewer?.linkedIn || ''}
-                />
-              </label>
-              <label htmlFor="interviewerNotes">
-                Notes
-                <textarea
-                  type="text"
-                  name="interviewerNotes"
-                  defaultValue={interviewer?.notes || ''}
-                />
-              </label>
-              {/* <input
-                type="button"
-                name="delete"
-                value="🗑️"
-                onClick={() => console.log(`deleting`)}
-                // TODO: stop mocking this
-              />
-              <input
-                type="button"
-                name="add"
-                value="+"
-                onClick={() => console.log(`adding`)}
-                // TODO: stop mocking this
-              /> */}
-            </fieldset>
-
-            <fieldset>
-              <legend>Questions</legend>
-              {questionInputs}
-              <input
-                type='button'
-                onClick={addQuestion}
-                value='➕'
-              />
-            </fieldset>
-
-            <fieldset>
-              <legend>Notes</legend>
-              {/* TODO: multiple? */}
-              <textarea type="text" name="notes" />
-            </fieldset>
-
-            <menu>
-              <li><input type="submit" value="Save" /></li>
-              <li><input type="reset" value="Cancel" /></li>
-            </menu>
-          </form>
-        </details>
-      )
-    }
-
-    const interviewLogs = interviews.map((e, i) => {
-      const { type, interviewer, questions, notes } = e
-
-      // map questions
-      // map notes
-
-      // let interviewerLabel
-      // TODO: support multiple
-      // it should also include links etc
-      // if (interviewers.length) interviewerLabel = interviewers
-      //   .reduce((a, b) => {
-      //     const { name, title } = b
-      //     return [...a, `${name}, ${title}`]
-      //   }, []).join('; ')
-
-      const questionsDisplay = questions.map(q => (
-        // TODO: CSS classes based on `isMine` value
-        
-        <div>
-          <p><em>{q.question}</em></p>
-          <p>{q.answer}</p>
-        </div>
-      ))
-
-      return (
-        <fieldset key={i}>
-          <h4>Interview {i + 1} -- {type}</h4>
-          {interviewer && <h4>{interviewer.name}</h4>}
-          <strong>questions</strong>
-          {questionsDisplay}
-          {/* TODO: find some way to describe
-            "questions" for technical interviews
-          */}
-          {/* <h4>Notes</h4> */}
-          {/* add note */}
-          <input
-            type="button"
-            onClick={() => setEditTarget(i)}
-            name="edit"
-            value="✍️"
-          />
-        </fieldset>
-    )})
-
-    return (
-      <details name='tabs'>
-        <summary>
-          <h3>
-            Interviews
-          </h3>
-        </summary>
-        {interviewLogs}
-        <button onClick={addNew}>Add Interview</button>
-      </details>
-    )
-  }
-
   return (
     <dialog
       ref={dialogRef}
@@ -959,8 +404,8 @@ const JobDetail = ({
         <RetrievalLinks />
         <HiringContact />
         <Description />
-        <CoverLetter />
-        <Interviews />
+        <CoverLetter job={job} />
+        <Interviews job={job} />
       </div>
     </dialog>
   )
