@@ -703,6 +703,9 @@ dialog {
     &.matches {
       height: 85dvh;
     }
+    &.settings {
+      justify-content: space-evenly;
+    }
   }
 
   nav label, nav input {
