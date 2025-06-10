@@ -45,6 +45,7 @@
 
 main {
   max-width: 1280px;
+  max-height: 100dvh;
   min-height: inherit;
   display: flex;
   flex-direction: column;
@@ -335,8 +336,16 @@ details {
       & > label {
         /* margin: 0 auto; */
         &:has(input[type="number"]){
-          margin: 1dvh 25%;
+          width: 80%;
+          margin: 1dvh auto;
+          display: flex;
+          flex-direction: row;
           justify-content: space-between;
+          align-items: center;
+
+          & input {
+            width: 70%;
+          }
         }
       }
     }
@@ -462,7 +471,7 @@ li, .coverLetter {
   box-shadow: 2px 4px 10px black;
 
   width: min(90%, 550px);
-  height: min(90%, 550px);
+  height: clamp(250px, 65dvh, 550px);
 
   display: flex;
   flex-direction: column;
@@ -737,7 +746,7 @@ dialog {
 
 @media screen and (max-height: 600px) and (orientation: landscape) {
   main, section {
-    height: 100vh;
+    height: 100dvh;
   }
 
   main {
