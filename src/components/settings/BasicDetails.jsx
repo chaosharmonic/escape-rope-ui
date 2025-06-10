@@ -37,7 +37,7 @@ const BasicDetails = () => {
     const editing = editingDetails.value
 
     const editBasicDetails = () => setEditing(true)
-    // TODO: FIXME: needs cancel button
+    const cancelEdits = () => setEditing(false)
 
     const saveBasicDetails = async (e) => {
         e.preventDefault()
@@ -159,6 +159,9 @@ const BasicDetails = () => {
             <menu>
                 <button onClick={editBasicDetails}>
                     Edit
+                </button>
+                <button onClick={cancelEdits}>
+                    Cancel
                 </button>
             </menu>
         </Wrapper>
