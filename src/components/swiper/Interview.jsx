@@ -61,8 +61,6 @@ export const Interviews = ({ job }) => {
         interviews.value = questions
     }
 
-    useSignalEffect(() => console.log(editTarget.value))
-
     const addNew = () =>
         setEditTarget(interviews.value.length)
 
@@ -71,14 +69,7 @@ export const Interviews = ({ job }) => {
     useSignalEffect(() => {
         if (!isEditing.value) return
 
-        console.log({
-            editTarget: editTarget.value,
-            totalInterviews: interviews.value.length
-        })
-
         if (editTarget.value === interviews.value.length) {
-
-            console.log('hey')
 
             const existingInterviewQuestions = interviews.value
                 .flatMap(({ questions }) => questions)
@@ -90,8 +81,6 @@ export const Interviews = ({ job }) => {
                 .filter(q => {
                     if (empty) return true
 
-                    console.log({q, existingInterviewQuestions})
-
                     const existingQuestion = existingInterviewQuestions
                         .find((question) => question == q)
                         
@@ -99,8 +88,6 @@ export const Interviews = ({ job }) => {
                     // && question isn't every stage and/or repeat
                 })
                 .map(question => ({ question }))
-
-            console.log({questionsToAsk})
 
             setQuestionFields(questionsToAsk)
 
@@ -155,8 +142,6 @@ export const Interviews = ({ job }) => {
 
         const next = interviews.value
             .toSpliced(editTarget, 1, payload)
-
-        console.log({next})
 
         batch (() => {
             setInterviews(next)

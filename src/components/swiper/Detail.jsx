@@ -1,11 +1,9 @@
-import { useState, useEffect, useRef } from "react"
+import { useEffect, useRef } from "react"
 import Markdown from 'react-markdown'
 // import { X } from 'npm:react-feather'
-import { updateInterview, updateStatus } from "../../api/job"
+import { updateStatus } from "../../api/job"
 import CoverLetter from "./CoverLetter"
 import Interviews from "./Interview"
-import { campaign } from "../../contexts/settings"
-// import { batch, useSignal, useSignalEffect } from "@preact/signals-react"
 import { useSignals } from "@preact/signals-react/runtime"
 
 // TODO: maybe break this out into layers
@@ -17,21 +15,15 @@ import { useSignals } from "@preact/signals-react/runtime"
 const JobDetail = ({
   job,
   // targetIndex = 0
-  resetModal = () => {},
+  resetModal,
   swiping = false,
   displayStates = ['queued'],
   updateOuterElement,
 }) => {
   useSignals()
-
   const dialogRef = useRef(null)
-  const [closing, setClosing] = useState(false)
 
-  // TODO: this should be an array
-  // const [ editing, setEditing ] = useState([])
-  // title
-  // description
-  // 
+  // TODO: more editing options...
   
   useEffect(() => {
     if (job && !dialogRef?.current?.open) {
@@ -39,17 +31,7 @@ const JobDetail = ({
     }
   }, [ job ])
 
-  useEffect(() => {
-    dialogRef?.current?.close()
-    if (closing) setTimeout(() => {
-      setClosing(false)
-      resetModal()
-    }, 300)
-  }, [ closing ])
-
   if (!job) return null
-
-  console.log({ job, campaign: campaign.value })
 
   const {
     id,
@@ -318,8 +300,11 @@ const JobDetail = ({
     
   // TODO: this needs a confirm prompt if editing
   const handleClose = (e) => {
-    e?.preventDefault()
-    setClosing(true)
+    // e?.preventDefault()
+    
+    setTimeout(() => {
+      resetModal()
+    }, 300)
   }
 
   // lol
@@ -393,6 +378,7 @@ const JobDetail = ({
       ref={dialogRef}
       tabIndex={0}
       onCancel={handleClose}
+      onClose={handleClose}
     >
       <form method="dialog">
         <button id='modalClose'>X</button>
