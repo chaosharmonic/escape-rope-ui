@@ -683,53 +683,56 @@
     }
   ],
   "settings": {
-    "campaigns": [
-      {
-        "name": "Dev",
-        "pay": {
-          "min": 50000,
-          "max": 200000
-        },
-        "roles": [],
-        "skills": [
-          "Delivery",
-          "Spacecraft Piloting",
-          "Holofonr"
-        ],
-        "locations": [
-          "New New York"
-        ],
-        "defaultInterviewQuestions": [
-          "First of all, how dare you?",
-          "Is this a mob front?"
-        ],
-        "coverLetters": [
-          {
-            "name": "Breadcrumb",
-            "text": "I found this by building crawlers to doomscroll job boards for me! Check out the writeup linked in my resume, or better yet feel incredibly free to just ask me more about it sometime 🧑‍💻😎\n"
+    "id": "6or11n1o-nss2-435r-n3n8-99o665rn7469",
+    "value": {
+      "campaigns": [
+        {
+          "name": "Dev",
+          "pay": {
+            "min": 50000,
+            "max": 200000
+          },
+          "roles": [],
+          "skills": [
+            "Delivery",
+            "Spacecraft Piloting",
+            "Holofonr"
+          ],
+          "locations": [
+            "New New York"
+          ],
+          "defaultInterviewQuestions": [
+            "First of all, how dare you?",
+            "Is this a mob front?"
+          ],
+          "coverLetters": [
+            {
+              "name": "Breadcrumb",
+              "text": "I found this by building crawlers to doomscroll job boards for me! Check out the writeup linked in my resume, or better yet feel incredibly free to just ask me more about it sometime 🧑‍💻😎\n"
+            }
+          ],
+          "blocklist": {
+            "title": [
+              "bureaucrat",
+              "chief",
+              "blernsball",
+              "ultimate",
+              "robot",
+              "fighting"
+            ],
+            "company": [
+              "cryogenics"
+            ],
+            "description": [
+              "zoidberg"
+            ],
+            "global": [
+              "omicron",
+              "persei"
+            ]
           }
-        ],
-        "blocklist": {
-          "title": [
-            "bureaucrat",
-            "chief",
-            "blernsball",
-            "ultimate",
-            "robot",
-            "fighting"
-          ],
-          "company": [
-            "cryogenics"
-          ],
-          "description": [
-            "zoidberg"
-          ],
-          "global": [
-            "omicron",
-            "persei"
-          ]
         }
-      }
-    ]
+      ]
+    }
   }
 }
