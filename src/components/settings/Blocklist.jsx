@@ -21,7 +21,7 @@ const Wrapper = ({children}) => (
 const Blocklist = () => {
     useSignals()
 
-    const { blocklist = {} } = campaign?.value
+    const blocklist = campaign?.value?.blocklist || {}
 
     const editingBlocklist = useSignal(false)
     const setEditing = (bool) => {

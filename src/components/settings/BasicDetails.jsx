@@ -17,11 +17,9 @@ const Wrapper = ({children}) => (
 const BasicDetails = () => {
     useSignals()
     
-    const {
-        pay,
-        roles,
-        skills
-    } = campaign?.value
+    const pay = campaign?.value?.pay || {}
+    const roles = campaign?.value?.roles || []
+    const skills = campaign?.value?.skills || []
 
     const details = {
         pay,
@@ -127,7 +125,13 @@ const BasicDetails = () => {
                         <legend>Pay (per year)</legend>
                         {payTargets}
                     </fieldset>
+                    <menu>
+                    <button type='reset'>
+                        Cancel
+                    </button>
                     <input type="submit" value="Save" />
+                    </menu>
+                    
                 </form>
                 {/* <menu>
                     <li><button onClick={clearDetails}>Clear</button></li>

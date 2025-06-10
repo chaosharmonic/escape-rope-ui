@@ -24,9 +24,8 @@ const Wrapper = ({children}) => (
 //  and include specific stages
 const InterviewQuestions = () => {
     useSignals()
-    const {
-        defaultInterviewQuestions = []
-    } = campaign.value
+    const defaultInterviewQuestions = campaign?.value
+        ?.defaultInterviewQuestions || []
     
     const editingQuestions = useSignal(false)
     const setEditing = (bool) => {

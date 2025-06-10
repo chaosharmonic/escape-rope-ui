@@ -21,57 +21,69 @@ effect(async () => {
     storeSettings(data)
 })
 
+// derived values
+
+const campaigns = computed(() => 
+    settings?.value?.value?.campaigns || []
+)
+
 // TODO: support multiple concurrent searches
 export const campaign = computed(() => {
-    const campaigns = settings?.value?.value?.campaigns
-    if (!campaigns) return {}
-
-    return campaigns?.at(0)
+    if (!campaigns?.value) return {}
+    
+    return campaigns?.value?.at(0)
 })
 
-const state = {
-    settings
+const getTargetCampaign = (index) => {
+    const {
+        length: totalCampaigns = 0
+    } = campaigns?.value
+
+    let targetCampaignIndex = Math.min(
+        Math.max(index, 0),
+        totalCampaigns - 1
+    )
+    
+    const campaign = campaigns?.value
+        ?.at(index)
+    
+    return {
+        targetCampaign: campaign,
+        index: targetCampaignIndex
+    }
 }
-
-const derived = {
-    campaign
-}
-const defaultState = { settings, campaign }
-
-// export const SettingsContext = createContext(defaultState)
-
 
 // actions
 
 export const setCoverLetterTemplate = (
     coverLetter,
     index,
-    campaign = 0,
+    campaignIndex = 0,
 ) => {
     // TODO: if campaign = 'global'...
+    console.log(campaigns?.value)
 
-    const { campaigns = [] } = settings?.value
-
-    const { length: totalCampaigns } = campaigns
-
-    let targetCampaignIndex = Math
-        .min(campaign, totalCampaigns - 1)
-
-    const targetCampaign = campaigns
-        ?.at(targetCampaignIndex)
+    const {
+        targetCampaign,
+        index: targetCampaignIndex
+    } = getTargetCampaign(campaignIndex)
 
     const { coverLetters = [] } = targetCampaign
 
     const { length: totalCoverLetters } = coverLetters
 
-    const targetCoverLetterIndex = Math
-        .max(index, totalCoverLetters - 1)
+    const targetCoverLetterIndex = Math.min(
+        Math.max(index, 0),
+        totalCoverLetters - 1
+    )
+    
 
     targetCampaign.coverLetters = coverLetters
-        .toSpliced(targetCoverLetterIndex, 1, coverLetter)
+        ?.toSpliced(targetCoverLetterIndex, 1, coverLetter)
 
-    const nextCampaigns = campaigns
-        .toSpliced(targetCampaignIndex, 1, targetCampaign)
+
+    const nextCampaigns = campaigns?.value
+        ?.toSpliced(targetCampaignIndex, 1, targetCampaign)
 
     const nextSettings = {
         ...settings.value,
@@ -83,19 +95,14 @@ export const setCoverLetterTemplate = (
 
 export const removeCoverLetterTemplate = (
     index,
-    campaign = 0,
+    campaignIndex = 0,
 ) => {
     // TODO: if campaign = 'global'...
 
-    const { campaigns = [] } = settings?.value
-
-    const { length: totalCampaigns } = campaigns
-
-    let targetCampaignIndex = Math
-        .min(campaign, totalCampaigns - 1)
-
-    const targetCampaign = campaigns
-        ?.at(targetCampaignIndex)
+    const {
+        targetCampaign,
+        index: targetCampaignIndex
+    } = getTargetCampaign(campaignIndex)
 
     const { coverLetters = [] } = targetCampaign
 
@@ -104,8 +111,8 @@ export const removeCoverLetterTemplate = (
 
     console.log({coverLetters, index})
     
-    const nextCampaigns = campaigns
-        .toSpliced(targetCampaignIndex, 1, targetCampaign)
+    const nextCampaigns = campaigns?.value
+        ?.toSpliced(targetCampaignIndex, 1, targetCampaign)
 
     const nextSettings = {
         ...settings.value,
@@ -117,24 +124,19 @@ export const removeCoverLetterTemplate = (
 
 export const setBlocklist = (
     blocklist,
-    campaign = 0,
+    campaignIndex = 0,
 ) => {
     // TODO: if campaign = 'global'...
 
-    const { campaigns = [] } = settings?.value
-
-    const { length: totalCampaigns } = campaigns
-
-    let targetCampaignIndex = Math
-        .min(campaign, totalCampaigns - 1)
-
-    const targetCampaign = campaigns
-        ?.at(targetCampaignIndex)
+    const {
+        targetCampaign,
+        index: targetCampaignIndex
+    } = getTargetCampaign(campaignIndex)
 
     targetCampaign.blocklist = blocklist
 
-    const nextCampaigns = campaigns
-        .toSpliced(targetCampaignIndex, 1, targetCampaign)
+    const nextCampaigns = campaigns?.value
+        ?.toSpliced(targetCampaignIndex, 1, targetCampaign)
 
     const nextSettings = {
         ...settings.value,
@@ -146,25 +148,21 @@ export const setBlocklist = (
 
 export const setBasicDetails = (
     details,
-    campaign = 0
+    campaignIndex = 0
 ) => {
-    // TODO: if campaign = 'global'...
-    const { campaigns = [] } = settings?.value
+    // TODO: if campaign = 'global'..
 
-    const { length: totalCampaigns } = campaigns
-
-    let targetCampaignIndex = Math
-        .min(campaign, totalCampaigns - 1)
-
-    const targetCampaign = campaigns
-        ?.at(targetCampaignIndex)
+    const {
+        targetCampaign,
+        index: targetCampaignIndex
+    } = getTargetCampaign(campaignIndex)
 
     for (let [k, v] of Object.entries(details)) {
         targetCampaign[k] = v
     }
 
-    const nextCampaigns = campaigns
-        .toSpliced(targetCampaignIndex, 1, targetCampaign)
+    const nextCampaigns = campaigns?.value
+        ?.toSpliced(targetCampaignIndex, 1, targetCampaign)
 
     const nextSettings = {
         ...settings.value,
@@ -176,24 +174,19 @@ export const setBasicDetails = (
 
 export const setDefaultInterviewQuestions = (
     entries,
-    campaign = 0
+    campaignIndex = 0
 ) => {
     // TODO: if campaign = 'global'...
 
-    const { campaigns = [] } = settings?.value
-
-    const { length: totalCampaigns } = campaigns
-
-    let targetCampaignIndex = Math
-        .min(campaign, totalCampaigns - 1)
-
-    const targetCampaign = campaigns
-        ?.at(targetCampaignIndex)
+    const {
+        targetCampaign,
+        index: targetCampaignIndex
+    } = getTargetCampaign(campaignIndex)
 
     targetCampaign.defaultInterviewQuestions = entries
 
-    const nextCampaigns = campaigns
-        .toSpliced(targetCampaignIndex, 1, targetCampaign)
+    const nextCampaigns = campaigns?.value
+        ?.toSpliced(targetCampaignIndex, 1, targetCampaign)
 
     const nextSettings = {
         ...settings.value,
@@ -202,22 +195,3 @@ export const setDefaultInterviewQuestions = (
 
     storeSettings(nextSettings)
 }
-
-// basic details
-// default interview questions
-
-// const actions = {}
-
-// const createSettingsState = () => ({
-//     ...state,
-//     ...derived,
-//     ...actions
-// })
-
-// const SettingsProvider = ({ children }) => {
-//     <SettingsContext.Provider value={createSettingsState()}>
-//         {children}
-//     </SettingsContext.Provider>
-// }
-
-// export default SettingsProvider

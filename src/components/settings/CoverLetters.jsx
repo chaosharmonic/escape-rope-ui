@@ -22,9 +22,8 @@ const Wrapper = ({children}) => (
 const CoverLetters = () => {
     useSignals()
 
-    const {
-        coverLetters = []
-    } = campaign?.value
+    const coverLetters = campaign?.value?.coverLetters
+        || []
 
     console.log({campaign: campaign.value})
 
