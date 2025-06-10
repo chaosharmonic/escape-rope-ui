@@ -1,13 +1,10 @@
-import { useContext } from "react"
-import { JobsContext, setFilters } from "../../contexts/job"
+import { filters, setFilters } from "../../contexts/job"
 
 export const FiltersMenu = ({
   total = 0,
   view = 'matches',
   defaultFilters
 }) => {
-  const { filters } = useContext(JobsContext)
-
   const resetFilters = () => setFilters(defaultFilters)
 
   const updateStatus = (status) => {

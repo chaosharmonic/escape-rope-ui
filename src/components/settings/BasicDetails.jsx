@@ -17,12 +17,17 @@ const Wrapper = ({children}) => (
 const BasicDetails = () => {
     useSignals()
     
-    const details = campaign.value
     const {
         pay,
         roles,
         skills
-    } = details
+    } = campaign?.value
+
+    const details = {
+        pay,
+        roles,
+        skills
+    }
 
     const editingDetails = useSignal(false)
     const setEditing = (bool) => {
@@ -32,7 +37,7 @@ const BasicDetails = () => {
     const editing = editingDetails.value
 
     const editBasicDetails = () => setEditing(true)
-    // TODO: FIXME: cancel buttons
+    // TODO: FIXME: needs cancel button
 
     const saveBasicDetails = async (e) => {
         e.preventDefault()

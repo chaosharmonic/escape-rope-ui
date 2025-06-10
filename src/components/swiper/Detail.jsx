@@ -112,7 +112,7 @@ const JobDetail = ({
       const shouldKeepDisplaying = displayStates
         .some(status => nextStatus == status)
         
-      const nextJob = { ...job, lifecycle: nextStatus }
+      // const nextJob = { ...job, lifecycle: nextStatus }
         
       // TODO: handle jobs and targetJob in context
       //  and/or with routes

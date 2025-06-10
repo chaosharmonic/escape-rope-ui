@@ -63,9 +63,11 @@ const InterviewQuestions = () => {
     }
 
     if (!defaultInterviewQuestions?.length && !editing) return (
-        <button onClick={editInterviewQuestions}>
-            Add Interview Questions
-        </button>
+        <Wrapper>
+            <button onClick={editInterviewQuestions}>
+                Add Interview Questions
+            </button>
+        </Wrapper>
     )
 
     if (editing) {

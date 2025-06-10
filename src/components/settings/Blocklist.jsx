@@ -1,7 +1,10 @@
 import { useSignal } from "@preact/signals-react"
 import { useSignals } from "@preact/signals-react/runtime"
 import Markdown from "react-markdown"
-import { campaign, setBlocklist } from "../../contexts/settings"
+import {
+    campaign,
+    setBlocklist
+} from "../../contexts/settings"
 import { updateBlocklist } from "../../api/settings"
 
 const Wrapper = ({children}) => (
@@ -18,9 +21,7 @@ const Wrapper = ({children}) => (
 const Blocklist = () => {
     useSignals()
 
-    const {
-        blocklist = {}
-    } = campaign?.value
+    const { blocklist = {} } = campaign?.value
 
     const editingBlocklist = useSignal(false)
     const setEditing = (bool) => {
@@ -62,7 +63,9 @@ const Blocklist = () => {
         .some(([k, v]) => Boolean(v))
 
     if (!hasBlocks && !editing) return (
-        <button onClick={editBlocklist}>Add blocklist</button>
+        <Wrapper>
+            <button onClick={editBlocklist}>Add blocklist</button>
+        </Wrapper>
     )
 
     if (editing) {

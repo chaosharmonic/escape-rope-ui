@@ -9,9 +9,9 @@ import JobCard from './JobCard'
 import Detail from './Detail'
 import { FiltersMenu } from '../matches/filters'
 import { searchJobs, updateStatus } from '../../api/job'
-import { useContext } from 'react'
 import {
-  JobsContext,
+  jobs,
+  filters,
   totalJobs,
   setJobs
 } from '../../contexts/job'
@@ -21,9 +21,6 @@ const Swiper = () => {
   const defaultFilters = {
     status: ['queued']
   }
-  
-  // FIXME: figure out using computed values in context
-  const { jobs, filters } = useContext(JobsContext)
       
   // const totalJobs = useComputed(() => jobs?.value?.length)
   const targetJob = useComputed(() => {

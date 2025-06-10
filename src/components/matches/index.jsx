@@ -5,12 +5,13 @@ import {
   batch
 } from '@preact/signals-react'
 import { useSignals } from '@preact/signals-react/runtime'
-import { useState, useContext } from 'react'
+import { useState } from 'react'
 import Detail from '../swiper/Detail'
 import { FiltersMenu } from './filters'
 import { searchJobs } from '../../api/job'
 import {
-  JobsContext,
+  jobs,
+  filters,
   setFilters,
   setJobs,
   totalJobs
@@ -23,8 +24,6 @@ const Matches = () => {
     status: ['liked', 'shortlisted'],
     jobType: 'jobBoard',
   }
-
-  const { jobs, filters } = useContext(JobsContext)
 
   const targetIndex = useSignal(null)
   const setTargetIndex = (i) => {
@@ -43,7 +42,7 @@ const Matches = () => {
   })
 
   const [loading, setLoading] = useState(false)
-  const [filterSelections, setFilterSelections] = useState(defaultFilters)
+  // const [filterSelections, setFilterSelections] = useState(defaultFilters)
   const removing = useSignal(null)
   const setRemoving = (index) => {
     removing.value = index

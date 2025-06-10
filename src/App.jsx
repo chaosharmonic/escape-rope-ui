@@ -11,21 +11,8 @@ import {
   Route,
   RouterProvider,
 } from "react-router-dom";
-import { storeSettings } from './contexts/settings'
-import { useSignalEffect } from '@preact/signals-react'
-import { useSignals } from '@preact/signals-react/runtime'
-import { getSettings } from './api/settings'
 
-// TODO: fix this implementation
 const Skeleton = () => {
-  useSignals()
-
-  useSignalEffect(async () => {
-    const data = await getSettings()
-
-    storeSettings(data)
-  })
-
   return (
     <main>
       <Routes>

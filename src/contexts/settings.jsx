@@ -1,5 +1,5 @@
-import { createContext } from "react";
-import { computed, signal } from "@preact/signals-react";
+import { computed, effect, signal } from "@preact/signals-react";
+import { getSettings } from "../api/settings";
 
 const defaultCampaign = {
     name: 'default'
@@ -10,36 +10,38 @@ const defaultSettings = {
     campaigns: [ defaultCampaign ]
 }
 
-const settings = signal(defaultSettings)
+export const settings = signal(defaultSettings)
+const storeSettings = (nextSettings) => {
+    settings.value = nextSettings
+}
 
-const SettingsContext = createContext({settings})
+effect(async () => {
+    const data = await getSettings()
 
-const campaigns = computed(() => {
-    if (!settings?.value?.campaigns) return {}
-
-    return settings?.value?.campaigns
+    storeSettings(data)
 })
 
 // TODO: support multiple concurrent searches
 export const campaign = computed(() => {
-    if (!campaigns?.value) return {}
+    const campaigns = settings?.value?.value?.campaigns
+    if (!campaigns) return {}
 
-    return settings?.value?.campaigns?.at(0)
+    return campaigns?.at(0)
 })
 
 const state = {
-    settings,
+    settings
 }
 
 const derived = {
     campaign
 }
+const defaultState = { settings, campaign }
+
+// export const SettingsContext = createContext(defaultState)
+
 
 // actions
-
-export const storeSettings = (nextSettings) => {
-    settings.value = nextSettings
-}
 
 export const setCoverLetterTemplate = (
     coverLetter,
@@ -204,19 +206,18 @@ export const setDefaultInterviewQuestions = (
 // basic details
 // default interview questions
 
-const actions = {}
+// const actions = {}
 
-const providerValue = {
-    ...state,
-    ...derived,
-    ...actions
-}
+// const createSettingsState = () => ({
+//     ...state,
+//     ...derived,
+//     ...actions
+// })
 
+// const SettingsProvider = ({ children }) => {
+//     <SettingsContext.Provider value={createSettingsState()}>
+//         {children}
+//     </SettingsContext.Provider>
+// }
 
-const SettingsProvider = ({ children }) => {
-    <SettingsContext.Provider value={providerValue}>
-        {children}
-    </SettingsContext.Provider>
-}
-
-export default SettingsProvider
+// export default SettingsProvider
