@@ -17,13 +17,13 @@ import {
   totalJobs
 } from '../../contexts/job'
 
+const defaultFilters = {
+  status: ['liked', 'shortlisted'],
+  // jobType: 'jobBoard',
+}
+
 const Matches = () => {
   useSignals()
-
-  const defaultFilters = {
-    status: ['liked', 'shortlisted'],
-    jobType: 'jobBoard',
-  }
 
   const targetIndex = useSignal(null)
   const setTargetIndex = (i) => {
@@ -90,6 +90,7 @@ const Matches = () => {
   // }, [])
 
   useSignalEffect(async() => {
+    if (!filters?.value) return
     setLoading(true)
     // console.log('hey!')
     // if (jobs.length) return
@@ -98,7 +99,7 @@ const Matches = () => {
     // filter as body, or query string?
     // search
 
-    const data = await searchJobs(filters.value)
+    const data = await searchJobs(filters?.value)
 
     setJobs(data)
 
