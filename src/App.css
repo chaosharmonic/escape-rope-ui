@@ -63,7 +63,7 @@ nav {
   width: 100%;
   border-radius: 10px 10px 0 0;
 
-  transition: all 0.6s;
+  transition: all 0.8s ease-in-out;
 
   /* TODO: fix this animation */
   /* I *think* this would involve a stacking grid */
@@ -522,6 +522,7 @@ dialog {
   text-shadow: none;
   border: 3px solid rgb(100, 108, 255);
   color: rgb(215,215,215);
+  background: black;
 
   height: 95dvh;
   width: 95vw;
@@ -687,8 +688,11 @@ dialog {
 }
 
 @media screen and (max-width: 600px) {
-  main {
+  main, section {
     height: 100dvh;
+  }
+  
+  main {
     min-height: unset;
     flex-direction: column;
   }
@@ -721,16 +725,22 @@ dialog {
     width: 100vw;
     border-radius: initial;
 
-    & a { display: none; }
+    & a {
+      display: none;
+      opacity: 0;
+      /* transition: opacity 1s; FIXME: */
+    }
 
-    &:has(*:focus),
-    /* &:has(a:hover), */
-    &:has(*:active) {
+    &:hover,
+    &:has(label:focus),
+    &:has(label:active) {
       height: 45dvh;
       flex-direction: column;
 
       & a {
         display: initial;
+        opacity: 1;
+
       }
 
       & ~ section {
@@ -754,7 +764,7 @@ dialog {
 
   main {
     flex-direction: initial;
-      /* flex-direction: row; */
+    min-height: unset;
     width: 100vw;
   }
 
@@ -769,6 +779,15 @@ dialog {
       display: none;
     }
   }
+  
+  /* FIXME:
+    generally, touch up this layout
+    (see other sections)
+  */
+  .upload form {
+    height: min(250px, 50%);
+    width: min(250px, 80%);
+  }
 
   nav {
     height: 95dvh;
@@ -778,9 +797,11 @@ dialog {
     justify-content: flex-start;
     border-radius: initial;
     background: transparent;
-
+    transition: background-color 0.8s, width 0.8s;
+    
     & input[type="button"] {
       padding: 10px;
+      transition: padding 0.3s;
     }
 
     & a {
@@ -799,13 +820,11 @@ dialog {
       border-radius: 20px;
       align-content: center;
     }
-
-    &:has(*:focus),
-    /* &:has(a:hover), */
-    &:has(*:active) {
+    
+    &:has(label:focus),
+    &:has(label:active) {
       max-width: 150px;
       gap: 2vh;
-      transition: background-color 0.6s, width 0.6s;
       background: black;
       /* justify-content: space-evenly; */
 
@@ -816,7 +835,6 @@ dialog {
       }
       & input[type="button"] {
         margin-bottom: 20px;
-        transition: padding 0.3s;
       }
 
       & ~ section {
