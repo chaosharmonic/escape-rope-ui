@@ -183,7 +183,7 @@ const handleSubmit = (e) => {
   const getFilterLabel = () => {
     const {
       status: lifecycleStages = [ 'liked', 'shortlisted' ]
-    } = filters.value
+    } = filters?.value || {}
 
     // TODO: this whole thing will have to change later
     //  whenever I get to finishing detailed filters
